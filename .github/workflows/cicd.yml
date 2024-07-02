@@ -56,5 +56,5 @@ jobs:
           node-version: ${{matrix.node-version}}
       - name: Install dependencies
         run: npm install
-      — name: deploy site
+      - name: deploy site
         run: curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}
