@@ -79,13 +79,12 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'react/jsx-no-constructed-context-values': 'off',
-  },
-  overrides: [
-    {
-      files: ['*.tsx'],
-      rules: {
-        'max-lines-per-function': 'off',
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state'],
       },
-    },
-  ],
+    ],
+  },
 };
