@@ -86,5 +86,14 @@ module.exports = {
         ignorePropertyModificationsFor: ['state'],
       },
     ],
+    'react/jsx-no-useless-fragment': 'error',
+    'no-unused-expressions': [
+      'error',
+      {
+        allowShortCircuit: true,
+        allowTernary: true,
+        allowTaggedTemplates: true,
+      },
+    ],
   },
 };
