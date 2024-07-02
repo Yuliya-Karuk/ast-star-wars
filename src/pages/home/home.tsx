@@ -1,10 +1,10 @@
-import viteLogo from '../public/vite.svg';
-import './App.css';
-import reactLogo from './assets/react.svg';
-import { useAppDispatch, useAppSelector } from './hooks/storeHooks';
-import { decrement, increment } from './store/counterSlice';
+import viteLogo from '../../../public/vite.svg';
+import reactLogo from '../../assets/react.svg';
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { decrement, increment } from '../../store/counterSlice';
+import './home.module.scss';
 
-function App() {
+export const Home = () => {
   const count = useAppSelector(state => state.counter.value);
   const dispatch = useAppDispatch();
 
@@ -34,6 +34,4 @@ function App() {
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </>
   );
-}
-
-export default App;
+};
