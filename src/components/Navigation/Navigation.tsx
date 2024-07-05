@@ -1,10 +1,10 @@
+import { useClickOutside } from '@hooks/useClickOutside';
+import { AppRoutes } from '@router/routes';
 import classnames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { AppRoutes } from '../../router/routes';
-import styles from './Navigation.module.scss';
+import s from './Navigation.module.scss';
 
 const paths: string[] = [AppRoutes.LOGIN_ROUTE, AppRoutes.REGISTRATION_ROUTE];
 
@@ -36,7 +36,7 @@ export const Navigation = () => {
   return (
     <>
       <div
-        className={classnames(styles.burger, { [styles.active]: isMenuOpen })}
+        className={classnames(s.burger, { [s.active]: isMenuOpen })}
         role="button"
         aria-expanded={isMenuOpen}
         aria-label={`${isMenuOpen ? 'Close' : 'Open'} menu`}
@@ -48,10 +48,10 @@ export const Navigation = () => {
       >
         <span />
       </div>
-      <nav className={classnames(styles.menu, { [styles.active]: isMenuOpen })} ref={menuRef}>
-        <ul className={styles.menuList}>
+      <nav className={classnames(s.menu, { [s.active]: isMenuOpen })} ref={menuRef}>
+        <ul className={s.menuList}>
           {paths.map(path => (
-            <li key={path} className={styles.menuItem}>
+            <li key={path} className={s.menuItem}>
               <Link to={path} onClick={handleMenuToggle}>
                 {path.slice(1)[0].toUpperCase() + path.slice(2)}
               </Link>

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import styles from './Search.module.scss';
+import s from './Search.module.scss';
 
 export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -13,16 +13,16 @@ export const Search = () => {
   };
 
   return (
-    <form noValidate method="post" className={styles.search} onSubmit={handleSubmit}>
+    <form noValidate method="post" className={s.search} onSubmit={handleSubmit}>
       <input
-        className={styles.searchInput}
+        className={s.searchInput}
         required
         type="text"
         placeholder="SEARCH ..."
         value={searchValue}
         onChange={handleInputChange}
       />
-      <button type="submit" className={styles.searchIcon} aria-label="search button" />
+      <button type="submit" className={s.searchIcon} aria-label="search button" />
     </form>
   );
 };

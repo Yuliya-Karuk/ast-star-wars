@@ -1,8 +1,6 @@
+import { Home, Login, NotFound, Registration } from '@pages/index';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MainLayout } from '../components';
-import { Home, NotFound } from '../pages';
-import { Login } from '../pages/login/login';
-import { Registration } from '../pages/registration/registration';
 import { AppRoutes } from './routes';
 
 export const AppRouter = () => (

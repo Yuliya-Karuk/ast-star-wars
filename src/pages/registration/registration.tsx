@@ -1,8 +1,8 @@
-import styles from './registration.module.scss';
+import s from './registration.module.scss';
 
 export const Registration = () => {
   return (
-    <div className={styles.page}>
+    <div className={s.page}>
       <h1>Registration Page</h1>
     </div>
   );
