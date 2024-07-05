@@ -12,4 +12,84 @@
     height: 100vh;
     top: 0;
   }
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, transparent, rgb(0 0 0 / 80%));
+    z-index: 1;
+  }
+}
+
+.wrapper {
+  position: relative;
+  z-index: 10;
+  width: clamp(300px, 80vw, 700px);
+  padding: 10px;
+  font-size: 1.6rem;
+  text-align: center;
+  background-color: #05050520;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+}
+
+.form {
+  @include flex(flex-start, null, column, 5px);
+  position: relative;
+  color: $color-white-default;
+}
+
+.user-data-section {
+  @include flex(flex-start, null, column);
+  position: relative;
+  flex: 1 1 300px;
+
+  .email-error,
+  .first-name-error,
+  .last-name-error,
+  .date-of-birth-error {
+    align-self: flex-start;
+    height: 2rem;
+    color: $color-error;
+  }
+
+  .password-error {
+    height: 4rem;
+    color: $color-error;
+    text-align: left;
+  }
+
+  .eye {
+    position: absolute;
+    top: 140px;
+    right: 10px;
+  }
+
+  @media (max-width: 1238px) {
+    flex: 1 1 100%;
+  }
+}
+
+.submit-button {
+  @extend %transition;
+  align-self: flex-end;
+  width: 240px;
+  padding: 10px 5px;
+  background-color: $color-white-default;
+  border-radius: 5px;
+  color: $color-bg-dark;
+
+  &:enabled:hover {
+    background-color: $color-gray-middle;
+  }
+
+  &:disabled {
+    cursor: default;
+    color: $color-gray-dark;
+    background-color: $color-gray-middle;
+  }
 }

@@ -1,3 +1,4 @@
+import { ToastProvider } from '@contexts/toastProvider.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -10,7 +11,9 @@ const root = document.getElementById('root') as HTMLElement;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <Provider store={store}>
-      <AppRouter />
+      <ToastProvider>
+        <AppRouter />
+      </ToastProvider>
     </Provider>
   </React.StrictMode>
 );

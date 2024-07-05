@@ -1,0 +1,38 @@
+.title {
+  @include font(5rem, 400, 1.2, 0.05rem);
+  color: $color-white-default;
+
+  @media screen and (max-width: 500px) {
+    font-size: 6rem;
+    transition: font-size 0.5s ease;
+  }
+
+  @media screen and (max-width: 430px) {
+    font-size: 5rem;
+    transition: font-size 0.5s ease;
+  }
+}
+
+.links {
+  @include flex(center, center, column, 5px);
+  color: $color-white-default;
+  padding: 10px 0;
+}
+
+.link-wrapper {
+  @include flex(center, null, null, 10px);
+
+  .subtitle {
+    color: $color-gray-middle;
+  }
+
+  .link {
+    @extend %transition;
+    color: $color-white-default;
+    text-decoration: underline;
+
+    @include hover {
+      text-decoration: none;
+    }
+  }
+}

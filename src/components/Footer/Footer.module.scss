@@ -24,11 +24,11 @@
     text-decoration: underline;
 
     &:focus {
-      opacity: 0.7;
+      text-decoration: none;
     }
 
     @include hover {
-      opacity: 0.7;
+      text-decoration: none;
     }
   }
 }

@@ -36,6 +36,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@types/*": ["src/types/*"],
       "@store/*": ["src/store/*"],
+      "@firebase/*": ["src/firebase/*"],
     }
   },
   "include": ["src"]
