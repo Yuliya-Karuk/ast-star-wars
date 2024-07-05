@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import './index.css';
 import { AppRouter } from './router/router.tsx';
 import { store } from './store/index.ts';
+import './styles/index.scss';
 
 const root = document.getElementById('root') as HTMLElement;
 

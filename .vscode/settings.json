@@ -10,5 +10,7 @@
     "reduxjs",
     "pokemons",
     "signin",
+    "homeworld",
+    "starships",
   ]
 }
