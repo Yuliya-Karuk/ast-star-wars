@@ -1,4 +1,4 @@
-import { APIResponse } from '../types/types';
+import { APIResponse } from '@models/index';
 
 export class ApiService {
   private basicUrl: string = 'https://swapi.dev/api/people/';

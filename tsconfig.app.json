@@ -34,7 +34,7 @@
       "@router/*": ["src/router/*"],
       "@pages/*": ["src/pages/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@types/*": ["src/types/*"],
+      "@models/*": ["src/models/*"],
       "@store/*": ["src/store/*"],
       "@firebase/*": ["src/firebase/*"],
     }

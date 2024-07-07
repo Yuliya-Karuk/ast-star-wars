@@ -1,3 +1,4 @@
+import { AuthProvider } from '@contexts/authProvider.tsx';
 import { ToastProvider } from '@contexts/toastProvider.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -12,7 +13,9 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastProvider>
-        <AppRouter />
+        <AuthProvider>
+          <AppRouter />
+        </AuthProvider>
       </ToastProvider>
     </Provider>
   </React.StrictMode>

@@ -2,60 +2,57 @@ import eyeOff from '@assets/eye-off.svg';
 import eyeOn from '@assets/eye-show.svg';
 import { AuthFormHeader } from '@components/AuthFormHeader/AuthFormHeader';
 import { Input } from '@components/Input/Input';
+import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
-import { auth } from '@firebase/firebase';
-import { UserData } from '@types/types';
+import { UserData } from '@models/index';
+import { catchAuthErrors } from '@utils/index';
 import {
   dateValidationRules,
   emailValidationRules,
   nameValidationRules,
   passwordValidationRules,
 } from '@utils/validationConst';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import s from './registration.module.scss';
 
 export function Registration() {
-  const { customToast, promiseNotify, errorNotify } = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<UserData>({ mode: 'all' });
+  const { isLoggedIn, signup } = useAuth();
+  const { customToast, errorNotify } = useToast();
   const navigate = useNavigate();
 
   const onSubmit = async (userData: UserData) => {
-    await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+    signup(userData)
       .then(() => {
-        // .then(userCredential => {
-        // const { user } = userCredential;
-        // console.log(user);
         navigate('/');
       })
       .catch(error => {
-        errorNotify((error as Error).message);
+        const message = catchAuthErrors(error);
+        errorNotify(message);
       });
   };
 
-  const notify = (userData: UserData) => promiseNotify(userData, 'Registration', onSubmit);
-
-  // if (isLoggedIn) {
-  //   return <Navigate to="/" replace />;
-  // }
+  if (isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className={s.page}>
       <div className={s.wrapper}>
         <AuthFormHeader
-          titleText="Registration"
+          titleText="Sign up"
           linkDescription="Already have an account?"
-          linkText="Log in"
+          linkText="Sign in"
           linkTo="/login"
         />
-        <form onSubmit={handleSubmit(notify)} className={s.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
           <section className={s.userDataSection}>
             <Input
               name="email"

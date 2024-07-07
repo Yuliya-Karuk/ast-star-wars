@@ -31,3 +31,8 @@ export interface UserData {
   lastName: string;
   dateOfBirth: string;
 }
+
+export interface LoginData {
+  email: string;
+  password: string;
+}

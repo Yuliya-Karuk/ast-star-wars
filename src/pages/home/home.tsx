@@ -1,6 +1,8 @@
-import { auth } from '@firebase/firebase';
+import { useAuth } from '@contexts/authProvider';
+import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { decrement, increment } from '@store/counterSlice';
+import { SuccessLoginMessage } from '@utils/index';
 import { useEffect } from 'react';
 import s from './home.module.scss';
 
@@ -8,10 +10,19 @@ export const Home = () => {
   const count = useAppSelector(state => state.counter.value);
   const dispatch = useAppDispatch();
 
+  const { isLoginSuccess, setIsLoginSuccess } = useAuth();
+  const { customToast, successNotify } = useToast();
+
+  const notify = () => {
+    successNotify(SuccessLoginMessage);
+    setIsLoginSuccess(false);
+  };
+
   useEffect(() => {
-    auth.onAuthStateChanged(() => {
-      // console.log(user);
-    });
+    if (isLoginSuccess) {
+      notify();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -23,6 +34,7 @@ export const Home = () => {
       <button onClick={() => dispatch(decrement())} type="button">
         Decrement -
       </button>
+      {customToast({ position: 'top-center', autoClose: 2000 })}
     </div>
   );
 };
