@@ -25,7 +25,7 @@ export function Registration() {
     formState: { errors, isValid },
   } = useForm<UserData>({ mode: 'all' });
   const { isLoggedIn, signup } = useAuth();
-  const { customToast, errorNotify } = useToast();
+  const { errorNotify } = useToast();
   const navigate = useNavigate();
 
   const onSubmit = async (userData: UserData) => {
@@ -116,7 +116,6 @@ export function Registration() {
           </button>
         </form>
       </div>
-      {customToast({ position: 'top-center', autoClose: 2000 })}
     </div>
   );
 }

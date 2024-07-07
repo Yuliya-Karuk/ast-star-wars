@@ -22,7 +22,7 @@ export function Login() {
   } = useForm<LoginData>({ mode: 'onChange' });
 
   const { isLoggedIn, login } = useAuth();
-  const { customToast, errorNotify } = useToast();
+  const { errorNotify } = useToast();
   const navigate = useNavigate();
 
   const onSubmit = async (userData: LoginData) => {
@@ -86,7 +86,6 @@ export function Login() {
           </section>
         </form>
       </div>
-      {customToast({ position: 'top-center', autoClose: 2000 })}
     </div>
   );
 }

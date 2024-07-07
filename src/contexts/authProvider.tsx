@@ -40,13 +40,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setIsLoggedIn(Boolean(user));
     });
+
+    return () => unsubscribe();
   }, []);
 
   return (

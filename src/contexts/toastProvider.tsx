@@ -1,10 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, ReactNode, useContext } from 'react';
-import { toast, ToastContainer, ToastContainerProps } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface ToastContextValue {
-  customToast: ({ position, autoClose }: ToastContainerProps) => JSX.Element;
   promiseNotify: <T>(userData: T, action: string, callback: (userData: T) => Promise<unknown>) => void;
   successNotify: (message: string) => void;
   errorNotify: (message: string) => void;
@@ -17,10 +16,6 @@ interface ToastProviderProps {
 }
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-  const customToast = function CustomToast({ position, autoClose }: ToastContainerProps) {
-    return <ToastContainer position={position} autoClose={autoClose} className="Toastify" />;
-  };
-
   const promiseNotify = <T,>(userData: T, action: string, callback: (userData: T) => Promise<unknown>) => {
     toast.promise(() => callback(userData), {
       pending: `${action} in progress, wait, please`,
@@ -36,9 +31,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   const errorNotify = (message: string) => toast.error(message);
 
   return (
-    <ToastContext.Provider value={{ customToast, promiseNotify, successNotify, errorNotify }}>
-      {children}
-    </ToastContext.Provider>
+    <ToastContext.Provider value={{ promiseNotify, successNotify, errorNotify }}>{children}</ToastContext.Provider>
   );
 };
 

@@ -3,7 +3,7 @@ import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { decrement, increment } from '@store/counterSlice';
 import { SuccessLoginMessage } from '@utils/index';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import s from './home.module.scss';
 
 export const Home = () => {
@@ -11,19 +11,20 @@ export const Home = () => {
   const dispatch = useAppDispatch();
 
   const { isLoginSuccess, setIsLoginSuccess } = useAuth();
-  const { customToast, successNotify } = useToast();
+  const { successNotify } = useToast();
+  const isNotificationShown = useRef(false);
 
-  const notify = () => {
+  const notify = useCallback(() => {
     successNotify(SuccessLoginMessage);
     setIsLoginSuccess(false);
-  };
+  }, [successNotify, setIsLoginSuccess]);
 
   useEffect(() => {
-    if (isLoginSuccess) {
+    if (isLoginSuccess && !isNotificationShown.current) {
       notify();
+      isNotificationShown.current = true;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLoginSuccess, notify]);
 
   return (
     <div className={s.page}>
@@ -34,7 +35,6 @@ export const Home = () => {
       <button onClick={() => dispatch(decrement())} type="button">
         Decrement -
       </button>
-      {customToast({ position: 'top-center', autoClose: 2000 })}
     </div>
   );
 };
