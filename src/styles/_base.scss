@@ -19,3 +19,19 @@ select:disabled {
   touch-action: none;
   overflow: hidden;
 }
+
+.Toastify {
+  .Toastify__toast-container {
+    min-width: 420px;
+    width: 30%;
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+    }
+  }
+
+  .Toastify__toast {
+    font-size: 2rem;
+    padding: 15px 10px;
+  }
+}

@@ -23,3 +23,16 @@ export interface APIResponse {
   previous: string | null;
   results: Character[];
 }
+
+export interface UserData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
+}

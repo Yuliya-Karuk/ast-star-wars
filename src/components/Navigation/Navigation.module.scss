@@ -102,17 +102,15 @@
 }
 
 .menu-item {
-  a {
-    padding: 13px 25px;
-    transition: all 0.3s ease-out;
+  padding: 13px 25px;
+  transition: all 0.3s ease-out;
 
-    @include hover {
-      background-color: $color-primary-bright;
-    }
+  @include hover {
+    background-color: $color-primary-bright;
+  }
 
-    &:focus {
-      background-color: $color-primary-bright;
-    }
+  &:focus {
+    background-color: $color-primary-bright;
   }
 }
 
