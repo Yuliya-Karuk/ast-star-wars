@@ -5,7 +5,7 @@ export * from './Footer/Footer';
 export * from './Header/Header';
 export * from './Input/Input';
 export * from './Loader/Loader';
-// export * from './MainLayout/MainLayout';
+export * from './MainLayout/MainLayout';
 export * from './Navigation/Navigation';
 export * from './Pagination/Pagination';
 export * from './Search/Search';
