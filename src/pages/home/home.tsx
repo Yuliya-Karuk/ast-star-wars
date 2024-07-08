@@ -2,9 +2,11 @@ import { CharacterList } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { Character } from '@models/index';
 import { decrement, increment } from '@store/counterSlice';
 import { SuccessLoginMessage } from '@utils/index';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { api } from 'src/services';
 import s from './home.module.scss';
 
 export const Home = () => {
@@ -14,6 +16,19 @@ export const Home = () => {
   const { isLoginSuccess, setIsLoginSuccess } = useAuth();
   const { successNotify } = useToast();
   const isNotificationShown = useRef(false);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [characters, setCharacters] = useState<Character[]>([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await api.getPeople();
+      setCharacters(result.results);
+      setIsLoading(false);
+    };
+
+    getData();
+  }, []);
 
   const notify = useCallback(() => {
     successNotify(SuccessLoginMessage);
@@ -36,7 +51,7 @@ export const Home = () => {
       <button onClick={() => dispatch(decrement())} type="button">
         Decrement -
       </button>
-      <CharacterList />
+      <CharacterList characters={characters} isLoading={isLoading} />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { SuggestionList } from '@components/SuggestionList/SuggestionList';
+import { useToast } from '@contexts/toastProvider';
 import { Character } from '@models/index';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from 'src/services';
 import { useDebouncedCallback } from 'use-debounce';
 import s from './Search.module.scss';
@@ -9,6 +11,21 @@ export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [suggestions, setSuggestions] = useState<Character[]>([]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const { errorNotify } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const setSearchInput = () => {
+      const params = new URLSearchParams(location.search);
+      const searchQuery = params.get('q') || '';
+
+      setSearchValue(searchQuery);
+    };
+
+    setSearchInput();
+  }, [location.search]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +34,7 @@ export const Search = () => {
           const response = await api.searchPeopleByName(searchValue);
           setSuggestions(response.results.slice(0, 6));
         } catch (error) {
-          console.error('Error fetching suggestions:', error);
+          errorNotify((error as Error).message);
         }
       } else {
         setSuggestions([]);
@@ -25,7 +42,7 @@ export const Search = () => {
     };
 
     fetchData();
-  }, [searchValue]);
+  }, [errorNotify, searchValue]);
 
   const debouncedInputChange = useDebouncedCallback((newSearchValue: string) => {
     setSearchValue(newSearchValue);
@@ -37,6 +54,13 @@ export const Search = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
+
+    const params = new URLSearchParams({ q: searchValue, page: '1' });
+    navigate(`/search?${params.toString()}`);
   };
 
   return (
@@ -45,6 +69,7 @@ export const Search = () => {
         <input
           className={s.searchInput}
           required
+          ref={inputRef}
           type="text"
           placeholder="SEARCH ..."
           value={searchValue}

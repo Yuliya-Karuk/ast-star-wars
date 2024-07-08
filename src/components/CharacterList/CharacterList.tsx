@@ -1,33 +1,22 @@
 import { CharacterItem } from '@components/CharacterItem/CharacterItem';
 import { Loader } from '@components/Loader/Loader';
-import { APIResponse } from '@models/index';
-import { useEffect, useState } from 'react';
-import { api } from 'src/services';
+import { Character } from '@models/index';
 import s from './CharacterList.module.scss';
 
-export const CharacterList = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<APIResponse>({} as APIResponse);
+interface CharacterListProps {
+  characters: Character[];
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    const getData = async () => {
-      const result = await api.getPeople();
-      // console.log(result);
-      setData(result);
-      setIsLoading(false);
-    };
-
-    getData();
-  }, []);
-
+export const CharacterList = ({ characters, isLoading }: CharacterListProps) => {
   const renderCharacterCards = () => {
     if (isLoading) {
       return <Loader />;
     }
 
-    return data.results.length > 0 ? (
+    return characters.length > 0 ? (
       <ul className={s.mainContainer}>
-        {data.results.map(character => (
+        {characters.map(character => (
           <CharacterItem key={character.name} character={character} />
         ))}
       </ul>
