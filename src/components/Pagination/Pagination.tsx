@@ -11,20 +11,19 @@ interface PaginationProps {
 }
 
 export const Pagination = ({ currentPage, totalPages, setCurrentPage }: PaginationProps) => {
-  const getPaginationRange = () => {
-    const rangeSize = 5;
-    const start = Math.floor((currentPage - 1) / rangeSize) * rangeSize + 1;
-    const end = Math.min(start + rangeSize - 1, totalPages);
-
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  };
-
-  const [paginationRange, setPaginationRange] = useState(getPaginationRange);
+  const [paginationRange, setPaginationRange] = useState<number[]>([]);
 
   useEffect(() => {
+    const getPaginationRange = () => {
+      const rangeSize = 5;
+      const start = Math.floor((currentPage - 1) / rangeSize) * rangeSize + 1;
+      const end = Math.min(start + rangeSize - 1, totalPages);
+
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    };
+
     const newPaginationRange = getPaginationRange();
     setPaginationRange(newPaginationRange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, totalPages]);
 
   return (
