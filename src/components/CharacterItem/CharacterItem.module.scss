@@ -1,0 +1,50 @@
+.character-item {
+  @include flex(center, flex-start, column, 10px);
+  @include font(2rem, 700, 1, 0.05rem);
+  width: 100%;
+  padding: 15px;
+  backdrop-filter: blur(12.5px);
+  border-radius: 5px;
+  border: 1px solid #4f4f4f;
+  color: $color-white-default;
+}
+
+.character-img-container {
+  width: 100%;
+
+  .character-img {
+    width: 100%;
+    aspect-ratio: 8 / 11;
+  }
+}
+
+.character-feature-block {
+  @include flex(space-between, center);
+  width: 100%;
+  font-size: 1.6rem;
+  color: $color-gray-middle;
+}
+
+.gender-icon {
+  padding: 5px;
+  border-radius: 20px;
+  border: 1px solid $color-gray-dark;
+  background-color: $color-input-bg;
+}
+
+.male,
+.female {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.male {
+  background: no-repeat center url('../../assets/male.svg');
+  background-size: cover;
+}
+
+.female {
+  background: no-repeat center url('../../assets/female.svg');
+  background-size: cover;
+}

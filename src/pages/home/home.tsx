@@ -1,3 +1,4 @@
+import { CharacterList } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
@@ -35,6 +36,7 @@ export const Home = () => {
       <button onClick={() => dispatch(decrement())} type="button">
         Decrement -
       </button>
+      <CharacterList />
     </div>
   );
 };
