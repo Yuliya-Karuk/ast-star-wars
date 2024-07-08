@@ -16,8 +16,8 @@ export class ApiService {
     }
   }
 
-  public async searchPeopleByName(searchValue: string): Promise<APIResponse> {
-    const url = `${this.basicUrl}?search=${searchValue}`;
+  public async searchPeopleByName(searchValue: string, page: string = '1'): Promise<APIResponse> {
+    const url = `${this.basicUrl}?search=${searchValue}&page=${page}`;
     try {
       const response = await fetch(url, {
         method: 'GET',

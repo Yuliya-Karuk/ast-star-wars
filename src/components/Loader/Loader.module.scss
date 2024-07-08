@@ -1,0 +1,12 @@
+.loader-container {
+  @include flex(center, center);
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.loader {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+}
