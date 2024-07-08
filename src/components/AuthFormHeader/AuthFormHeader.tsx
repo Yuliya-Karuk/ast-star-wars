@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from './AuthFormHeader.module.scss';
 
@@ -23,3 +24,10 @@ export function AuthFormHeader({ titleText, linkDescription, linkText, linkTo }:
     </>
   );
 }
+
+AuthFormHeader.propTypes = {
+  titleText: PropTypes.string.isRequired,
+  linkDescription: PropTypes.string.isRequired,
+  linkText: PropTypes.string.isRequired,
+  linkTo: PropTypes.string.isRequired,
+};

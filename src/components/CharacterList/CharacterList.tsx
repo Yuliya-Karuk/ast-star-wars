@@ -25,11 +25,11 @@ export const CharacterList = () => {
     }
 
     return data.results.length > 0 ? (
-      <div className={s.mainContainer}>
+      <ul className={s.mainContainer}>
         {data.results.map(character => (
           <CharacterItem key={character.name} character={character} />
         ))}
-      </div>
+      </ul>
     ) : (
       <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
     );

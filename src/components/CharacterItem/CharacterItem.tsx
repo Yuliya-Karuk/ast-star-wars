@@ -12,7 +12,7 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
 
   return (
-    <div className={styles.characterItem}>
+    <li className={styles.characterItem}>
       <div className={styles.characterImgContainer}>
         <img className={styles.characterImg} src={imageUrl} alt="Character" />
       </div>
@@ -27,6 +27,6 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
         <p className={styles.featureTitle}>Date of Birth</p>
         <p className={styles.featureValue}>{character.birth_year}</p>
       </div>
-    </div>
+    </li>
   );
 };
