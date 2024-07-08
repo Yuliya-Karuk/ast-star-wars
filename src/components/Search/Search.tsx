@@ -27,29 +27,21 @@ export const Search = () => {
     setSearchInput();
   }, [location.search]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (searchValue) {
-        try {
-          const response = await api.searchPeopleByName(searchValue);
-          setSuggestions(response.results.slice(0, 6));
-        } catch (error) {
-          errorNotify((error as Error).message);
-        }
-      } else {
-        setSuggestions([]);
-      }
-    };
+  const fetchData = async (value: string) => {
+    try {
+      const response = await api.searchPeopleByName(value);
+      setSuggestions(response.results.slice(0, 6));
+    } catch (error) {
+      errorNotify((error as Error).message);
+    }
+  };
 
-    fetchData();
-  }, [errorNotify, searchValue]);
-
-  const debouncedInputChange = useDebouncedCallback((newSearchValue: string) => {
-    setSearchValue(newSearchValue);
-  }, 200);
+  const debouncedFetchData = useDebouncedCallback(fetchData, 200);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedInputChange(e.target.value);
+    const { value } = e.target;
+    setSearchValue(value);
+    debouncedFetchData(value);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

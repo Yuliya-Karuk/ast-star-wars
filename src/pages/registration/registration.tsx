@@ -1,7 +1,6 @@
 import eyeOff from '@assets/eye-off.svg';
 import eyeOn from '@assets/eye-show.svg';
-import { AuthFormHeader } from '@components/AuthFormHeader/AuthFormHeader';
-import { Input } from '@components/Input/Input';
+import { AuthFormHeader, Input } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { UserData } from '@models/index';
