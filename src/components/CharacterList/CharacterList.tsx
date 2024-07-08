@@ -12,6 +12,7 @@ export const CharacterList = () => {
   useEffect(() => {
     const getData = async () => {
       const result = await api.getPeople();
+      // console.log(result);
       setData(result);
       setIsLoading(false);
     };
