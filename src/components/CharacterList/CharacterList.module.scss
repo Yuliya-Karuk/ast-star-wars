@@ -1,7 +1,8 @@
 .main {
   width: 100%;
   position: relative;
-  z-index: 10;
+  display: flex;
+  flex-grow: 1;
 }
 
 .main-container {
@@ -28,8 +29,8 @@
   @include flex(center, center);
   @include font(2.8rem, 700, 1, 0.05rem);
   width: 70%;
-  height: calc(100vh - 60px);
   margin: 0 auto;
   color: $color-white-default;
   text-align: center;
+  flex-grow: 1;
 }

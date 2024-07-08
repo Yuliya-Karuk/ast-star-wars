@@ -6,7 +6,7 @@
   background-color: $color-bg-dark;
   border: 1px solid $color-gray-dark;
   border-radius: 5px;
-  box-shadow: 0 2px 10px #0000001a;
+  box-shadow: 0 2px 5px $color-gray-dark;
 }
 
 .suggestion-item {
@@ -17,7 +17,7 @@
   @extend %transition;
   width: 100%;
   padding: 10px;
-  border-bottom: 1px solid #4f4f4f;
+  border-bottom: 1px solid $color-gray-dark;
   text-align: left;
 
   @include hover {

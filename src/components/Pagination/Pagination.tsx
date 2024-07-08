@@ -1,3 +1,4 @@
+import { getPaginationRange } from '@utils/index';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './Pagination.module.scss';
@@ -14,15 +15,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
   const [paginationRange, setPaginationRange] = useState<number[]>([]);
 
   useEffect(() => {
-    const getPaginationRange = () => {
-      const rangeSize = 5;
-      const start = Math.floor((currentPage - 1) / rangeSize) * rangeSize + 1;
-      const end = Math.min(start + rangeSize - 1, totalPages);
-
-      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-    };
-
-    const newPaginationRange = getPaginationRange();
+    const newPaginationRange = getPaginationRange(currentPage, totalPages);
     setPaginationRange(newPaginationRange);
   }, [currentPage, totalPages]);
 

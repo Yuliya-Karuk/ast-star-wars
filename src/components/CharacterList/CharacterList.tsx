@@ -9,21 +9,21 @@ interface CharacterListProps {
 }
 
 export const CharacterList = ({ characters, isLoading }: CharacterListProps) => {
-  const renderCharacterCards = () => {
-    if (isLoading) {
-      return <Loader />;
-    }
+  if (isLoading) {
+    return <Loader />;
+  }
 
-    return characters.length > 0 ? (
-      <ul className={s.mainContainer}>
-        {characters.map(character => (
-          <CharacterItem key={character.name} character={character} />
-        ))}
-      </ul>
-    ) : (
-      <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
-    );
-  };
-
-  return <main className={s.main}>{renderCharacterCards()}</main>;
+  return (
+    <main className={s.main}>
+      {characters.length > 0 ? (
+        <ul className={s.mainContainer}>
+          {characters.map(character => (
+            <CharacterItem key={character.name} character={character} />
+          ))}
+        </ul>
+      ) : (
+        <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
+      )}
+    </main>
+  );
 };
