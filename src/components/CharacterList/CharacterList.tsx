@@ -14,13 +14,13 @@ interface CharacterListProps {
 
 export const CharacterList = ({ characters, isLoading }: CharacterListProps) => {
   const dispatch = useAppDispatch();
-  const { items, loading } = useAppSelector((state: RootState) => state.favorites);
+  const { items } = useAppSelector((state: RootState) => state.favorites);
 
   useEffect(() => {
     dispatch(fetchFavorites());
   }, [dispatch]);
 
-  if (isLoading || loading !== 'succeeded') {
+  if (isLoading) {
     return <Loader />;
   }
 
