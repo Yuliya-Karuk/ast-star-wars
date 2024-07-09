@@ -36,3 +36,9 @@ export interface LoginData {
   email: string;
   password: string;
 }
+
+export interface FavoriteItem {
+  id: string;
+}
+
+export type LoadingState = 'idle' | 'pending' | 'succeeded' | 'failed';

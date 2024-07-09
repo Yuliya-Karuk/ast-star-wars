@@ -61,14 +61,12 @@
   padding: 0;
   border: 1px solid $color-gray-dark;
   background-color: $color-input-bg;
-
-  // background-color: $color-bg-dark;
   border-radius: 5px;
   position: absolute;
   top: 25px;
   right: 25px;
 
-  &:hover {
+  @include hover {
     background-color: $color-primary-bright;
   }
   @include flex(center, center);
@@ -96,18 +94,18 @@
 
 .heart {
   path {
-    fill: white;
+    fill: $color-white-default;
   }
 
   .favorite {
     path {
-      fill: red;
+      fill: $color-invalid-input;
     }
   }
 }
 
 .favorite {
   path {
-    fill: red;
+    fill: $color-invalid-input;
   }
 }

@@ -1,6 +1,10 @@
 import { CharacterItem } from '@components/CharacterItem/CharacterItem';
 import { Loader } from '@components/Loader/Loader';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { Character } from '@models/index';
+import { fetchFavorites } from '@store/favoritesSlice';
+import { RootState } from '@store/index';
+import { useEffect } from 'react';
 import s from './CharacterList.module.scss';
 
 interface CharacterListProps {
@@ -9,7 +13,14 @@ interface CharacterListProps {
 }
 
 export const CharacterList = ({ characters, isLoading }: CharacterListProps) => {
-  if (isLoading) {
+  const dispatch = useAppDispatch();
+  const { items, loading } = useAppSelector((state: RootState) => state.favorites);
+
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
+
+  if (isLoading || loading !== 'succeeded') {
     return <Loader />;
   }
 
@@ -18,7 +29,7 @@ export const CharacterList = ({ characters, isLoading }: CharacterListProps) => 
       {characters.length > 0 ? (
         <ul className={s.mainContainer}>
           {characters.map(character => (
-            <CharacterItem key={character.name} character={character} />
+            <CharacterItem key={character.name} character={character} favorites={items} />
           ))}
         </ul>
       ) : (

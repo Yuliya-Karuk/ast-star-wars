@@ -1,7 +1,8 @@
 import HeartIcon from '@assets/heart.svg?react';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { Character } from '@models/index';
-import { toggleFavorite } from '@store/favoritesSlice';
+import { useAuth } from '@contexts/authProvider';
+import { useAppDispatch } from '@hooks/index';
+import { Character, FavoriteItem } from '@models/index';
+import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
 import { extractIdFromUrl } from '@utils/index';
 import classnames from 'classnames';
 import { useState } from 'react';
@@ -9,16 +10,17 @@ import styles from './CharacterItem.module.scss';
 
 interface CharacterItemProps {
   character: Character;
+  favorites: FavoriteItem[];
 }
 
-export const CharacterItem = ({ character }: CharacterItemProps) => {
+export const CharacterItem = ({ character, favorites }: CharacterItemProps) => {
   const characterId = extractIdFromUrl(character.url);
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
+  const { isLoggedIn } = useAuth();
 
   const [showHeart, setShowHeart] = useState(false);
 
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector(state => state.favorites.items);
   const isFavorite = favorites.some(fav => fav.id === characterId);
 
   const handleFavoriteClick = () => {
@@ -30,7 +32,7 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
 
   const handleToggleFavorite = () => {
     handleFavoriteClick();
-    dispatch(toggleFavorite(characterId));
+    dispatch(toggleFavoriteInFirebase({ id: characterId }));
   };
 
   return (
@@ -49,10 +51,12 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
         <p className={styles.featureTitle}>Date of Birth</p>
         <p className={styles.featureValue}>{character.birth_year}</p>
       </div>
-      <button type="button" className={styles.addToFavoriteButton} onClick={handleToggleFavorite}>
-        <HeartIcon className={classnames(styles.heart, { [styles.favorite]: isFavorite })} />
-        {showHeart && <HeartIcon className={styles.heartAnimation} />}
-      </button>
+      {isLoggedIn && (
+        <button type="button" className={styles.addToFavoriteButton} onClick={handleToggleFavorite}>
+          <HeartIcon className={classnames(styles.heart, { [styles.favorite]: isFavorite })} />
+          {showHeart && <HeartIcon className={styles.heartAnimation} />}
+        </button>
+      )}
     </li>
   );
 };
