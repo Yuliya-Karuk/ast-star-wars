@@ -15,5 +15,7 @@
     "signup",
     "Toastify",
     "SWAPI",
+    "firestore",
+    "svgr"
   ]
 }

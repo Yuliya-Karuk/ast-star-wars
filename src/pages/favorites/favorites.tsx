@@ -1,20 +1,14 @@
 import { CharacterList, Loader } from '@components/index';
-import { useAuth } from '@contexts/authProvider';
-import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { Character, CharacterWithFavorite } from '@models/index';
+import { Character, CharacterWithFavorite, FavoriteItem } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
-import { markFavorites, SuccessLoginMessage } from '@utils/index';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { markFavorites } from '@utils/index';
+import { useEffect, useState } from 'react';
 import { api } from 'src/services';
-import s from './home.module.scss';
+import s from './favorites.module.scss';
 
-export const Home = () => {
-  const { isLoginSuccess, setIsLoginSuccess } = useAuth();
-  const { successNotify } = useToast();
-  const isNotificationShown = useRef(false);
-
+export const Favorites = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
@@ -33,26 +27,18 @@ export const Home = () => {
   }, [dispatch, isLoading]);
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await api.getPeople();
-      setCharacters(response.results);
-      setIsLoading(false);
+    const fetchCharacters = async (favs: FavoriteItem[]) => {
+      const characterPromises = favs.map(fav => api.getCharacterById(+fav.id));
+      const resolvedCharacters = await Promise.all(characterPromises);
+      setCharacters(resolvedCharacters);
     };
 
-    getData();
-  }, []);
-
-  const notify = useCallback(() => {
-    successNotify(SuccessLoginMessage);
-    setIsLoginSuccess(false);
-  }, [successNotify, setIsLoginSuccess]);
-
-  useEffect(() => {
-    if (isLoginSuccess && !isNotificationShown.current) {
-      notify();
-      isNotificationShown.current = true;
+    if (!isLoading && favorites.length === 0) {
+      setCharacters([]);
+    } else if (!isLoading) {
+      fetchCharacters(favorites);
     }
-  }, [isLoginSuccess, notify]);
+  }, [favorites, isLoading]);
 
   useEffect(() => {
     if (characters) {
@@ -75,7 +61,7 @@ export const Home = () => {
         {preparedCharacters.length > 0 ? (
           <CharacterList characters={preparedCharacters} />
         ) : (
-          <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
+          <div className={s.emptySearch}>Sorry, we didn`t add something to favorite</div>
         )}
       </main>
     </div>

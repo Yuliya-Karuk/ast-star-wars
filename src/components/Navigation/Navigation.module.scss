@@ -7,6 +7,7 @@
     display: flex;
     width: 30px;
     height: 24px;
+    z-index: 10;
 
     &::before,
     &::after {
