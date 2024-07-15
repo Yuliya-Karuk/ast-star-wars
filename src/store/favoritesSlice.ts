@@ -5,13 +5,13 @@ import { User } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 type FavoritesState = {
-  items: FavoriteItem[];
+  favorites: FavoriteItem[];
   loading: LoadingState;
   error: string | null;
 };
 
 const initialState: FavoritesState = {
-  items: [],
+  favorites: [],
   loading: 'idle',
   error: null,
 };
@@ -85,7 +85,7 @@ const favoritesSlice = createSlice({
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.loading = 'succeeded';
-        state.items = action.payload;
+        state.favorites = action.payload;
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.loading = 'failed';
@@ -97,7 +97,7 @@ const favoritesSlice = createSlice({
       })
       .addCase(toggleFavoriteInFirebase.fulfilled, (state, action) => {
         state.loading = 'succeeded';
-        state.items = action.payload;
+        state.favorites = action.payload;
       })
       .addCase(toggleFavoriteInFirebase.rejected, (state, action) => {
         state.loading = 'failed';

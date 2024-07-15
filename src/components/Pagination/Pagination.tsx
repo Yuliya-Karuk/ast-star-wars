@@ -1,5 +1,6 @@
 import { getPaginationRange } from '@utils/index';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import styles from './Pagination.module.scss';
 
@@ -89,4 +90,10 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
       )}
     </nav>
   );
+};
+
+Pagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
 };

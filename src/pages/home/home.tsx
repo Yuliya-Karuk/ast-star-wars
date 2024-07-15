@@ -1,7 +1,10 @@
-import { CharacterList } from '@components/index';
+import { CharacterList, Loader } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { Character } from '@models/index';
+import { fetchFavorites } from '@store/favoritesSlice';
+import { RootState } from '@store/index';
 import { SuccessLoginMessage } from '@utils/index';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from 'src/services';
@@ -13,7 +16,20 @@ export const Home = () => {
   const isNotificationShown = useRef(false);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [characters, setCharacters] = useState<Character[]>([]);
+  const dispatch = useAppDispatch();
+  const { favorites } = useAppSelector((state: RootState) => state.favorites);
+  const [characters, setCharacters] = useState<Character[] | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchFavorites());
+      setIsLoading(false);
+    };
+
+    if (isLoading) {
+      fetchData();
+    }
+  }, [dispatch, isLoading]);
 
   useEffect(() => {
     const getData = async () => {
@@ -37,9 +53,23 @@ export const Home = () => {
     }
   }, [isLoginSuccess, notify]);
 
+  if (isLoading || characters === null) {
+    return (
+      <div className={s.page}>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className={s.page}>
-      <CharacterList characters={characters} isLoading={isLoading} />
+      <main className={s.main}>
+        {characters.length > 0 ? (
+          <CharacterList characters={characters} favorites={favorites} />
+        ) : (
+          <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
+        )}
+      </main>
     </div>
   );
 };
