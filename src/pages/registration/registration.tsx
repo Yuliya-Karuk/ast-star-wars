@@ -4,6 +4,8 @@ import { AuthFormHeader, Input } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { UserData } from '@models/index';
+import { RootState } from '@store/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { catchAuthErrors } from '@utils/index';
 import {
   dateValidationRules,
@@ -13,6 +15,7 @@ import {
 } from '@utils/validationConst';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import s from './registration.module.scss';
 
@@ -23,9 +26,10 @@ export function Registration() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<UserData>({ mode: 'all' });
-  const { isLoggedIn, signup } = useAuth();
+  const { signup } = useAuth();
   const { errorNotify } = useToast();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
 
   const onSubmit = async (userData: UserData) => {
     signup(userData)

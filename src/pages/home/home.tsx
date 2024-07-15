@@ -5,8 +5,10 @@ import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { Character, CharacterWithFavorite } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
+import { selectUserUid } from '@store/selectors';
 import { markFavorites, SuccessLoginMessage } from '@utils/index';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { api } from 'src/services';
 import s from './home.module.scss';
 
@@ -20,6 +22,8 @@ export const Home = () => {
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
+  const uid = useSelector((state: RootState) => selectUserUid(state));
+  console.log(uid);
 
   useEffect(() => {
     const fetchData = async () => {

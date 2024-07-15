@@ -1,12 +1,14 @@
 import HeartIcon from '@assets/heart.svg?react';
-import { useAuth } from '@contexts/authProvider';
 import { useAppDispatch } from '@hooks/index';
 import { CharacterWithFavorite } from '@models/index';
 import { AppRoutes } from '@router/routes';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
+import { RootState } from '@store/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { extractIdFromUrl } from '@utils/index';
 import classnames from 'classnames';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './CharacterItem.module.scss';
 
@@ -17,7 +19,7 @@ interface CharacterItemProps {
 export const CharacterItem = ({ character }: CharacterItemProps) => {
   const characterId = extractIdFromUrl(character.url);
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
   const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);

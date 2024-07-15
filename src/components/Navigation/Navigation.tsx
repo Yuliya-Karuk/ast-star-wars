@@ -2,9 +2,12 @@ import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { useClickOutside } from '@hooks/useClickOutside';
 import { AppRoutes } from '@router/routes';
+import { RootState } from '@store/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { SuccessSignOut } from '@utils/index';
 import classnames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 import s from './Navigation.module.scss';
@@ -16,17 +19,15 @@ export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: '(min-width: 769px)' });
   const menuRef = useRef(null);
-  const { successNotify, errorNotify } = useToast();
-  const { isLoggedIn, logout } = useAuth();
+  const { successNotify } = useToast();
+  const { logout } = useAuth();
+  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
 
-  const handleLogout = () => {
-    logout()
-      .then(() => {
-        successNotify(SuccessSignOut);
-      })
-      .catch(error => {
-        errorNotify((error as Error).message);
-      });
+  const handleLogout = async () => {
+    const result = await logout();
+    if (result) {
+      successNotify(SuccessSignOut);
+    }
   };
 
   const handleMenuToggle = () => {

@@ -1,17 +1,25 @@
 /* eslint-disable react-refresh/only-export-components */
 import { auth } from '@firebase/firebase';
+import { useAppDispatch } from '@hooks/index';
 import { LoginData, UserData } from '@models/index';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import { removeUser, setUser } from '@store/userSlice';
+import { catchAuthErrors } from '@utils/index';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+} from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { useToast } from './toastProvider';
 
 interface AuthContextValue {
-  isLoggedIn: boolean | null;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean | null>>;
   isLoginSuccess: boolean;
   setIsLoginSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-  login: (data: LoginData) => Promise<UserCredential>;
-  signup: (data: UserData) => Promise<UserCredential>;
-  logout: () => Promise<void>;
+  login: (data: LoginData) => Promise<User | null>;
+  signup: (data: UserData) => Promise<User | null>;
+  logout: () => Promise<boolean | null>;
 }
 
 const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
@@ -21,36 +29,79 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
+  const dispatch = useAppDispatch();
+  const { errorNotify } = useToast();
 
   const signup = async (userData: UserData) => {
-    setIsLoginSuccess(true);
-    return createUserWithEmailAndPassword(auth, userData.email, userData.password);
+    return createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      .then(({ user }) => {
+        dispatch(
+          setUser({
+            uid: user.uid,
+            isAuth: true,
+          })
+        );
+        setIsLoginSuccess(true);
+        return user;
+      })
+      .catch(error => {
+        const message = catchAuthErrors(error);
+        errorNotify(message);
+        return null;
+      });
   };
 
   const login = async (userData: LoginData) => {
-    setIsLoginSuccess(true);
-    return signInWithEmailAndPassword(auth, userData.email, userData.password);
+    return signInWithEmailAndPassword(auth, userData.email, userData.password)
+      .then(({ user }) => {
+        dispatch(
+          setUser({
+            uid: user.uid,
+            isAuth: true,
+          })
+        );
+        setIsLoginSuccess(true);
+        return user;
+      })
+      .catch(error => {
+        const message = catchAuthErrors(error);
+        errorNotify(message);
+        return null;
+      });
   };
 
   const logout = () => {
-    setIsLoginSuccess(false);
-    return auth.signOut();
+    return signOut(auth)
+      .then(() => {
+        dispatch(removeUser());
+        setIsLoginSuccess(false);
+        return true;
+      })
+      .catch(error => {
+        const message = catchAuthErrors(error);
+        errorNotify(message);
+        return null;
+      });
   };
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setIsLoggedIn(Boolean(user));
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        dispatch(
+          setUser({
+            uid: user.uid,
+            isAuth: true,
+          })
+        );
+      }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
   return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, isLoginSuccess, setIsLoginSuccess, login, logout, signup }}
-    >
+    <AuthContext.Provider value={{ isLoginSuccess, setIsLoginSuccess, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );

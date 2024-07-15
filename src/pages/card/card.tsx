@@ -3,16 +3,17 @@ import { DetailsFilms } from '@components/DetailsFilms/DetailsFilms';
 import { DetailsInfo } from '@components/DetailsInfo/DetailsInfo';
 import { DetailsPlanet } from '@components/DetailsPlanet/DetailsPlanet';
 import { Loader } from '@components/index';
-import { useAuth } from '@contexts/authProvider';
 import { useFilms } from '@contexts/dataProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { CharacterWithFavorite, Film, Planet } from '@models/index';
 import { AppRoutes } from '@router/routes';
 import { fetchFavorites, toggleFavoriteInFirebase } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { markFavorites } from '@utils/utils';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from 'src/services';
 import s from './card.module.scss';
@@ -27,7 +28,7 @@ export const Card = () => {
   const [filteredFilms, setFilteredFilms] = useState<Film[]>([]);
   const [planet, setPlanet] = useState<Planet | null>(null);
   const { id } = useParams();
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
   const navigate = useNavigate();
 
   useEffect(() => {
