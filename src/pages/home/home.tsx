@@ -2,10 +2,10 @@ import { CharacterList, Loader } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { Character } from '@models/index';
+import { Character, CharacterWithFavorite } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
-import { SuccessLoginMessage } from '@utils/index';
+import { markFavorites, SuccessLoginMessage } from '@utils/index';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from 'src/services';
 import s from './home.module.scss';
@@ -19,6 +19,7 @@ export const Home = () => {
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
+  const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +34,8 @@ export const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const result = await api.getPeople();
-      setCharacters(result.results);
+      const response = await api.getPeople();
+      setCharacters(response.results);
       setIsLoading(false);
     };
 
@@ -53,7 +54,14 @@ export const Home = () => {
     }
   }, [isLoginSuccess, notify]);
 
-  if (isLoading || characters === null) {
+  useEffect(() => {
+    if (characters) {
+      const charactersWithFavorites = markFavorites(characters, favorites);
+      setPreparedCharacters(charactersWithFavorites);
+    }
+  }, [characters, favorites]);
+
+  if (isLoading || preparedCharacters === null) {
     return (
       <div className={s.page}>
         <Loader />
@@ -64,8 +72,8 @@ export const Home = () => {
   return (
     <div className={s.page}>
       <main className={s.main}>
-        {characters.length > 0 ? (
-          <CharacterList characters={characters} favorites={favorites} />
+        {preparedCharacters.length > 0 ? (
+          <CharacterList characters={preparedCharacters} />
         ) : (
           <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
         )}

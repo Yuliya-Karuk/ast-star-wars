@@ -17,6 +17,10 @@ export interface Character {
   url: string;
 }
 
+export interface CharacterWithFavorite extends Character {
+  isFavorite: boolean;
+}
+
 export interface APIResponse {
   count: number;
   next: string | null;

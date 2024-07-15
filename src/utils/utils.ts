@@ -1,3 +1,4 @@
+import { Character, CharacterWithFavorite, FavoriteItem } from '@models/index';
 import { FirebaseError } from 'firebase/app';
 import { DefaultError, EmailAlreadyRegistered, UserCredentialError } from './constants';
 
@@ -24,3 +25,12 @@ export const getPaginationRange = (currentPage: number, totalPages: number) => {
 
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 };
+
+export function markFavorites(characters: Character[], favorites: FavoriteItem[]): CharacterWithFavorite[] {
+  const favoriteIds = new Set(favorites.map(fav => fav.id));
+
+  return characters.map(character => ({
+    ...character,
+    isFavorite: favoriteIds.has(extractIdFromUrl(character.url)),
+  }));
+}

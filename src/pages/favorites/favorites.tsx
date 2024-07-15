@@ -1,8 +1,9 @@
 import { CharacterList, Loader } from '@components/index';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { Character, FavoriteItem } from '@models/index';
+import { Character, CharacterWithFavorite, FavoriteItem } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
+import { markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
 import { api } from 'src/services';
 import s from './favorites.module.scss';
@@ -12,6 +13,7 @@ export const Favorites = () => {
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
+  const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +40,14 @@ export const Favorites = () => {
     }
   }, [favorites, isLoading]);
 
-  if (isLoading || characters === null) {
+  useEffect(() => {
+    if (characters) {
+      const charactersWithFavorites = markFavorites(characters, favorites);
+      setPreparedCharacters(charactersWithFavorites);
+    }
+  }, [characters, favorites]);
+
+  if (isLoading || preparedCharacters === null) {
     return (
       <div className={s.page}>
         <Loader />
@@ -49,8 +58,8 @@ export const Favorites = () => {
   return (
     <div className={s.page}>
       <main className={s.main}>
-        {characters.length > 0 ? (
-          <CharacterList characters={characters} favorites={favorites} />
+        {preparedCharacters.length > 0 ? (
+          <CharacterList characters={preparedCharacters} />
         ) : (
           <div className={s.emptySearch}>Sorry, we didn`t add something to favorite</div>
         )}

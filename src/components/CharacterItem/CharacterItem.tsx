@@ -1,7 +1,7 @@
 import HeartIcon from '@assets/heart.svg?react';
 import { useAuth } from '@contexts/authProvider';
 import { useAppDispatch } from '@hooks/index';
-import { Character, FavoriteItem } from '@models/index';
+import { CharacterWithFavorite } from '@models/index';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
 import { extractIdFromUrl } from '@utils/index';
 import classnames from 'classnames';
@@ -9,11 +9,10 @@ import { useState } from 'react';
 import styles from './CharacterItem.module.scss';
 
 interface CharacterItemProps {
-  character: Character;
-  favorites: FavoriteItem[];
+  character: CharacterWithFavorite;
 }
 
-export const CharacterItem = ({ character, favorites }: CharacterItemProps) => {
+export const CharacterItem = ({ character }: CharacterItemProps) => {
   const characterId = extractIdFromUrl(character.url);
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
   const { isLoggedIn } = useAuth();
@@ -21,7 +20,6 @@ export const CharacterItem = ({ character, favorites }: CharacterItemProps) => {
   const [showHeart, setShowHeart] = useState(false);
 
   const dispatch = useAppDispatch();
-  const isFavorite = favorites.some(fav => fav.id === characterId);
 
   const handleFavoriteClick = () => {
     setShowHeart(true);
@@ -53,7 +51,7 @@ export const CharacterItem = ({ character, favorites }: CharacterItemProps) => {
       </div>
       {isLoggedIn && (
         <button type="button" className={styles.addToFavoriteButton} onClick={handleToggleFavorite}>
-          <HeartIcon className={classnames(styles.heart, { [styles.favorite]: isFavorite })} />
+          <HeartIcon className={classnames(styles.heart, { [styles.favorite]: character.isFavorite })} />
           {showHeart && <HeartIcon className={styles.heartAnimation} />}
         </button>
       )}
