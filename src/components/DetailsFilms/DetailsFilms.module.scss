@@ -1,0 +1,60 @@
+.details-films {
+  @include flex(null, center, column, 20px);
+}
+
+.films {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 20px;
+  row-gap: 15px;
+}
+
+.block-title {
+  text-align: center;
+  margin: 10px;
+  color: $color-primary-bright;
+  width: 100%;
+  font-size: 3.4rem;
+
+  @include big-mobile {
+    font-size: 2rem;
+  }
+}
+
+.filmItem {
+  @include flex(center, flex-start, column, 5px);
+  width: 100%;
+}
+
+.feature-title {
+  color: $color-gray-light;
+  font-size: 2rem;
+  font-weight: 400;
+  text-align: center;
+  padding: 0 5px;
+
+  @include tablet {
+    font-size: 1.6rem;
+  }
+
+  @include laptop {
+    font-size: 1.4rem;
+  }
+
+  @include big-mobile {
+    font-size: 1.2rem;
+  }
+}
+
+.film-img-container {
+  width: 100%;
+  margin-top: auto;
+  aspect-ratio: 8 / 11;
+
+  .film-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid $color-gray-dark;
+  }
+}

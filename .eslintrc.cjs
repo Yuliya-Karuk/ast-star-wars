@@ -95,5 +95,6 @@ module.exports = {
         allowTaggedTemplates: true,
       },
     ],
+    'jsx-a11y/no-noninteractive-element-to-interactive-role': 'off',
   },
 };

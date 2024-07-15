@@ -2,10 +2,12 @@ import HeartIcon from '@assets/heart.svg?react';
 import { useAuth } from '@contexts/authProvider';
 import { useAppDispatch } from '@hooks/index';
 import { CharacterWithFavorite } from '@models/index';
+import { AppRoutes } from '@router/routes';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
 import { extractIdFromUrl } from '@utils/index';
 import classnames from 'classnames';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './CharacterItem.module.scss';
 
 interface CharacterItemProps {
@@ -16,6 +18,7 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
   const characterId = extractIdFromUrl(character.url);
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
   const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -33,8 +36,22 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
     dispatch(toggleFavoriteInFirebase({ id: characterId }));
   };
 
+  const handleItemClick = () => {
+    navigate(`${AppRoutes.HOME_ROUTE}people/${characterId}`);
+  };
+
   return (
-    <li className={styles.characterItem}>
+    <li
+      className={styles.characterItem}
+      role="button"
+      tabIndex={0}
+      onClick={handleItemClick}
+      onKeyUp={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleItemClick();
+        }
+      }}
+    >
       <div className={styles.characterImgContainer}>
         <img className={styles.characterImg} src={imageUrl} alt="Character" />
       </div>

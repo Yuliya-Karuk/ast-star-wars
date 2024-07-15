@@ -1,15 +1,18 @@
 import { CharacterList, Loader } from '@components/index';
+import { useAuth } from '@contexts/authProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { Character, CharacterWithFavorite, FavoriteItem } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
 import { markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { api } from 'src/services';
 import s from './favorites.module.scss';
 
 export const Favorites = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const { isLoggedIn } = useAuth();
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
@@ -46,6 +49,10 @@ export const Favorites = () => {
       setPreparedCharacters(charactersWithFavorites);
     }
   }, [characters, favorites]);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (isLoading || preparedCharacters === null) {
     return (

@@ -5,5 +5,5 @@ export enum AppRoutes {
   FAVORITES_ROUTE = '/favorites',
   HISTORY_ROUTE = '/history',
   SEARCH_ROUTE = '/search',
-  PRODUCT_ROUTE = '/pokemons',
+  CARD_ROUTE = '/people',
 }

@@ -1,3 +1,4 @@
+export * from './card/card';
 export * from './favorites/favorites';
 export * from './home/home';
 export * from './login/login';

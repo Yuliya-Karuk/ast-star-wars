@@ -16,6 +16,7 @@
     "Toastify",
     "SWAPI",
     "firestore",
-    "svgr"
+    "svgr",
+    "favs",
   ]
 }
