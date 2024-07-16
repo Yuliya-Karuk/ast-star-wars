@@ -33,7 +33,8 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
     }, 400);
   };
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     handleFavoriteClick();
     dispatch(toggleFavoriteInFirebase({ id: characterId }));
   };

@@ -7,7 +7,7 @@ type UserState = {
 
 const initialState: UserState = {
   uid: null,
-  isLoggedIn: false,
+  isLoggedIn: null,
 };
 
 const userSlice = createSlice({
@@ -16,7 +16,7 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, actions) {
       state.uid = actions.payload.uid;
-      state.isLoggedIn = true;
+      state.isLoggedIn = actions.payload.isAuth;
     },
     removeUser(state) {
       state.uid = null;

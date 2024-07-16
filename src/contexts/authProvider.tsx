@@ -94,6 +94,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
             isAuth: true,
           })
         );
+      } else {
+        dispatch(
+          setUser({
+            uid: null,
+            isAuth: false,
+          })
+        );
       }
     });
 

@@ -32,38 +32,36 @@ export const Card = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getFavorites = async () => {
       await dispatch(fetchFavorites());
-      setIsLoading(false);
     };
 
-    if (isLoading) {
-      fetchData();
+    if (isLoggedIn) {
+      getFavorites();
     }
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const getData = async () => {
       if (id && films) {
-        setIsLoading(true);
         const response = await api.getCharacterById(+id);
         const preparedItem = markFavorites([response], favorites);
         setPreparedCharacter(preparedItem[0]);
         setIsFavorite(preparedItem[0].isFavorite);
 
         setFilteredFilms(films.results.filter(film => response.films.includes(film.url)));
-        setIsLoading(false);
       }
     };
 
     getData();
-  }, [films]);
+  }, [favorites, films, id]);
 
   useEffect(() => {
     const getPlanet = async () => {
       if (preparedCharacter) {
         const planetResponse = await api.getPlanet(preparedCharacter.homeworld);
         setPlanet(planetResponse);
+        setIsLoading(false);
       }
     };
 

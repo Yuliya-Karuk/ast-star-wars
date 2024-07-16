@@ -66,7 +66,7 @@ export const Navigation = () => {
         <span />
       </div>
       <nav className={classnames(s.menu, { [s.active]: isMenuOpen })} ref={menuRef}>
-        {!isLoggedIn ? (
+        {isLoggedIn === false && (
           <ul className={s.menuList}>
             {paths.map(path => (
               <li key={path}>
@@ -76,7 +76,8 @@ export const Navigation = () => {
               </li>
             ))}
           </ul>
-        ) : (
+        )}
+        {isLoggedIn === true && (
           <ul className={s.menuList}>
             {authPaths.map(path => (
               <li key={path}>

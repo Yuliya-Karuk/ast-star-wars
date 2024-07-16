@@ -39,12 +39,7 @@ export function Login() {
   return (
     <div className={s.page}>
       <div className={s.wrapper}>
-        <AuthFormHeader
-          titleText="Sign in"
-          linkDescription="New to this site?"
-          linkText="Sign Up"
-          linkTo="/registration"
-        />
+        <AuthFormHeader titleText="Sign in" linkDescription="New to this site?" linkText="Sign Up" linkTo="/signup" />
         <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
           <section className={s.userDataSection}>
             <Input

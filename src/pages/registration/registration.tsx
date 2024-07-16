@@ -53,7 +53,7 @@ export function Registration() {
           titleText="Sign up"
           linkDescription="Already have an account?"
           linkText="Sign in"
-          linkTo="/login"
+          linkTo="/signin"
         />
         <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
           <section className={s.userDataSection}>
