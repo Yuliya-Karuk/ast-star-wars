@@ -14,7 +14,7 @@ import s from './favorites.module.scss';
 
 export const Favorites = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);

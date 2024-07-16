@@ -3,7 +3,6 @@ import eyeOn from '@assets/eye-show.svg';
 import { AuthFormHeader, Input } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { LoginData } from '@models/index';
-import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { emailValidationRules, passwordValidationRules } from '@utils/validationConst';
 import { useState } from 'react';
@@ -23,7 +22,7 @@ export function Login() {
 
   const { login } = useAuth();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const onSubmit = async (userData: LoginData) => {
     const result = await login(userData);

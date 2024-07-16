@@ -4,7 +4,6 @@ import { AuthFormHeader, Input } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { UserData } from '@models/index';
-import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { catchAuthErrors } from '@utils/index';
 import {
@@ -29,7 +28,7 @@ export function Registration() {
   const { signup } = useAuth();
   const { errorNotify } = useToast();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const onSubmit = async (userData: UserData) => {
     signup(userData)

@@ -28,7 +28,7 @@ export const SearchPage = () => {
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   useEffect(() => {
     const getFavorites = async () => {

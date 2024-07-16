@@ -28,7 +28,7 @@ export const Card = () => {
   const [filteredFilms, setFilteredFilms] = useState<Film[]>([]);
   const [planet, setPlanet] = useState<Planet | null>(null);
   const { id } = useParams();
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const navigate = useNavigate();
 
   useEffect(() => {

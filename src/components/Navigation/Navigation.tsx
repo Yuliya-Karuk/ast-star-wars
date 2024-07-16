@@ -2,7 +2,6 @@ import { useAuth } from '@contexts/authProvider';
 import { useToast } from '@contexts/toastProvider';
 import { useClickOutside } from '@hooks/useClickOutside';
 import { AppRoutes } from '@router/routes';
-import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { SuccessSignOut } from '@utils/index';
 import classnames from 'classnames';
@@ -21,7 +20,7 @@ export const Navigation = () => {
   const menuRef = useRef(null);
   const { successNotify } = useToast();
   const { logout } = useAuth();
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const handleLogout = async () => {
     const result = await logout();

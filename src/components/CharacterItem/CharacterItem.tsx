@@ -3,7 +3,6 @@ import { useAppDispatch } from '@hooks/index';
 import { CharacterWithFavorite } from '@models/index';
 import { AppRoutes } from '@router/routes';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
-import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { extractIdFromUrl } from '@utils/index';
 import classnames from 'classnames';
@@ -19,7 +18,7 @@ interface CharacterItemProps {
 export const CharacterItem = ({ character }: CharacterItemProps) => {
   const characterId = extractIdFromUrl(character.url);
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
-  const isLoggedIn = useSelector((state: RootState) => selectUseIsLoggedIn(state));
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
