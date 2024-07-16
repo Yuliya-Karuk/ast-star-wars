@@ -2,6 +2,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { PaginatedFilms } from '../models';
 import { api } from '../services/api';
+import { useToast } from './toastProvider';
 
 type FilmsProviderProps = {
   children?: ReactNode;
@@ -19,6 +20,7 @@ export const FilmsContext = createContext<FilmsContextValue>(initialFilms);
 
 export const FilmsProvider = ({ children }: FilmsProviderProps) => {
   const [films, setFilms] = useState<PaginatedFilms | null>(null);
+  const { errorNotify } = useToast();
 
   useEffect(() => {
     const fetchFilms = async () => {
@@ -26,12 +28,13 @@ export const FilmsProvider = ({ children }: FilmsProviderProps) => {
         const filmsResponse = await api.getAllFilms();
         setFilms(filmsResponse);
       } catch (error) {
-        console.error('Error fetching Films:', error);
+        errorNotify('Error fetching Films');
+        setFilms({ count: 0, next: null, previous: null, results: [] });
       }
     };
 
     fetchFilms();
-  }, []);
+  }, [errorNotify]);
 
   return <FilmsContext.Provider value={{ films }}>{children}</FilmsContext.Provider>;
 };
