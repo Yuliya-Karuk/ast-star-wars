@@ -34,3 +34,10 @@ export function markFavorites(characters: Character[], favorites: FavoriteItem[]
     isFavorite: favoriteIds.has(extractIdFromUrl(character.url)),
   }));
 }
+
+export function isNotNullable<T>(value: T, errorMessage?: string): NonNullable<T> {
+  if (value === undefined || value === null) {
+    throw new Error(errorMessage || 'Not expected value');
+  }
+  return value;
+}

@@ -2,12 +2,12 @@ import eyeOff from '@assets/eye-off.svg';
 import eyeOn from '@assets/eye-show.svg';
 import { AuthFormHeader, Input } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
-import { useToast } from '@contexts/toastProvider';
 import { LoginData } from '@models/index';
-import { catchAuthErrors } from '@utils/utils';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { emailValidationRules, passwordValidationRules } from '@utils/validationConst';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import s from './login.module.scss';
 
@@ -20,19 +20,15 @@ export function Login() {
     formState: { errors, isValid },
   } = useForm<LoginData>({ mode: 'onChange' });
 
-  const { isLoggedIn, login } = useAuth();
-  const { errorNotify } = useToast();
+  const { login } = useAuth();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const onSubmit = async (userData: LoginData) => {
-    login(userData)
-      .then(() => {
-        navigate('/');
-      })
-      .catch(error => {
-        const message = catchAuthErrors(error);
-        errorNotify(message);
-      });
+    const result = await login(userData);
+    if (result) {
+      navigate('/');
+    }
   };
 
   if (isLoggedIn) {
@@ -42,12 +38,7 @@ export function Login() {
   return (
     <div className={s.page}>
       <div className={s.wrapper}>
-        <AuthFormHeader
-          titleText="Sign in"
-          linkDescription="New to this site?"
-          linkText="Sign Up"
-          linkTo="/registration"
-        />
+        <AuthFormHeader titleText="Sign in" linkDescription="New to this site?" linkText="Sign Up" linkTo="/signup" />
         <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
           <section className={s.userDataSection}>
             <Input

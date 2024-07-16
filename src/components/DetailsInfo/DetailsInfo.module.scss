@@ -1,0 +1,52 @@
+.character-feature-block {
+  @include flex(space-between, center);
+  flex-wrap: wrap;
+  width: 100%;
+  font-size: 2rem;
+  color: $color-gray-middle;
+
+  @include big-mobile {
+    font-size: 1.6rem;
+  }
+}
+
+.gender-icon {
+  padding: 5px;
+  border-radius: 20px;
+  border: 1px solid $color-gray-dark;
+  background-color: $color-input-bg;
+}
+
+.male,
+.female {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.male {
+  background: no-repeat center url('../../assets/male.svg');
+  background-size: cover;
+}
+
+.female {
+  background: no-repeat center url('../../assets/female.svg');
+  background-size: cover;
+}
+
+.details-info {
+  @include flex(center, flex-start, column, 10px);
+  width: 100%;
+}
+
+.block-title {
+  text-align: center;
+  margin: 10px;
+  color: $color-primary-bright;
+  width: 100%;
+  font-size: 3.4rem;
+
+  @include big-mobile {
+    font-size: 2rem;
+  }
+}

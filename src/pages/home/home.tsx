@@ -5,8 +5,10 @@ import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { Character, CharacterWithFavorite } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { markFavorites, SuccessLoginMessage } from '@utils/index';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { api } from 'src/services';
 import s from './home.module.scss';
 
@@ -20,27 +22,34 @@ export const Home = () => {
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getFavorites = async () => {
       await dispatch(fetchFavorites());
-      setIsLoading(false);
     };
 
-    if (isLoading) {
-      fetchData();
+    if (isLoggedIn) {
+      getFavorites();
     }
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const getData = async () => {
       const response = await api.getPeople();
       setCharacters(response.results);
-      setIsLoading(false);
     };
 
     getData();
   }, []);
+
+  useEffect(() => {
+    if (characters) {
+      const charactersWithFavorites = markFavorites(characters, favorites);
+      setPreparedCharacters(charactersWithFavorites);
+      setIsLoading(false);
+    }
+  }, [characters, favorites]);
 
   const notify = useCallback(() => {
     successNotify(SuccessLoginMessage);
@@ -53,13 +62,6 @@ export const Home = () => {
       isNotificationShown.current = true;
     }
   }, [isLoginSuccess, notify]);
-
-  useEffect(() => {
-    if (characters) {
-      const charactersWithFavorites = markFavorites(characters, favorites);
-      setPreparedCharacters(charactersWithFavorites);
-    }
-  }, [characters, favorites]);
 
   if (isLoading || preparedCharacters === null) {
     return (

@@ -1,0 +1,33 @@
+.character-feature-block {
+  @include flex(space-between, center);
+  flex-wrap: wrap;
+  width: 100%;
+  color: $color-gray-middle;
+}
+
+.block-title {
+  text-align: center;
+  margin: 10px;
+  color: $color-primary-bright;
+  width: 100%;
+  font-size: 3.4rem;
+
+  @include big-mobile {
+    font-size: 2rem;
+  }
+}
+
+.feature-title {
+  color: $color-gray-light;
+  font-size: 0.8em;
+}
+
+.planet-img-container {
+  width: 100px;
+
+  .planet-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

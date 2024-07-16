@@ -1,0 +1,136 @@
+.page {
+  @include flex(flex-start, center, column);
+  background: $color-bg-dark;
+  flex: 1;
+  z-index: 0;
+
+  &::after {
+    position: absolute;
+    content: '';
+    background: center no-repeat url('../../assets/bg.png');
+    background-size: cover;
+    inset: 0;
+    max-height: 100vh;
+    z-index: -1;
+  }
+}
+
+.main {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+}
+
+.empty-search {
+  @include flex(center, center);
+  @include font(2.8rem, 700, 1, 0.05rem);
+  width: 70%;
+  margin: 0 auto;
+  color: $color-white-default;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.details {
+  @include flex(flex-start, flex-start, column, 20px);
+  @include font(3rem, 700, 1, 0.05rem);
+  padding: 30px;
+  color: $color-white-default;
+
+  @include big-mobile {
+    font-size: 2rem;
+  }
+}
+
+.character-img-container {
+  width: 40%;
+  align-self: center;
+
+  .character-img {
+    width: 100%;
+    aspect-ratio: 8 / 11;
+    border-radius: 5px;
+    border: 1px solid $color-gray-dark;
+  }
+}
+
+.character-title {
+  @include font(5rem, 700, 1, 0.05rem);
+
+  @include big-mobile {
+    font-size: 3.4rem;
+  }
+}
+
+.add-to-favorite-button {
+  @extend %transition;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: 1px solid $color-gray-dark;
+  background-color: $color-input-bg;
+  border-radius: 5px;
+  position: absolute;
+  top: 96px;
+  right: 20%;
+
+  @include laptop {
+    top: 90px;
+    width: 40px;
+    height: 40px;
+    right: 22%;
+  }
+
+  @include hover {
+    background-color: $color-primary-bright;
+  }
+
+  @include flex(center, center);
+}
+
+@keyframes fly-up {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.heart-animation {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  animation: fly-up 0.5s ease-out forwards;
+}
+
+.heart {
+  width: 50px;
+  height: 50px;
+
+  @include laptop {
+    width: unset;
+    height: unset;
+  }
+
+  path {
+    fill: $color-white-default;
+  }
+
+  .favorite {
+    path {
+      fill: $color-invalid-input;
+    }
+  }
+}
+
+.favorite {
+  path {
+    fill: $color-invalid-input;
+  }
+}

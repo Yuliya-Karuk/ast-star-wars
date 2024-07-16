@@ -1,51 +1,57 @@
 import { CharacterList, Loader } from '@components/index';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { Character, CharacterWithFavorite, FavoriteItem } from '@models/index';
+import { CharacterWithFavorite, FavoriteItem } from '@models/index';
+import { AppRoutes } from '@router/routes';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
-import { markFavorites } from '@utils/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
+import { isNotNullable, markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { api } from 'src/services';
 import s from './favorites.module.scss';
 
 export const Favorites = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
-  const [characters, setCharacters] = useState<Character[] | null>(null);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getFavorites = async () => {
       await dispatch(fetchFavorites());
-      setIsLoading(false);
     };
 
-    if (isLoading) {
-      fetchData();
+    if (isLoggedIn) {
+      getFavorites();
     }
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const fetchCharacters = async (favs: FavoriteItem[]) => {
       const characterPromises = favs.map(fav => api.getCharacterById(+fav.id));
       const resolvedCharacters = await Promise.all(characterPromises);
-      setCharacters(resolvedCharacters);
+
+      const charactersWithFavorites = markFavorites(resolvedCharacters, isNotNullable(favorites));
+      setPreparedCharacters(charactersWithFavorites);
+      setIsLoading(false);
     };
 
-    if (!isLoading && favorites.length === 0) {
-      setCharacters([]);
-    } else if (!isLoading) {
+    if (favorites && favorites.length > 0) {
       fetchCharacters(favorites);
+    } else if (favorites && favorites.length === 0) {
+      setPreparedCharacters([]);
     }
-  }, [favorites, isLoading]);
+  }, [favorites]);
 
   useEffect(() => {
-    if (characters) {
-      const charactersWithFavorites = markFavorites(characters, favorites);
-      setPreparedCharacters(charactersWithFavorites);
+    if (isLoggedIn === false) {
+      navigate(AppRoutes.LOGIN_ROUTE);
     }
-  }, [characters, favorites]);
+  }, [isLoggedIn, navigate]);
 
   if (isLoading || preparedCharacters === null) {
     return (

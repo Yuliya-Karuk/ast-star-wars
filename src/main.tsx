@@ -1,4 +1,5 @@
 import { AuthProvider } from '@contexts/authProvider.tsx';
+import { FilmsProvider } from '@contexts/dataProvider.tsx';
 import { ToastProvider } from '@contexts/toastProvider.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -14,7 +15,9 @@ ReactDOM.createRoot(root).render(
     <Provider store={store}>
       <ToastProvider>
         <AuthProvider>
-          <AppRouter />
+          <FilmsProvider>
+            <AppRouter />
+          </FilmsProvider>
         </AuthProvider>
       </ToastProvider>
     </Provider>

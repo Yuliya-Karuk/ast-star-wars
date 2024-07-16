@@ -4,8 +4,10 @@ import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { Character, CharacterWithFavorite } from '@models/index';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
+import { selectUseIsLoggedIn } from '@store/selectors';
 import { markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from 'src/services';
 import s from './searchPage.module.scss';
@@ -26,22 +28,20 @@ export const SearchPage = () => {
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
+  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    const getFavorites = async () => {
       await dispatch(fetchFavorites());
-      setIsLoading(false);
     };
 
-    if (isLoading) {
-      fetchData();
+    if (isLoggedIn) {
+      getFavorites();
     }
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const fetchData = async (query: string, page: string) => {
-      setIsLoading(true);
       try {
         const response = await api.searchPeopleByName(query, page);
         setCharacters(response.results);
@@ -49,7 +49,6 @@ export const SearchPage = () => {
       } catch (error) {
         errorNotify((error as Error).message);
       }
-      setIsLoading(false);
     };
 
     const getParams = () => {
@@ -77,6 +76,7 @@ export const SearchPage = () => {
     if (characters) {
       const charactersWithFavorites = markFavorites(characters, favorites);
       setPreparedCharacters(charactersWithFavorites);
+      setIsLoading(false);
     }
   }, [characters, favorites]);
 
