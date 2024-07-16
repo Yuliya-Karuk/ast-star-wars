@@ -1,24 +1,34 @@
 import { CharacterList, Loader } from '@components/index';
+import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { CharacterWithFavorite, FavoriteItem } from '@models/index';
+import { CharacterWithFavorite } from '@models/index';
 import { AppRoutes } from '@router/routes';
+import { useGetCharactersByIdsQuery } from '@store/api/swapiApi';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
-import { isNotNullable, markFavorites } from '@utils/index';
+import { markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { api } from 'src/services';
 import s from './favorites.module.scss';
 
 export const Favorites = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
   const navigate = useNavigate();
+  const { errorNotify } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { data: characters, error: charactersError } = useGetCharactersByIdsQuery(favorites || []);
+
+  useEffect(() => {
+    if (charactersError) {
+      errorNotify(`Error fetching characters: ${charactersError}`);
+    }
+  }, [charactersError, errorNotify]);
 
   useEffect(() => {
     const getFavorites = async () => {
@@ -31,21 +41,14 @@ export const Favorites = () => {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    const fetchCharacters = async (favs: FavoriteItem[]) => {
-      const characterPromises = favs.map(fav => api.getCharacterById(+fav.id));
-      const resolvedCharacters = await Promise.all(characterPromises);
-
-      const charactersWithFavorites = markFavorites(resolvedCharacters, isNotNullable(favorites));
+    if (characters && favorites) {
+      const charactersWithFavorites = markFavorites(characters, favorites);
       setPreparedCharacters(charactersWithFavorites);
-      setIsLoading(false);
-    };
-
-    if (favorites && favorites.length > 0) {
-      fetchCharacters(favorites);
-    } else if (favorites && favorites.length === 0) {
-      setPreparedCharacters([]);
     }
-  }, [favorites]);
+    if ((favorites && favorites.length === 0) || (characters && characters.length > 0)) {
+      setIsLoading(false);
+    }
+  }, [characters, favorites]);
 
   useEffect(() => {
     if (isLoggedIn === false) {

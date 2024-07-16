@@ -1,7 +1,7 @@
 import { getPaginationRange } from '@utils/index';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styles from './Pagination.module.scss';
 
 const maxShownPages = 5;
@@ -9,16 +9,17 @@ const maxShownPages = 5;
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  setCurrentPage: (data: number) => void;
 }
 
-export const Pagination = ({ currentPage, totalPages, setCurrentPage }: PaginationProps) => {
-  const [paginationRange, setPaginationRange] = useState<number[]>([]);
+export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+  const paginationRange = getPaginationRange(currentPage, totalPages);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const newPaginationRange = getPaginationRange(currentPage, totalPages);
-    setPaginationRange(newPaginationRange);
-  }, [currentPage, totalPages]);
+  const handlePageChange = (newPage: number) => {
+    const currentParams = new URLSearchParams(searchParams);
+    currentParams.set('page', String(newPage));
+    setSearchParams(currentParams);
+  };
 
   return (
     <nav className={styles.paginationNav} aria-label="Page navigation">
@@ -28,7 +29,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
             <button
               type="button"
               className={classnames(styles.pgnButton, { [styles.first]: true })}
-              onClick={() => setCurrentPage(1)}
+              onClick={() => handlePageChange(1)}
               aria-label="First"
               disabled={currentPage === 1}
             >
@@ -39,7 +40,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
             <button
               type="button"
               className={classnames(styles.pgnButton, { [styles.previous]: true })}
-              onClick={() => setCurrentPage(currentPage - 1)}
+              onClick={() => handlePageChange(currentPage - 1)}
               aria-label="Previous"
               disabled={currentPage === 1}
             >
@@ -51,7 +52,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
               <button
                 type="button"
                 className={classnames(styles.pgnButton, { [styles.active]: el === currentPage })}
-                onClick={() => setCurrentPage(el)}
+                onClick={() => handlePageChange(el)}
               >
                 {el}
               </button>
@@ -68,7 +69,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
             <button
               type="button"
               className={classnames(styles.pgnButton, { [styles.next]: true })}
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={() => handlePageChange(currentPage + 1)}
               aria-label="Next"
               disabled={currentPage === totalPages || totalPages === 0}
             >
@@ -79,7 +80,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
             <button
               type="button"
               className={classnames(styles.pgnButton, { [styles.last]: true })}
-              onClick={() => setCurrentPage(totalPages)}
+              onClick={() => handlePageChange(totalPages)}
               aria-label="Last"
               disabled={currentPage === totalPages || totalPages === 0}
             >
@@ -95,5 +96,4 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }: Paginati
 Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
-  setCurrentPage: PropTypes.func.isRequired,
 };

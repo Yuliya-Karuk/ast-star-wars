@@ -41,3 +41,8 @@ export function isNotNullable<T>(value: T, errorMessage?: string): NonNullable<T
   }
   return value;
 }
+
+export function extractPlanetPath(url: string) {
+  const baseUrl = 'https://swapi.dev/api/';
+  return url.slice(baseUrl.length);
+}

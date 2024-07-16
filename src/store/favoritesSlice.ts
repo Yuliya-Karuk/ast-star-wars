@@ -5,13 +5,13 @@ import { User } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 type FavoritesState = {
-  favorites: FavoriteItem[];
+  favorites: FavoriteItem[] | null;
   loading: LoadingState;
   error: string | null;
 };
 
 const initialState: FavoritesState = {
-  favorites: [],
+  favorites: null,
   loading: 'idle',
   error: null,
 };
