@@ -1,6 +1,6 @@
 import errorImg from '@assets/error.png';
 import { Component, ErrorInfo, ReactNode } from 'react';
-import styles from './ErrorBoundary.module.scss';
+import s from './ErrorBoundary.module.scss';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -33,16 +33,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     const { children } = this.props;
     if (hasError) {
       return (
-        <div className={styles.errorPage}>
-          <div className={styles.errorContainer}>
-            <div className={styles.errorContent}>
-              <h2 className={styles.errorHeading}>Something went wrong. Refresh the page, please.</h2>
-              <button type="button" className={styles.errorButton} onClick={this.reload}>
+        <div className={s.errorPage}>
+          <div className={s.errorContainer}>
+            <div className={s.errorContent}>
+              <h2 className={s.errorHeading}>Something went wrong. Refresh the page, please.</h2>
+              <button type="button" className={s.errorButton} onClick={this.reload}>
                 Reload
               </button>
             </div>
-            <div className={styles.errorImgContainer}>
-              <img className={styles.errorImg} src={errorImg} alt="Error" />
+            <div className={s.errorImgContainer}>
+              <img className={s.errorImg} src={errorImg} alt="Error" />
             </div>
           </div>
         </div>

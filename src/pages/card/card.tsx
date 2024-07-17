@@ -13,7 +13,7 @@ import { fetchFavorites, toggleFavoriteInFirebase } from '@store/favoritesSlice'
 import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { extractPlanetPath, isNotNullable, markFavorites } from '@utils/utils';
-import classnames from 'classnames';
+import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -115,7 +115,7 @@ export const Card = () => {
             {planet && <DetailsPlanet planet={planet} />}
             {filteredFilms && <DetailsFilms filteredFilms={filteredFilms} />}
             <button type="button" className={s.addToFavoriteButton} onClick={handleToggleFavorite}>
-              <HeartIcon className={classnames(s.heart, { [s.favorite]: isLoggedIn && isFavorite })} />
+              <HeartIcon className={cn(s.heart, { [s.favorite]: isLoggedIn && isFavorite })} />
               {showHeart && <HeartIcon className={s.heartAnimation} />}
             </button>
           </>

@@ -5,11 +5,11 @@ import { AppRoutes } from '@router/routes';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { extractIdFromUrl } from '@utils/index';
-import classnames from 'classnames';
+import cn from 'classnames';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styles from './CharacterItem.module.scss';
+import s from './CharacterItem.module.scss';
 
 interface CharacterItemProps {
   character: CharacterWithFavorite;
@@ -44,7 +44,7 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
 
   return (
     <li
-      className={styles.characterItem}
+      className={s.characterItem}
       role="button"
       tabIndex={0}
       onClick={handleItemClick}
@@ -54,24 +54,24 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
         }
       }}
     >
-      <div className={styles.characterImgContainer}>
-        <img className={styles.characterImg} src={imageUrl} alt="Character" />
+      <div className={s.characterImgContainer}>
+        <img className={s.characterImg} src={imageUrl} alt="Character" />
       </div>
-      <p className={styles.characterName}>{character.name}</p>
-      <div className={styles.characterFeatureBlock}>
-        <p className={styles.featureTitle}>Gender</p>
-        <div className={styles.genderIcon}>
-          <span className={classnames(styles.male, { [styles.female]: character.gender === 'female' })} />
+      <p className={s.characterName}>{character.name}</p>
+      <div className={s.characterFeatureBlock}>
+        <p className={s.featureTitle}>Gender</p>
+        <div className={s.genderIcon}>
+          <span className={cn(s.male, { [s.female]: character.gender === 'female' })} />
         </div>
       </div>
-      <div className={styles.characterFeatureBlock}>
-        <p className={styles.featureTitle}>Date of Birth</p>
-        <p className={styles.featureValue}>{character.birth_year}</p>
+      <div className={s.characterFeatureBlock}>
+        <p className={s.featureTitle}>Date of Birth</p>
+        <p className={s.featureValue}>{character.birth_year}</p>
       </div>
       {isLoggedIn && (
-        <button type="button" className={styles.addToFavoriteButton} onClick={handleToggleFavorite}>
-          <HeartIcon className={classnames(styles.heart, { [styles.favorite]: character.isFavorite })} />
-          {showHeart && <HeartIcon className={styles.heartAnimation} />}
+        <button type="button" className={s.addToFavoriteButton} onClick={handleToggleFavorite}>
+          <HeartIcon className={cn(s.heart, { [s.favorite]: character.isFavorite })} />
+          {showHeart && <HeartIcon className={s.heartAnimation} />}
         </button>
       )}
     </li>
