@@ -1,8 +1,9 @@
 import { auth, db } from '@firebase/firebase';
 import { LoadingState } from '@models/index';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { User } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { type RootState } from '.';
+import { selectUserUid } from './selectors';
 
 type HistoryState = {
   history: string[] | null;
@@ -16,23 +17,13 @@ const initialState: HistoryState = {
   error: null,
 };
 
-const waitForAuth = () => {
-  return new Promise<User>((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      unsubscribe();
-      if (user) {
-        resolve(user);
-      } else {
-        reject(new Error('User is not authenticated'));
-      }
-    }, reject);
-  });
-};
+export const fetchHistory = createAsyncThunk('history/fetchHistory', async (_, { getState }) => {
+  const uid = selectUserUid(getState() as RootState);
+  if (!uid) {
+    throw new Error('User is not authenticated');
+  }
 
-export const fetchHistory = createAsyncThunk('history/fetchHistory', async () => {
-  const user = await waitForAuth();
-
-  const docRef = doc(db, 'history', user.uid);
+  const docRef = doc(db, 'history', uid);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
