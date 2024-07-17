@@ -59,11 +59,7 @@ export const Home = () => {
   }, [isLoginSuccess, notify]);
 
   if (charactersLoading || preparedCharacters === null) {
-    return (
-      <div className={s.page}>
-        <Loader />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

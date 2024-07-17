@@ -91,11 +91,7 @@ export const Card = () => {
   };
 
   if (characterLoading || planetLoading || !preparedCharacter) {
-    return (
-      <div className={s.page}>
-        <Loader />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

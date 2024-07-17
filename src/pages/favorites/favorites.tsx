@@ -57,11 +57,7 @@ export const Favorites = () => {
   }, [isLoggedIn, navigate]);
 
   if (isLoading || preparedCharacters === null) {
-    return (
-      <div className={s.page}>
-        <Loader />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

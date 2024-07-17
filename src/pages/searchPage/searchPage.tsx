@@ -71,11 +71,7 @@ export const SearchPage = () => {
   }, [characters, favorites]);
 
   if (charactersLoading || preparedCharacters === null) {
-    return (
-      <div className={s.page}>
-        <Loader />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

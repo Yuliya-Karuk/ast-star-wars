@@ -1,4 +1,4 @@
-import { HistoryItem } from '@components/index';
+import { HistoryItem, Loader } from '@components/index';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { AppRoutes } from '@router/routes';
 import { fetchHistory } from '@store/historySlice';
@@ -14,8 +14,6 @@ export const HistoryPage = () => {
   const { history } = useAppSelector((state: RootState) => state.history);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  // console.log(history);
 
   useEffect(() => {
     const getHistory = async () => {
@@ -33,13 +31,9 @@ export const HistoryPage = () => {
     }
   }, [isLoggedIn, navigate]);
 
-  // if (isLoading || preparedCharacters === null) {
-  //   return (
-  //     <div className={s.page}>
-  //       <Loader />
-  //     </div>
-  //   );
-  // }
+  if (!history) {
+    return <Loader />;
+  }
 
   return (
     <div className={s.page}>
