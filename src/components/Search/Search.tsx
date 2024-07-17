@@ -1,7 +1,9 @@
 import { SuggestionList } from '@components/SuggestionList/SuggestionList';
 import { useToast } from '@contexts/toastProvider';
+import { useAppDispatch } from '@hooks/index';
 import { Character } from '@models/index';
 import { useSearchPeopleQuery } from '@store/api/swapiApi';
+import { addHistoryItemInFirebase } from '@store/historySlice';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
@@ -17,10 +19,15 @@ export const Search = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [debouncedSearchValue] = useDebounce(searchValue, 300);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { data: characters, error: charactersError } = useSearchPeopleQuery({
     searchValue: debouncedSearchValue,
   });
+
+  useEffect(() => {
+    setSearchValue(searchParams.get('q') || '');
+  }, [searchParams]);
 
   useEffect(() => {
     if (characters) {
@@ -49,6 +56,7 @@ export const Search = () => {
     const currentParams = new URLSearchParams(searchParams);
     currentParams.set('page', '1');
     currentParams.set('q', searchValue);
+    dispatch(addHistoryItemInFirebase(`/search?${currentParams.toString()}`));
     navigate(`/search?${currentParams.toString()}`);
   };
 

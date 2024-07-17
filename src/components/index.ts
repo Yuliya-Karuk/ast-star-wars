@@ -3,6 +3,7 @@ export * from './CharacterItem/CharacterItem';
 export * from './CharacterList/CharacterList';
 export * from './Footer/Footer';
 export * from './Header/Header';
+export * from './HistoryItem/HistoryItem';
 export * from './Input/Input';
 export * from './Loader/Loader';
 export * from './MainLayout/MainLayout';

@@ -46,3 +46,7 @@ export function extractPlanetPath(url: string) {
   const baseUrl = 'https://swapi.dev/api/';
   return url.slice(baseUrl.length);
 }
+
+export function extractQueryParameter(url: string) {
+  return url.split('q=')[1] || null;
+}

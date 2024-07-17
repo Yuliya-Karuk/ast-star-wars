@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import s from './Navigation.module.scss';
 
 const paths: string[] = [AppRoutes.LOGIN_ROUTE, AppRoutes.REGISTRATION_ROUTE];
-const authPaths: string[] = [AppRoutes.FAVORITES_ROUTE];
+const authPaths: string[] = [AppRoutes.FAVORITES_ROUTE, AppRoutes.HISTORY_ROUTE];
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

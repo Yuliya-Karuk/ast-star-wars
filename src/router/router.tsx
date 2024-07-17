@@ -1,5 +1,5 @@
 import { MainLayout } from '@components/index';
-import { Card, Favorites, Home, Login, NotFound, Registration, SearchPage } from '@pages/index';
+import { Card, Favorites, HistoryPage, Home, Login, NotFound, Registration, SearchPage } from '@pages/index';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './routes';
 
@@ -12,6 +12,7 @@ export const AppRouter = () => (
         <Route path={AppRoutes.LOGIN_ROUTE} element={<Login />} />
         <Route path={AppRoutes.SEARCH_ROUTE} element={<SearchPage />} />
         <Route path={AppRoutes.FAVORITES_ROUTE} element={<Favorites />} />
+        <Route path={AppRoutes.HISTORY_ROUTE} element={<HistoryPage />} />
         <Route path={`${AppRoutes.CARD_ROUTE}/:id`} element={<Card />} />
       </Route>
       <Route path="*" element={<NotFound />} />

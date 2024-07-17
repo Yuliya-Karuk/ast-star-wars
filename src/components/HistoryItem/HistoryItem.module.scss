@@ -1,0 +1,37 @@
+.history-item {
+  backdrop-filter: blur(12.5px);
+  @include flex(space-between, center, row, 20px);
+  @include font(2.4rem, 700, 1, 0.05rem);
+}
+
+.history-image {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  background: none;
+}
+
+.history-name {
+  @include flex(flex-start, center, row, 20px);
+}
+
+.history-button {
+  @extend %transition;
+  font-size: inherit;
+
+  @include hover {
+    color: $color-primary-bright;
+  }
+}
+
+.remove-button {
+  padding: 5px;
+}
+
+.remove-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background: no-repeat center url('../../assets/close.svg');
+  background-size: contain;
+}
