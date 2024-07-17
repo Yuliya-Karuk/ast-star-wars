@@ -1,6 +1,7 @@
 export * from './AuthFormHeader/AuthFormHeader';
 export * from './CharacterItem/CharacterItem';
 export * from './CharacterList/CharacterList';
+export * from './ErrorBoundary/ErrorBoundary';
 export * from './Footer/Footer';
 export * from './Header/Header';
 export * from './HistoryItem/HistoryItem';

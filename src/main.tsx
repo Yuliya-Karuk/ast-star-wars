@@ -1,3 +1,4 @@
+import { ErrorBoundary } from '@components/index.ts';
 import { AuthProvider } from '@contexts/authProvider.tsx';
 import { FilmsProvider } from '@contexts/dataProvider.tsx';
 import { ToastProvider } from '@contexts/toastProvider.tsx';
@@ -12,14 +13,16 @@ const root = document.getElementById('root') as HTMLElement;
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ToastProvider>
-        <AuthProvider>
-          <FilmsProvider>
-            <AppRouter />
-          </FilmsProvider>
-        </AuthProvider>
-      </ToastProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ToastProvider>
+          <AuthProvider>
+            <FilmsProvider>
+              <AppRouter />
+            </FilmsProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </Provider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
