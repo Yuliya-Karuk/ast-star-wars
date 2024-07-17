@@ -106,7 +106,7 @@ export const Card = () => {
             <div className={s.characterImgContainer}>
               <img
                 className={s.characterImg}
-                src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
+                src={`https://starwars-visualguide.com/assets/img/characters/${preparedCharacter.id}.jpg`}
                 alt="Character"
               />
             </div>

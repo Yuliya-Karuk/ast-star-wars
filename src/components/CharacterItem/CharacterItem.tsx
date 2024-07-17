@@ -4,7 +4,6 @@ import { CharacterWithFavorite } from '@models/index';
 import { AppRoutes } from '@router/routes';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
 import { selectUseIsLoggedIn } from '@store/selectors';
-import { extractIdFromUrl } from '@utils/index';
 import cn from 'classnames';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,8 +15,7 @@ interface CharacterItemProps {
 }
 
 export const CharacterItem = ({ character }: CharacterItemProps) => {
-  const characterId = extractIdFromUrl(character.url);
-  const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`;
+  const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${character.id}.jpg`;
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const navigate = useNavigate();
 
@@ -35,11 +33,11 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
   const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     handleFavoriteClick();
-    dispatch(toggleFavoriteInFirebase({ id: characterId }));
+    dispatch(toggleFavoriteInFirebase({ id: character.id }));
   };
 
   const handleItemClick = () => {
-    navigate(`${AppRoutes.HOME_ROUTE}people/${characterId}`);
+    navigate(`${AppRoutes.HOME_ROUTE}people/${character.id}`);
   };
 
   return (
