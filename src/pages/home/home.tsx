@@ -7,14 +7,13 @@ import { useGetPeopleQuery } from '@store/api/swapiApi';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
-import { markFavorites, SuccessLoginMessage } from '@utils/index';
+import { markFavorites } from '@utils/index';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import s from './home.module.scss';
 
 export const Home = () => {
   const { isLoginSuccess, setIsLoginSuccess } = useAuth();
-  const { successNotify } = useToast();
   const isNotificationShown = useRef(false);
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
@@ -47,9 +46,9 @@ export const Home = () => {
   }, [characters, favorites]);
 
   const notify = useCallback(() => {
-    successNotify(SuccessLoginMessage);
+    // successNotify(SuccessLoginMessage);
     setIsLoginSuccess(false);
-  }, [successNotify, setIsLoginSuccess]);
+  }, [setIsLoginSuccess]);
 
   useEffect(() => {
     if (isLoginSuccess && !isNotificationShown.current) {

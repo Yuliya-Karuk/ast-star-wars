@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { swapiApi } from './api/swapiApi';
 import { favoritesReducer } from './favoritesSlice';
 import { historyReducer } from './historySlice';
+import { favoritesNotifyMiddleware } from './middlewares/favoritesMiddleware';
 import { userReducer } from './userSlice';
 
 export const store = configureStore({
@@ -11,7 +12,7 @@ export const store = configureStore({
     favorites: favoritesReducer,
     history: historyReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(swapiApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(swapiApi.middleware, favoritesNotifyMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
