@@ -1,6 +1,6 @@
-import classnames from 'classnames';
+import cn from 'classnames';
 import { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
-import styles from './Input.module.scss';
+import s from './Input.module.scss';
 
 interface InputProps<T extends FieldValues> {
   name: Path<T>;
@@ -29,18 +29,18 @@ export function Input<T extends FieldValues>(props: InputProps<T>) {
 
   return (
     <>
-      <label htmlFor={name} className={styles.label}>
+      <label htmlFor={name} className={s.label}>
         {label}
         {required ? (
-          <span className={styles.orange} role="presentation">
+          <span className={s.orange} role="presentation">
             *
           </span>
         ) : null}
       </label>
       <input
-        className={classnames(styles.input, {
-          [styles.invalid]: isInvalid,
-          [styles.withEye]: name === 'password',
+        className={cn(s.input, {
+          [s.invalid]: isInvalid,
+          [s.withEye]: name === 'password',
         })}
         id={name}
         required={required}

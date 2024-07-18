@@ -4,7 +4,7 @@ import { useClickOutside } from '@hooks/useClickOutside';
 import { AppRoutes } from '@router/routes';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { SuccessSignOut } from '@utils/index';
-import classnames from 'classnames';
+import cn from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import s from './Navigation.module.scss';
 
 const paths: string[] = [AppRoutes.LOGIN_ROUTE, AppRoutes.REGISTRATION_ROUTE];
-const authPaths: string[] = [AppRoutes.FAVORITES_ROUTE];
+const authPaths: string[] = [AppRoutes.FAVORITES_ROUTE, AppRoutes.HISTORY_ROUTE];
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +52,7 @@ export const Navigation = () => {
   return (
     <>
       <div
-        className={classnames(s.burger, { [s.active]: isMenuOpen })}
+        className={cn(s.burger, { [s.active]: isMenuOpen })}
         role="button"
         aria-expanded={isMenuOpen}
         aria-label={`${isMenuOpen ? 'Close' : 'Open'} menu`}
@@ -64,7 +64,7 @@ export const Navigation = () => {
       >
         <span />
       </div>
-      <nav className={classnames(s.menu, { [s.active]: isMenuOpen })} ref={menuRef}>
+      <nav className={cn(s.menu, { [s.active]: isMenuOpen })} ref={menuRef}>
         {isLoggedIn === false && (
           <ul className={s.menuList}>
             {paths.map(path => (

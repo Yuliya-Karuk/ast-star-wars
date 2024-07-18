@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import cn from 'classnames';
 import s from './Footer.module.scss';
 
 export const Footer = () => {
@@ -7,7 +7,7 @@ export const Footer = () => {
       <div className={s.footerContainer}>
         <div className={s.footerCopyright}>
           <span className={s.footerText}>© 2024 Data sourced from the</span>
-          <a className={classnames(s.footerText, { [s.api]: true })} href="https://swapi.dev/">
+          <a className={cn(s.footerText, { [s.api]: true })} href="https://swapi.dev/">
             SWAPI API
           </a>
         </div>

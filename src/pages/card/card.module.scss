@@ -15,24 +15,8 @@
   }
 }
 
-.main {
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-grow: 1;
-}
-
-.empty-search {
-  @include flex(center, center);
-  @include font(2.8rem, 700, 1, 0.05rem);
-  width: 70%;
-  margin: 0 auto;
-  color: $color-white-default;
-  text-align: center;
-  flex-grow: 1;
-}
-
 .details {
+  @extend %container;
   @include flex(flex-start, flex-start, column, 20px);
   @include font(3rem, 700, 1, 0.05rem);
   padding: 30px;

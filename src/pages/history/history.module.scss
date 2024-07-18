@@ -29,8 +29,10 @@
 .main {
   @extend %container;
   position: relative;
-  display: flex;
   flex-grow: 1;
+  color: $color-white-default;
+  width: 90%;
+  @include flex(null, null, column, 20px);
 }
 
 .empty-search {
@@ -41,4 +43,16 @@
   color: $color-white-default;
   text-align: center;
   flex-grow: 1;
+}
+
+.history-title {
+  @include font(4.4rem, 700, 1, 0.05rem);
+  align-self: center;
+  margin: 10px 0;
+}
+
+.history-list {
+  background: rgb(8 8 8 / 40%);
+  padding: 20px;
+  border-radius: 10px;
 }

@@ -1,34 +1,56 @@
 import { CharacterList, Loader, Pagination } from '@components/index';
 import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { Character, CharacterWithFavorite } from '@models/index';
+import { CharacterWithFavorite } from '@models/index';
+import { useSearchPeopleQuery } from '@store/api/swapiApi';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { RootState } from '@store/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { api } from 'src/services';
+import { useSearchParams } from 'react-router-dom';
 import s from './searchPage.module.scss';
 
 const productPerPage: number = 10;
 
 export const SearchPage = () => {
-  const [currentPage, setCurrentPage] = useState<number | null>(null);
-  const [currentQuery, setCurrentQuery] = useState<string>('');
+  const [searchParams] = useSearchParams();
+  const urlQuery = searchParams.get('q') || '';
+  const urlPage = searchParams.get('page') || '';
+  const initialPage = urlPage ? +urlPage : 1;
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
+  const [currentQuery, setCurrentQuery] = useState<string>(urlQuery);
   const [totalPages, setTotalPages] = useState<number>(1);
 
   const { errorNotify } = useToast();
-  const location = useLocation();
-  const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state: RootState) => state.favorites);
-  const [characters, setCharacters] = useState<Character[] | null>(null);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
+  const {
+    data: characters,
+    error: charactersError,
+    isLoading: charactersLoading,
+  } = useSearchPeopleQuery({
+    searchValue: currentQuery,
+    page: currentPage,
+  });
+
+  useEffect(() => {
+    if (charactersError) {
+      errorNotify(`Error fetching characters: ${charactersError}`);
+    }
+  }, [charactersError, errorNotify]);
+
+  useEffect(() => {
+    const query = searchParams.get('q') || '';
+    const page = searchParams.get('page') || 1;
+
+    setCurrentQuery(query);
+    setCurrentPage(+page);
+  }, [searchParams]);
 
   useEffect(() => {
     const getFavorites = async () => {
@@ -41,51 +63,15 @@ export const SearchPage = () => {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    const fetchData = async (query: string, page: string) => {
-      try {
-        const response = await api.searchPeopleByName(query, page);
-        setCharacters(response.results);
-        setTotalPages(Math.ceil(response.count / productPerPage));
-      } catch (error) {
-        errorNotify((error as Error).message);
-      }
-    };
-
-    const getParams = () => {
-      const params = new URLSearchParams(location.search);
-      const searchQuery = params.get('q') || '';
-      const searchPage = params.get('page') || '1';
-
-      setCurrentPage(+searchPage);
-      setCurrentQuery(searchQuery);
-
-      fetchData(searchQuery, searchPage);
-    };
-
-    getParams();
-  }, [errorNotify, location.search]);
-
-  useEffect(() => {
-    if (currentPage) {
-      const params = new URLSearchParams({ q: currentQuery, page: String(currentPage) });
-      navigate(`/search?${params.toString()}`);
-    }
-  }, [currentPage, currentQuery, navigate]);
-
-  useEffect(() => {
-    if (characters) {
-      const charactersWithFavorites = markFavorites(characters, favorites);
+    if (characters && favorites) {
+      setTotalPages(Math.ceil(characters.count / productPerPage));
+      const charactersWithFavorites = markFavorites(characters.results, favorites);
       setPreparedCharacters(charactersWithFavorites);
-      setIsLoading(false);
     }
   }, [characters, favorites]);
 
-  if (isLoading || preparedCharacters === null) {
-    return (
-      <div className={s.page}>
-        <Loader />
-      </div>
-    );
+  if (charactersLoading || preparedCharacters === null) {
+    return <Loader />;
   }
 
   return (
@@ -94,9 +80,7 @@ export const SearchPage = () => {
         {preparedCharacters.length > 0 ? (
           <>
             <CharacterList characters={preparedCharacters} />
-            {currentPage && (
-              <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
-            )}
+            {currentPage && <Pagination currentPage={currentPage} totalPages={totalPages} />}
           </>
         ) : (
           <div className={s.emptySearch}>Sorry, we didn`t add something to favorite</div>

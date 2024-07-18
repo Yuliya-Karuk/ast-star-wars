@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { useGetFilmsQuery } from '@store/api/swapiApi';
+import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { PaginatedFilms } from '../models';
-import { api } from '../services/api';
 import { useToast } from './toastProvider';
 
 type FilmsProviderProps = {
@@ -9,32 +9,24 @@ type FilmsProviderProps = {
 };
 
 export interface FilmsContextValue {
-  films: PaginatedFilms | null;
+  films: PaginatedFilms | undefined;
 }
 
 const initialFilms: FilmsContextValue = {
-  films: null,
+  films: undefined,
 };
 
 export const FilmsContext = createContext<FilmsContextValue>(initialFilms);
 
 export const FilmsProvider = ({ children }: FilmsProviderProps) => {
-  const [films, setFilms] = useState<PaginatedFilms | null>(null);
+  const { data: films, error: filmsError } = useGetFilmsQuery();
   const { errorNotify } = useToast();
 
   useEffect(() => {
-    const fetchFilms = async () => {
-      try {
-        const filmsResponse = await api.getAllFilms();
-        setFilms(filmsResponse);
-      } catch (error) {
-        errorNotify('Error fetching Films');
-        setFilms({ count: 0, next: null, previous: null, results: [] });
-      }
-    };
-
-    fetchFilms();
-  }, [errorNotify]);
+    if (filmsError) {
+      errorNotify(`Error fetching characters: ${filmsError}`);
+    }
+  }, [filmsError, errorNotify]);
 
   return <FilmsContext.Provider value={{ films }}>{children}</FilmsContext.Provider>;
 };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styles from './AuthFormHeader.module.scss';
+import s from './AuthFormHeader.module.scss';
 
 interface AuthFormHeaderProps {
   titleText: string;
@@ -12,11 +12,11 @@ interface AuthFormHeaderProps {
 export function AuthFormHeader({ titleText, linkDescription, linkText, linkTo }: AuthFormHeaderProps) {
   return (
     <>
-      <h1 className={styles.title}>{titleText}</h1>
-      <div className={styles.links}>
-        <div className={styles.linkWrapper}>
-          <p className={styles.subtitle}>{linkDescription}</p>
-          <Link to={linkTo} className={styles.link}>
+      <h1 className={s.title}>{titleText}</h1>
+      <div className={s.links}>
+        <div className={s.linkWrapper}>
+          <p className={s.subtitle}>{linkDescription}</p>
+          <Link to={linkTo} className={s.link}>
             {linkText}
           </Link>
         </div>

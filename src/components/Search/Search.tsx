@@ -1,47 +1,49 @@
 import { SuggestionList } from '@components/SuggestionList/SuggestionList';
 import { useToast } from '@contexts/toastProvider';
+import { useAppDispatch } from '@hooks/index';
 import { Character } from '@models/index';
+import { useSearchPeopleQuery } from '@store/api/swapiApi';
+import { addHistoryItemInFirebase } from '@store/historySlice';
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { api } from 'src/services';
-import { useDebouncedCallback } from 'use-debounce';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDebounce } from 'use-debounce';
 import s from './Search.module.scss';
 
 export const Search = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchParams] = useSearchParams();
+  const urlQuery = searchParams.get('q') || '';
+  const [searchValue, setSearchValue] = useState<string>(urlQuery);
   const [suggestions, setSuggestions] = useState<Character[]>([]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const { errorNotify } = useToast();
-  const navigate = useNavigate();
-  const location = useLocation();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [debouncedSearchValue] = useDebounce(searchValue, 300);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { data: characters, error: charactersError } = useSearchPeopleQuery({
+    searchValue: debouncedSearchValue,
+  });
 
   useEffect(() => {
-    const setSearchInput = () => {
-      const params = new URLSearchParams(location.search);
-      const searchQuery = params.get('q') || '';
+    setSearchValue(searchParams.get('q') || '');
+  }, [searchParams]);
 
-      setSearchValue(searchQuery);
-    };
-
-    setSearchInput();
-  }, [location.search]);
-
-  const fetchData = async (value: string) => {
-    try {
-      const response = await api.searchPeopleByName(value);
-      setSuggestions(response.results.slice(0, 6));
-    } catch (error) {
-      errorNotify((error as Error).message);
+  useEffect(() => {
+    if (characters) {
+      setSuggestions(characters.results.slice(0, 6));
     }
-  };
+  }, [characters]);
 
-  const debouncedFetchData = useDebouncedCallback(fetchData, 200);
+  useEffect(() => {
+    if (charactersError) {
+      errorNotify(`Error fetching characters: ${charactersError}`);
+    }
+  }, [charactersError, errorNotify]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchValue(value);
-    debouncedFetchData(value);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -51,8 +53,11 @@ export const Search = () => {
       inputRef.current.blur();
     }
 
-    const params = new URLSearchParams({ q: searchValue, page: '1' });
-    navigate(`/search?${params.toString()}`);
+    const currentParams = new URLSearchParams(searchParams);
+    currentParams.set('page', '1');
+    currentParams.set('q', searchValue);
+    dispatch(addHistoryItemInFirebase(`/search?${currentParams.toString()}`));
+    navigate(`/search?${currentParams.toString()}`);
   };
 
   return (

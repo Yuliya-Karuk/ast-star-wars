@@ -1,0 +1,57 @@
+.error-page {
+  background-color: $color-bg-dark;
+  height: 100vh;
+}
+
+.error-container {
+  @extend %container;
+  @include flex(center, center, row, 20px);
+  @include font(2.8rem, 700, 1, 0.05rem);
+
+  @include laptop {
+    flex-direction: column;
+  }
+
+  @include mobile {
+    font-size: 2rem;
+  }
+  height: 100vh;
+  padding: 10px 30px;
+  color: $color-white-default;
+}
+
+.error-img-container {
+  @include laptop {
+    max-width: 100%;
+  }
+  max-width: 50%;
+  aspect-ratio: 2 / 3;
+
+  .error-img {
+    width: 100%;
+    filter: drop-shadow(2px 3px 2px $color-white-default);
+  }
+}
+
+.error-content {
+  @include laptop {
+    width: 100%;
+  }
+  width: 45%;
+  text-align: center;
+}
+
+.error-button {
+  @extend %transition;
+  @include font(1.6rem, 400, 1, 0.05rem);
+
+  @include hover {
+    background-color: $color-gray-middle;
+    color: $color-black-default;
+  }
+  padding: 15px 30px;
+  border-radius: 10px;
+  color: $color-white-default;
+  background-color: $color-primary-bright;
+  margin-top: 20px;
+}

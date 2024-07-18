@@ -17,7 +17,11 @@ export interface Character {
   url: string;
 }
 
-export interface CharacterWithFavorite extends Character {
+export interface CharacterWithId extends Character {
+  id: string;
+}
+
+export interface CharacterWithFavorite extends CharacterWithId {
   isFavorite: boolean;
 }
 
@@ -29,6 +33,7 @@ export interface PaginatedResponse<T> {
 }
 
 export interface PaginatedCharacters extends PaginatedResponse<Character> {}
+export interface PaginatedCharactersWithId extends PaginatedResponse<CharacterWithId> {}
 
 export interface UserData {
   email: string;

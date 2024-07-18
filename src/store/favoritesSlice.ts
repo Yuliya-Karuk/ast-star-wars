@@ -1,11 +1,12 @@
 import { auth, db } from '@firebase/firebase';
 import { FavoriteItem, LoadingState } from '@models/index';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { User } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { type RootState } from '.';
+import { selectUserUid } from './selectors';
 
 type FavoritesState = {
-  favorites: FavoriteItem[];
+  favorites: FavoriteItem[] | null;
   loading: LoadingState;
   error: string | null;
 };
@@ -16,23 +17,13 @@ const initialState: FavoritesState = {
   error: null,
 };
 
-const waitForAuth = () => {
-  return new Promise<User>((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      unsubscribe();
-      if (user) {
-        resolve(user);
-      } else {
-        reject(new Error('User is not authenticated'));
-      }
-    }, reject);
-  });
-};
+export const fetchFavorites = createAsyncThunk('favorites/fetchFavorites', async (_, { getState }) => {
+  const uid = selectUserUid(getState() as RootState);
+  if (!uid) {
+    throw new Error('User is not authenticated');
+  }
 
-export const fetchFavorites = createAsyncThunk('favorites/fetchFavorites', async () => {
-  const user = await waitForAuth();
-
-  const docRef = doc(db, 'favorites', user.uid);
+  const docRef = doc(db, 'favorites', uid);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {

@@ -27,7 +27,7 @@
 }
 
 .main {
-  width: 100%;
+  @extend %container;
   position: relative;
   display: flex;
   flex-grow: 1;
