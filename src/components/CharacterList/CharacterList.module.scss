@@ -1,6 +1,4 @@
 .main-container {
-  // @extend %container;
-
   @include tablet {
     grid-template-columns: repeat(2, 1fr);
   }
