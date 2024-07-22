@@ -40,7 +40,7 @@ export const passwordValidationRules: RegisterOptions = {
   },
 };
 
-export const emailValidationRules: RegisterOptions = {
+export const emailValidationRules = {
   required: InputEmailErrors.required,
   pattern: {
     value: validEmailRegExp,

@@ -46,7 +46,7 @@ export function Input<T extends FieldValues>(props: InputProps<T>) {
         required={required}
         type={type}
         disabled={disabled}
-        {...register(name, validationSchema)}
+        {...register(name, validationSchema as RegisterOptions<T, Path<T>>)}
         {...(autocomplete && { autoComplete: autocomplete })}
       />
     </>
