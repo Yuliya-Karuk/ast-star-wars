@@ -18,5 +18,6 @@
     "firestore",
     "svgr",
     "favs",
+    "sugg"
   ]
 }

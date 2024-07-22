@@ -1,5 +1,6 @@
 .details-films {
   @include flex(null, center, column, 20px);
+  width: 100%;
 }
 
 .films {

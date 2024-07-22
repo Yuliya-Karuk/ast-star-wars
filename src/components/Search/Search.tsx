@@ -1,6 +1,6 @@
 import { SuggestionList } from '@components/SuggestionList/SuggestionList';
 import { useAppDispatch } from '@hooks/index';
-import { Character } from '@models/index';
+import { CharacterWithId } from '@models/index';
 import { useSearchPeopleQuery } from '@store/api/swapiApi';
 import { addHistoryItemInFirebase } from '@store/historySlice';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -12,7 +12,7 @@ export const Search = () => {
   const [searchParams] = useSearchParams();
   const urlQuery = searchParams.get('q') || '';
   const [searchValue, setSearchValue] = useState<string>(urlQuery);
-  const [suggestions, setSuggestions] = useState<Character[]>([]);
+  const [suggestions, setSuggestions] = useState<CharacterWithId[]>([]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [debouncedSearchValue] = useDebounce(searchValue, 300);
