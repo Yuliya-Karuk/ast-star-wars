@@ -2,13 +2,13 @@
   @include flex(space-between, center);
   flex-wrap: wrap;
   width: 100%;
-  color: $color-gray-middle;
+  color: var(--color-gray-middle);
 }
 
 .block-title {
   text-align: center;
   margin: 10px;
-  color: $color-primary-bright;
+  color: var(--color-primary-bright);
   width: 100%;
   font-size: 3.4rem;
 
@@ -18,7 +18,7 @@
 }
 
 .feature-title {
-  color: $color-gray-light;
+  color: var(--color-gray-light);
   font-size: 0.8em;
 }
 

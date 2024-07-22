@@ -12,7 +12,7 @@
 .footer-copyright {
   display: flex;
   @include font(1.6rem, 400, 1, 0.05rem);
-  color: $color-white-default;
+  color: var(color-white-default);
 
   @include big-mobile {
     font-size: 1.2rem;

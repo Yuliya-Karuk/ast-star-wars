@@ -54,10 +54,8 @@ export const Home = () => {
   }
 
   return (
-    <div className={s.page}>
-      <main className={s.main}>
-        <CharacterList characters={preparedCharacters} />
-      </main>
-    </div>
+    <main className={s.main}>
+      <CharacterList characters={preparedCharacters} />
+    </main>
   );
 };

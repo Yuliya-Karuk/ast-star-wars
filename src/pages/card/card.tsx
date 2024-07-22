@@ -77,28 +77,26 @@ export const Card = () => {
   }
 
   return (
-    <div className={s.page}>
-      <main className={s.details}>
-        {preparedCharacter && (
-          <>
-            <div className={s.characterImgContainer}>
-              <img
-                className={s.characterImg}
-                src={`https://starwars-visualguide.com/assets/img/characters/${preparedCharacter.id}.jpg`}
-                alt="Character"
-              />
-            </div>
-            <h1 className={s.characterTitle}>{preparedCharacter.name}</h1>
-            <DetailsInfo character={preparedCharacter} />
-            {planet && <DetailsPlanet planet={planet} />}
-            {filteredFilms && <DetailsFilms filteredFilms={filteredFilms} />}
-            <button type="button" className={s.addToFavoriteButton} onClick={handleToggleFavorite}>
-              <HeartIcon className={cn(s.heart, { [s.favorite]: isLoggedIn && isFavorite })} />
-              {showHeart && <HeartIcon className={s.heartAnimation} />}
-            </button>
-          </>
-        )}
-      </main>
-    </div>
+    <main className={s.details}>
+      {preparedCharacter && (
+        <>
+          <div className={s.characterImgContainer}>
+            <img
+              className={s.characterImg}
+              src={`https://starwars-visualguide.com/assets/img/characters/${preparedCharacter.id}.jpg`}
+              alt="Character"
+            />
+          </div>
+          <h1 className={s.characterTitle}>{preparedCharacter.name}</h1>
+          <DetailsInfo character={preparedCharacter} />
+          {planet && <DetailsPlanet planet={planet} />}
+          {filteredFilms && <DetailsFilms filteredFilms={filteredFilms} />}
+          <button type="button" className={s.addToFavoriteButton} onClick={handleToggleFavorite}>
+            <HeartIcon className={cn(s.heart, { [s.favorite]: isLoggedIn && isFavorite })} />
+            {showHeart && <HeartIcon className={s.heartAnimation} />}
+          </button>
+        </>
+      )}
+    </main>
   );
 };

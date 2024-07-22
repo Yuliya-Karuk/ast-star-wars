@@ -61,15 +61,13 @@ export const SearchPage = () => {
   }
 
   return (
-    <div className={s.page}>
-      <main className={s.main}>
-        {preparedCharacters && (
-          <>
-            <CharacterList characters={preparedCharacters} />
-            {currentPage && <Pagination currentPage={currentPage} totalPages={totalPages} />}
-          </>
-        )}
-      </main>
-    </div>
+    <main className={s.main}>
+      {preparedCharacters && (
+        <>
+          <CharacterList characters={preparedCharacters} />
+          {currentPage && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+        </>
+      )}
+    </main>
   );
 };

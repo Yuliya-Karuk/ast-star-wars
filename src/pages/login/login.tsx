@@ -36,46 +36,44 @@ export function Login() {
   }
 
   return (
-    <div className={s.page}>
-      <div className={s.wrapper}>
-        <AuthFormHeader titleText="Sign in" linkDescription="New to this site?" linkText="Sign Up" linkTo="/signup" />
-        <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-          <section className={s.userDataSection}>
-            <Input
-              name="email"
-              label="E-mail"
-              register={register}
-              validationSchema={emailValidationRules}
-              isInvalid={!!errors.email}
-              required
-              autocomplete="username"
-            />
+    <div className={s.wrapper}>
+      <AuthFormHeader titleText="Sign in" linkDescription="New to this site?" linkText="Sign Up" linkTo="/signup" />
+      <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+        <section className={s.userDataSection}>
+          <Input
+            name="email"
+            label="E-mail"
+            register={register}
+            validationSchema={emailValidationRules}
+            isInvalid={!!errors.email}
+            required
+            autocomplete="username"
+          />
 
-            <p className={s.emailError}>{errors?.email?.message}</p>
+          <p className={s.emailError}>{errors?.email?.message}</p>
 
-            <Input
-              name="password"
-              label="Password"
-              type={isPasswordVisible ? 'text' : 'password'}
-              register={register}
-              validationSchema={passwordValidationRules}
-              isInvalid={!!errors.password}
-              required
-              autocomplete="current-password"
-            />
+          <Input
+            name="password"
+            label="Password"
+            type={isPasswordVisible ? 'text' : 'password'}
+            register={register}
+            validationSchema={passwordValidationRules}
+            isInvalid={!!errors.password}
+            required
+            autocomplete="current-password"
+          />
 
-            <button type="button" onClick={() => setIsPasswordVisible(!isPasswordVisible)} className={s.eye}>
-              <img src={isPasswordVisible ? eyeOn : eyeOff} alt="eye" />
-            </button>
+          <button type="button" onClick={() => setIsPasswordVisible(!isPasswordVisible)} className={s.eye}>
+            <img src={isPasswordVisible ? eyeOn : eyeOff} alt="eye" />
+          </button>
 
-            <p className={s.passwordError}>{errors?.password?.message}</p>
+          <p className={s.passwordError}>{errors?.password?.message}</p>
 
-            <button type="submit" className={s.submitButton} disabled={!isValid}>
-              Submit
-            </button>
-          </section>
-        </form>
-      </div>
+          <button type="submit" className={s.submitButton} disabled={!isValid}>
+            Submit
+          </button>
+        </section>
+      </form>
     </div>
   );
 }

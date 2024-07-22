@@ -7,7 +7,7 @@
 
 .header-container {
   @extend %container;
-  @include flex(space-between, center);
+  @include flex(space-between, center, null, 10px);
   backdrop-filter: blur(12.5px);
 }
 

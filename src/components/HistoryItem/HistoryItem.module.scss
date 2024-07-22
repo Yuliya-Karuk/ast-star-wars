@@ -20,7 +20,7 @@
   font-size: inherit;
 
   @include hover {
-    color: $color-primary-bright;
+    color: var(color-primary-bright);
   }
 }
 

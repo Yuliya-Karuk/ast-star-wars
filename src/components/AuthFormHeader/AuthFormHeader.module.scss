@@ -1,11 +1,11 @@
 .title {
   @include font(5rem, 400, 1.2, 0.05rem);
-  color: $color-white-default;
+  color: var(--color-white-default);
 }
 
 .links {
   @include flex(center, center, column, 5px);
-  color: $color-white-default;
+  color: var(--color-white-default);
   padding: 10px 0;
 }
 
@@ -13,12 +13,12 @@
   @include flex(center, null, null, 10px);
 
   .subtitle {
-    color: $color-gray-middle;
+    color: var(--color-gray-middle);
   }
 
   .link {
     @extend %transition;
-    color: $color-white-default;
+    color: var(--color-white-default);
     text-decoration: underline;
 
     @include hover {

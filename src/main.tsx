@@ -1,5 +1,6 @@
 import { ErrorBoundary } from '@components/index.ts';
 import { AuthProvider } from '@contexts/authProvider.tsx';
+import { ThemeProvider } from '@contexts/themeProvider.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -13,9 +14,11 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
-        <AuthProvider>
-          <AppRouter />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <AppRouter />
+          </AuthProvider>
+        </ThemeProvider>
       </Provider>
     </ErrorBoundary>
   </React.StrictMode>

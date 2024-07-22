@@ -51,9 +51,5 @@ export const Favorites = () => {
     return <Loader />;
   }
 
-  return (
-    <div className={s.page}>
-      <main className={s.main}>{preparedCharacters && <CharacterList characters={preparedCharacters} />}</main>
-    </div>
-  );
+  return <main className={s.main}>{preparedCharacters && <CharacterList characters={preparedCharacters} />}</main>;
 };

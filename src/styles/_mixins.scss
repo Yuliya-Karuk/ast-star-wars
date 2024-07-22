@@ -48,6 +48,6 @@
 
 @mixin focused {
   &:focus {
-    filter: drop-shadow(2px 3px 2px $color-primary-bright);
+    filter: drop-shadow(2px 3px 2px var(--color-primary-bright));
   }
 }

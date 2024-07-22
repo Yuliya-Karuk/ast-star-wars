@@ -2,11 +2,11 @@
   position: absolute;
   width: 100%;
   @include flex(center, flex-start, column, 10px);
-  color: $color-white-default;
-  background-color: $color-bg-dark;
-  border: 1px solid $color-gray-dark;
+  color: var(--color-white-default);
+  background-color: var(--color-bg-dark);
+  border: 1px solid var(--color-gray-dark);
   border-radius: 5px;
-  box-shadow: 0 2px 5px $color-gray-dark;
+  box-shadow: 0 2px 5px var(--color-gray-dark);
 }
 
 .suggestion-item {
@@ -17,10 +17,10 @@
   @extend %transition;
   width: 100%;
   padding: 10px;
-  border-bottom: 1px solid $color-gray-dark;
+  border-bottom: 1px solid var(--color-gray-dark);
   text-align: left;
 
   @include hover {
-    background: $color-primary-bright;
+    background: var(--color-primary-bright);
   }
 }
