@@ -12,7 +12,7 @@ type FavoritesState = {
 };
 
 const initialState: FavoritesState = {
-  favorites: [],
+  favorites: null,
   loading: 'idle',
   error: null,
 };

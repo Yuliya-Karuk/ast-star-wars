@@ -3,58 +3,14 @@ import { DetailsFilms } from '@components/DetailsFilms/DetailsFilms';
 import { DetailsInfo } from '@components/DetailsInfo/DetailsInfo';
 import { DetailsPlanet } from '@components/DetailsPlanet/DetailsPlanet';
 import { Loader } from '@components/index';
-import { useAppDispatch } from '@hooks/index';
-import { CharacterWithFavorite, Film } from '@models/index';
-import { AppRoutes } from '@router/routes';
-import { useGetCharacterByIdQuery, useGetPlanetQuery } from '@store/api/swapiApi';
-import { fetchFavorites, toggleFavoriteInFirebase } from '@store/favoritesSlice';
-import { selectFavorites, selectFilms, selectUseIsLoggedIn } from '@store/selectors';
-import { extractPlanetPath, isNotNullable, markFavorites } from '@utils/utils';
+import { useCard } from '@hooks/useCard';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import s from './card.module.scss';
 
 export const Card = () => {
-  const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
-  const dispatch = useAppDispatch();
-  const favorites = useSelector(selectFavorites);
-  const [preparedCharacter, setPreparedCharacter] = useState<CharacterWithFavorite | null>(null);
-  const films = useSelector(selectFilms);
-  const [filteredFilms, setFilteredFilms] = useState<Film[]>([]);
-  const [homeworld, setHomeworld] = useState<string | null>(null);
-  const { id } = useParams();
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
-  const navigate = useNavigate();
-  const { data: character, isLoading: characterLoading } = useGetCharacterByIdQuery(+isNotNullable(id) || 0);
-  const { data: planet, isLoading: planetLoading } = useGetPlanetQuery(homeworld || '', { skip: !homeworld });
-
-  useEffect(() => {
-    const getFavorites = async () => {
-      await dispatch(fetchFavorites());
-    };
-
-    if (isLoggedIn) {
-      getFavorites();
-    }
-  }, [dispatch, isLoggedIn]);
-
-  useEffect(() => {
-    const getData = async () => {
-      if (character && favorites && id && films) {
-        const preparedItem = markFavorites([character], favorites);
-        setPreparedCharacter(preparedItem[0]);
-        setIsFavorite(preparedItem[0].isFavorite);
-        setHomeworld(extractPlanetPath(preparedItem[0].homeworld));
-        setFilteredFilms(films.filter(film => character.films.includes(film.url)));
-      }
-    };
-
-    getData();
-  }, [character, favorites, films, id]);
-
   const [showHeart, setShowHeart] = useState(false);
+
   const handleFavoriteClick = () => {
     setShowHeart(true);
     setTimeout(() => {
@@ -62,17 +18,10 @@ export const Card = () => {
     }, 400);
   };
 
-  const handleToggleFavorite = () => {
-    if (isLoggedIn && id) {
-      handleFavoriteClick();
-      setIsFavorite(!isFavorite);
-      dispatch(toggleFavoriteInFirebase({ id }));
-    } else {
-      navigate(AppRoutes.LOGIN_ROUTE);
-    }
-  };
+  const { preparedCharacter, filteredFilms, planet, isLoggedIn, isFavorite, handleToggleFavorite } =
+    useCard(handleFavoriteClick);
 
-  if (characterLoading || planetLoading || !preparedCharacter) {
+  if (filteredFilms.length === 0 || !planet || !preparedCharacter) {
     return <Loader />;
   }
 
