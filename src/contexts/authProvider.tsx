@@ -12,7 +12,7 @@ import {
   User,
 } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { useToast } from './toastProvider';
+import { toast } from 'react-toastify';
 
 interface AuthContextValue {
   isLoginSuccess: boolean;
@@ -31,7 +31,6 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const dispatch = useAppDispatch();
-  const { errorNotify } = useToast();
 
   const signup = async (userData: UserData) => {
     return createUserWithEmailAndPassword(auth, userData.email, userData.password)
@@ -47,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .catch(error => {
         const message = catchAuthErrors(error);
-        errorNotify(message);
+        toast.error(message);
         return null;
       });
   };
@@ -66,7 +65,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .catch(error => {
         const message = catchAuthErrors(error);
-        errorNotify(message);
+        toast.error(message);
         return null;
       });
   };
@@ -80,7 +79,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .catch(error => {
         const message = catchAuthErrors(error);
-        errorNotify(message);
+        toast.error(message);
         return null;
       });
   };

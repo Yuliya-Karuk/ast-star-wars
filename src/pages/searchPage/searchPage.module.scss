@@ -32,13 +32,3 @@
   flex-grow: 1;
   @include flex(null, null, column);
 }
-
-.empty-search {
-  @include flex(center, center);
-  @include font(2.8rem, 700, 1, 0.05rem);
-  width: 70%;
-  margin: 0 auto;
-  color: $color-white-default;
-  text-align: center;
-  flex-grow: 1;
-}

@@ -3,15 +3,12 @@ import { DetailsFilms } from '@components/DetailsFilms/DetailsFilms';
 import { DetailsInfo } from '@components/DetailsInfo/DetailsInfo';
 import { DetailsPlanet } from '@components/DetailsPlanet/DetailsPlanet';
 import { Loader } from '@components/index';
-import { useFilms } from '@contexts/dataProvider';
-import { useToast } from '@contexts/toastProvider';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppDispatch } from '@hooks/index';
 import { CharacterWithFavorite, Film } from '@models/index';
 import { AppRoutes } from '@router/routes';
 import { useGetCharacterByIdQuery, useGetPlanetQuery } from '@store/api/swapiApi';
 import { fetchFavorites, toggleFavoriteInFirebase } from '@store/favoritesSlice';
-import { RootState } from '@store/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectFavorites, selectFilms, selectUseIsLoggedIn } from '@store/selectors';
 import { extractPlanetPath, isNotNullable, markFavorites } from '@utils/utils';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
@@ -22,31 +19,16 @@ import s from './card.module.scss';
 export const Card = () => {
   const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
   const dispatch = useAppDispatch();
-  const { favorites } = useAppSelector((state: RootState) => state.favorites);
+  const favorites = useSelector(selectFavorites);
   const [preparedCharacter, setPreparedCharacter] = useState<CharacterWithFavorite | null>(null);
-  const { films } = useFilms();
+  const films = useSelector(selectFilms);
   const [filteredFilms, setFilteredFilms] = useState<Film[]>([]);
   const [homeworld, setHomeworld] = useState<string | null>(null);
   const { id } = useParams();
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
   const navigate = useNavigate();
-  const {
-    data: character,
-    error: characterError,
-    isLoading: characterLoading,
-  } = useGetCharacterByIdQuery(+isNotNullable(id) || 0);
-  const {
-    data: planet,
-    error: planetError,
-    isLoading: planetLoading,
-  } = useGetPlanetQuery(homeworld || '', { skip: !homeworld });
-  const { errorNotify } = useToast();
-
-  useEffect(() => {
-    if (characterError || planetError) {
-      errorNotify(`Error fetching data: ${characterError}`);
-    }
-  }, [characterError, planetError, errorNotify]);
+  const { data: character, isLoading: characterLoading } = useGetCharacterByIdQuery(+isNotNullable(id) || 0);
+  const { data: planet, isLoading: planetLoading } = useGetPlanetQuery(homeworld || '', { skip: !homeworld });
 
   useEffect(() => {
     const getFavorites = async () => {
@@ -65,7 +47,7 @@ export const Card = () => {
         setPreparedCharacter(preparedItem[0]);
         setIsFavorite(preparedItem[0].isFavorite);
         setHomeworld(extractPlanetPath(preparedItem[0].homeworld));
-        setFilteredFilms(films.results.filter(film => character.films.includes(film.url)));
+        setFilteredFilms(films.filter(film => character.films.includes(film.url)));
       }
     };
 

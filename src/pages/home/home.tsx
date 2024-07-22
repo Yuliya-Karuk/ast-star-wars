@@ -1,26 +1,24 @@
 import { CharacterList, Loader } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
-import { useToast } from '@contexts/toastProvider';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppDispatch } from '@hooks/index';
 import { CharacterWithFavorite } from '@models/index';
 import { useGetPeopleQuery } from '@store/api/swapiApi';
 import { fetchFavorites } from '@store/favoritesSlice';
-import { RootState } from '@store/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectFavorites, selectUseIsLoggedIn } from '@store/selectors';
 import { markFavorites, SuccessLoginMessage } from '@utils/index';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import s from './home.module.scss';
 
 export const Home = () => {
   const { isLoginSuccess, setIsLoginSuccess } = useAuth();
   const isNotificationShown = useRef(false);
   const dispatch = useAppDispatch();
-  const { favorites } = useAppSelector((state: RootState) => state.favorites);
+  const favorites = useSelector(selectFavorites);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
-  const { data: characters, error: charactersError, isLoading: charactersLoading } = useGetPeopleQuery();
-  const { successNotify, errorNotify } = useToast();
+  const { data: characters, isLoading: charactersLoading } = useGetPeopleQuery();
 
   useEffect(() => {
     const getFavorites = async () => {
@@ -33,12 +31,6 @@ export const Home = () => {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    if (charactersError) {
-      errorNotify(`Error fetching characters: ${charactersError}`);
-    }
-  }, [charactersError, errorNotify]);
-
-  useEffect(() => {
     if (characters && favorites) {
       const charactersWithFavorites = markFavorites(characters.results, favorites);
       setPreparedCharacters(charactersWithFavorites);
@@ -46,9 +38,9 @@ export const Home = () => {
   }, [characters, favorites]);
 
   const notify = useCallback(() => {
-    successNotify(SuccessLoginMessage);
+    toast.success(SuccessLoginMessage);
     setIsLoginSuccess(false);
-  }, [setIsLoginSuccess, successNotify]);
+  }, [setIsLoginSuccess]);
 
   useEffect(() => {
     if (isLoginSuccess && !isNotificationShown.current) {
@@ -64,11 +56,7 @@ export const Home = () => {
   return (
     <div className={s.page}>
       <main className={s.main}>
-        {preparedCharacters.length > 0 ? (
-          <CharacterList characters={preparedCharacters} />
-        ) : (
-          <div className={s.emptySearch}>Sorry, we couldn`t find anything matching your search.</div>
-        )}
+        <CharacterList characters={preparedCharacters} />
       </main>
     </div>
   );

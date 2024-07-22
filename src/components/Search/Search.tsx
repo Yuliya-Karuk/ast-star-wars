@@ -1,5 +1,4 @@
 import { SuggestionList } from '@components/SuggestionList/SuggestionList';
-import { useToast } from '@contexts/toastProvider';
 import { useAppDispatch } from '@hooks/index';
 import { Character } from '@models/index';
 import { useSearchPeopleQuery } from '@store/api/swapiApi';
@@ -15,13 +14,12 @@ export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>(urlQuery);
   const [suggestions, setSuggestions] = useState<Character[]>([]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const { errorNotify } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [debouncedSearchValue] = useDebounce(searchValue, 300);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { data: characters, error: charactersError } = useSearchPeopleQuery({
+  const { data: characters } = useSearchPeopleQuery({
     searchValue: debouncedSearchValue,
   });
 
@@ -34,12 +32,6 @@ export const Search = () => {
       setSuggestions(characters.results.slice(0, 6));
     }
   }, [characters]);
-
-  useEffect(() => {
-    if (charactersError) {
-      errorNotify(`Error fetching characters: ${charactersError}`);
-    }
-  }, [charactersError, errorNotify]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

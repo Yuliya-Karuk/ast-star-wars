@@ -2,10 +2,8 @@ import eyeOff from '@assets/eye-off.svg';
 import eyeOn from '@assets/eye-show.svg';
 import { AuthFormHeader, Input } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
-import { useToast } from '@contexts/toastProvider';
 import { UserData } from '@models/index';
 import { selectUseIsLoggedIn } from '@store/selectors';
-import { catchAuthErrors } from '@utils/index';
 import {
   dateValidationRules,
   emailValidationRules,
@@ -26,19 +24,13 @@ export function Registration() {
     formState: { errors, isValid },
   } = useForm<UserData>({ mode: 'all' });
   const { signup } = useAuth();
-  const { errorNotify } = useToast();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const onSubmit = async (userData: UserData) => {
-    signup(userData)
-      .then(() => {
-        navigate('/');
-      })
-      .catch(error => {
-        const message = catchAuthErrors(error);
-        errorNotify(message);
-      });
+    signup(userData).then(() => {
+      navigate('/');
+    });
   };
 
   if (isLoggedIn) {

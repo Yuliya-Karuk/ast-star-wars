@@ -1,11 +1,9 @@
 import { CharacterList, Loader, Pagination } from '@components/index';
-import { useToast } from '@contexts/toastProvider';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppDispatch } from '@hooks/index';
 import { CharacterWithFavorite } from '@models/index';
 import { useSearchPeopleQuery } from '@store/api/swapiApi';
 import { fetchFavorites } from '@store/favoritesSlice';
-import { RootState } from '@store/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectFavorites, selectUseIsLoggedIn } from '@store/selectors';
 import { markFavorites } from '@utils/index';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -23,26 +21,14 @@ export const SearchPage = () => {
   const [currentQuery, setCurrentQuery] = useState<string>(urlQuery);
   const [totalPages, setTotalPages] = useState<number>(1);
 
-  const { errorNotify } = useToast();
-
   const dispatch = useAppDispatch();
-  const { favorites } = useAppSelector((state: RootState) => state.favorites);
+  const favorites = useSelector(selectFavorites);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
-  const {
-    data: characters,
-    error: charactersError,
-    isLoading: charactersLoading,
-  } = useSearchPeopleQuery({
+  const { data: characters, isLoading: charactersLoading } = useSearchPeopleQuery({
     searchValue: currentQuery,
     page: currentPage,
   });
-
-  useEffect(() => {
-    if (charactersError) {
-      errorNotify(`Error fetching characters: ${charactersError}`);
-    }
-  }, [charactersError, errorNotify]);
 
   useEffect(() => {
     const query = searchParams.get('q') || '';
@@ -77,13 +63,11 @@ export const SearchPage = () => {
   return (
     <div className={s.page}>
       <main className={s.main}>
-        {preparedCharacters.length > 0 ? (
+        {preparedCharacters && (
           <>
             <CharacterList characters={preparedCharacters} />
             {currentPage && <Pagination currentPage={currentPage} totalPages={totalPages} />}
           </>
-        ) : (
-          <div className={s.emptySearch}>Sorry, we didn`t add something to favorite</div>
         )}
       </main>
     </div>

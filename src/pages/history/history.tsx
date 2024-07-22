@@ -1,9 +1,8 @@
 import { HistoryItem, Loader } from '@components/index';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppDispatch } from '@hooks/index';
 import { AppRoutes } from '@router/routes';
 import { fetchHistory } from '@store/historySlice';
-import { RootState } from '@store/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectHistory, selectUseIsLoggedIn } from '@store/selectors';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +10,7 @@ import s from './history.module.scss';
 
 export const HistoryPage = () => {
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
-  const { history } = useAppSelector((state: RootState) => state.history);
+  const history = useSelector(selectHistory);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

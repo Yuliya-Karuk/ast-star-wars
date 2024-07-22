@@ -1,5 +1,4 @@
 import { useAuth } from '@contexts/authProvider';
-import { useToast } from '@contexts/toastProvider';
 import { useClickOutside } from '@hooks/useClickOutside';
 import { AppRoutes } from '@router/routes';
 import { selectUseIsLoggedIn } from '@store/selectors';
@@ -9,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import s from './Navigation.module.scss';
 
 const paths: string[] = [AppRoutes.LOGIN_ROUTE, AppRoutes.REGISTRATION_ROUTE];
@@ -18,14 +18,13 @@ export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: '(min-width: 769px)' });
   const menuRef = useRef(null);
-  const { successNotify } = useToast();
   const { logout } = useAuth();
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const handleLogout = async () => {
     const result = await logout();
     if (result) {
-      successNotify(SuccessSignOut);
+      toast.success(SuccessSignOut);
     }
   };
 
