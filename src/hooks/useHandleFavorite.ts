@@ -1,13 +1,13 @@
 import { AppRoutes } from '@router/routes';
 import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectUserIsLoggedIn } from '@store/selectors';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from './storeHooks';
 
 export const useHandleFavorites = (callback: () => void, id: string = '') => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
   const navigate = useNavigate();
 
   const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {

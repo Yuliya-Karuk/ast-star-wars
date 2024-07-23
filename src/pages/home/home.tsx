@@ -1,6 +1,6 @@
 import { CharacterList, Loader } from '@components/index';
 import { useAuth } from '@contexts/authProvider';
-import { useCharacters } from '@hooks/useCharacters';
+import { useCharacters } from '@hooks/index';
 import { SuccessLoginMessage } from '@utils/index';
 import { useCallback, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';

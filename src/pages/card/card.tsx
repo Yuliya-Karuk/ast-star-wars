@@ -1,9 +1,6 @@
 import HeartIcon from '@assets/heart.svg?react';
-import { DetailsFilms } from '@components/DetailsFilms/DetailsFilms';
-import { DetailsInfo } from '@components/DetailsInfo/DetailsInfo';
-import { DetailsPlanet } from '@components/DetailsPlanet/DetailsPlanet';
-import { Loader } from '@components/index';
-import { useCard } from '@hooks/useCard';
+import { DetailsFilms, DetailsInfo, DetailsPlanet, Loader } from '@components/index';
+import { useCard } from '@hooks/index';
 import cn from 'classnames';
 import { useState } from 'react';
 import s from './card.module.scss';

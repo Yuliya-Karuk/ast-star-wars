@@ -1,5 +1,5 @@
 import { CharacterList, Loader, Pagination } from '@components/index';
-import { usePaginatedCharacters } from '@hooks/usePaginatedCharacters';
+import { usePaginatedCharacters } from '@hooks/index';
 import s from './searchPage.module.scss';
 
 export const SearchPage = () => {

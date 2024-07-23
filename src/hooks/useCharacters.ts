@@ -1,7 +1,7 @@
 import { CharacterWithFavorite } from '@models/index';
 import { useSearchPeopleQuery } from '@store/api/swapiApi';
 import { fetchFavorites } from '@store/favoritesSlice';
-import { selectFavorites, selectUseIsLoggedIn } from '@store/selectors';
+import { selectFavorites, selectUserIsLoggedIn } from '@store/selectors';
 import { markFavorites } from '@utils/utils';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ export const useCharacters = (currentQuery: string, currentPage: number) => {
   const favorites = useSelector(selectFavorites);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [preparedCharacters, setPreparedCharacters] = useState<CharacterWithFavorite[] | null>(null);
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
   const { data: characters, isFetching: charactersIsFetching } = useSearchPeopleQuery({
     searchValue: currentQuery,
     page: currentPage,

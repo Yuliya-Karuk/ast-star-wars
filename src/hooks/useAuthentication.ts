@@ -1,12 +1,12 @@
 import { useAuth } from '@contexts/authProvider';
 import { LoginData, UserData } from '@models/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectUserIsLoggedIn } from '@store/selectors';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export const useAuthentication = () => {
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
   const { login, signup } = useAuth();
 
   const onLoginSubmit = async (userData: LoginData) => {

@@ -1,5 +1,5 @@
 import HeartIcon from '@assets/heart.svg?react';
-import { useHandleFavorites } from '@hooks/useHandleFavorite';
+import { useHandleFavorites } from '@hooks/index';
 import { CharacterWithFavorite } from '@models/index';
 import { AppRoutes } from '@router/routes';
 import cn from 'classnames';

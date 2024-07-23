@@ -1,5 +1,5 @@
 import { HistoryItem, Loader } from '@components/index';
-import { useHistory } from '@hooks/useHistory';
+import { useHistory } from '@hooks/index';
 import s from './history.module.scss';
 
 export const HistoryPage = () => {

@@ -2,7 +2,7 @@
 import { auth } from '@firebase/firebase';
 import { useAppDispatch } from '@hooks/index';
 import { LoginData, UserData } from '@models/index';
-import { removeUser, setUser } from '@store/userSlice';
+import { removeUser, setIsLoading, setUser } from '@store/userSlice';
 import { catchAuthErrors } from '@utils/index';
 import {
   createUserWithEmailAndPassword,
@@ -101,8 +101,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
           })
         );
       }
+      dispatch(setIsLoading(false));
     });
 
+    dispatch(setIsLoading(true));
     return () => unsubscribe();
   }, [dispatch]);
 

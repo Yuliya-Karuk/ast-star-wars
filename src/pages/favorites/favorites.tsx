@@ -1,5 +1,5 @@
 import { CharacterList, Loader } from '@components/index';
-import { useFavorites } from '@hooks/useFavorites';
+import { useFavorites } from '@hooks/index';
 import s from './favorites.module.scss';
 
 export const Favorites = () => {

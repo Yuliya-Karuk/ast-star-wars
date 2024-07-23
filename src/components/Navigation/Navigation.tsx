@@ -1,7 +1,7 @@
 import { useAuth } from '@contexts/authProvider';
-import { useBurgerMenu } from '@hooks/useBurgerMenu';
+import { useBurgerMenu } from '@hooks/index';
 import { AppRoutes } from '@router/routes';
-import { selectUseIsLoggedIn } from '@store/selectors';
+import { selectUserIsLoggedIn } from '@store/selectors';
 import { SuccessSignOut } from '@utils/index';
 import cn from 'classnames';
 import { useRef } from 'react';
@@ -17,7 +17,7 @@ export const Navigation = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { isMenuOpen, handleMenuToggle } = useBurgerMenu(menuRef);
   const { logout } = useAuth();
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
 
   const handleLogout = async () => {
     handleMenuToggle();

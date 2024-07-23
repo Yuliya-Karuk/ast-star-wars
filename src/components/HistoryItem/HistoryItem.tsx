@@ -1,5 +1,5 @@
 import search from '@assets/search-history.svg';
-import { useAppDispatch } from '@hooks/storeHooks';
+import { useAppDispatch } from '@hooks/index';
 import { removeHistoryItemInFirebase } from '@store/historySlice';
 import { extractQueryParameter } from '@utils/index';
 import { useNavigate } from 'react-router-dom';
