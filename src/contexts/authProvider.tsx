@@ -22,7 +22,7 @@ interface AuthContextValue {
   logout: () => Promise<boolean | null>;
 }
 
-const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -32,8 +32,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const dispatch = useAppDispatch();
 
-  const signup = async (userData: UserData) => {
-    return createUserWithEmailAndPassword(auth, userData.email, userData.password)
+  const signup = async (userData: UserData) =>
+    createUserWithEmailAndPassword(auth, userData.email, userData.password)
       .then(({ user }) => {
         dispatch(
           setUser({
@@ -49,10 +49,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         toast.error(message);
         return null;
       });
-  };
 
-  const login = async (userData: LoginData) => {
-    return signInWithEmailAndPassword(auth, userData.email, userData.password)
+  const login = async (userData: LoginData) =>
+    signInWithEmailAndPassword(auth, userData.email, userData.password)
       .then(({ user }) => {
         dispatch(
           setUser({
@@ -68,10 +67,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         toast.error(message);
         return null;
       });
-  };
 
-  const logout = () => {
-    return signOut(auth)
+  const logout = () =>
+    signOut(auth)
       .then(() => {
         dispatch(removeUser());
         setIsLoginSuccess(false);
@@ -82,7 +80,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         toast.error(message);
         return null;
       });
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {

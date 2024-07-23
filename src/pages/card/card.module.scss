@@ -1,11 +1,11 @@
 .details {
-  position: relative;
   @extend %container;
+  position: relative;
   width: 100%;
-  @include flex(flex-start, flex-start, column, 20px);
-  @include font(3rem, 700, 1, 0.05rem);
   padding: 30px;
   color: var(--color-white-default);
+  @include flex(flex-start, flex-start, column, 20px);
+  @include font(3rem, 700, 1, 0.05rem);
 
   @include big-mobile {
     font-size: 2rem;

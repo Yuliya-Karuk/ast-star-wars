@@ -7,7 +7,7 @@ export const Loader = () => {
   const { theme } = useTheme();
 
   return (
-    <div className={cn(s.page, { [s.light]: theme === 'light' })}>
+    <div className={cn(s.page, { [s.light]: theme === 'light' })} data-testid="loader">
       <div className={s.loaderContainer}>
         <img className={s.loader} src={loader} alt="Loader" />
       </div>

@@ -20,12 +20,10 @@ const addIdToCharacter = (character: Character): CharacterWithId => {
   };
 };
 
-const addIdToCharacters = (response: PaginatedCharacters): PaginatedCharactersWithId => {
-  return {
-    ...response,
-    results: response.results.map(addIdToCharacter),
-  };
-};
+const addIdToCharacters = (response: PaginatedCharacters): PaginatedCharactersWithId => ({
+  ...response,
+  results: response.results.map(addIdToCharacter),
+});
 
 export const swapiApi = createApi({
   reducerPath: 'swapiApi',

@@ -1,3 +1,4 @@
+import { AuthProvider } from '@contexts/authProvider';
 import { ThemeProvider } from '@contexts/themeProvider';
 import { store } from '@store/index';
 import { render } from '@testing-library/react';
@@ -13,9 +14,11 @@ export const renderWithRouter = (ui: ReactNode, { route = '/' } = {}) => {
     <Provider store={store}>
       <ThemeProvider>
         <MemoryRouter initialEntries={[route]}>
-          <Routes>
-            <Route path="/" element={ui} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={ui} />
+            </Routes>
+          </AuthProvider>
         </MemoryRouter>
       </ThemeProvider>
     </Provider>

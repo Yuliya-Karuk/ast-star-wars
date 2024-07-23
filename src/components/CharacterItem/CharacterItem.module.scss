@@ -1,6 +1,5 @@
 .character-item {
-  @include flex(center, flex-start, column, 10px);
-  @include font(2rem, 700, 1, 0.05rem);
+  @extend %transition;
   width: 100%;
   padding: 15px;
   backdrop-filter: blur(12.5px);
@@ -9,7 +8,8 @@
   color: var(--color-white-default);
   max-height: 500px;
   cursor: pointer;
-  @extend %transition;
+  @include flex(center, flex-start, column, 10px);
+  @include font(2rem, 700, 1, 0.05rem);
 
   @include hover {
     box-shadow: 1px 1px 7px var(--color-primary-bright);
