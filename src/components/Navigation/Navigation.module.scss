@@ -65,8 +65,7 @@
 .menu {
   color: var(--color-white-default);
   @include font(1.6rem, 400, 1, 0.05rem);
-  border: 1px solid var(--color-gray-dark);
-  border-radius: 5px;
+  min-width: 305px;
 
   @include laptop {
     width: 100%;
@@ -93,6 +92,9 @@
 
 .menu-list {
   display: flex;
+  border: 1px solid var(--color-gray-dark);
+  border-radius: 5px;
+  width: fit-content;
 
   @include laptop {
     flex-direction: column;

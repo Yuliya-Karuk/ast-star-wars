@@ -17,6 +17,7 @@
 }
 
 .logo-link {
+  margin: 0 auto;
   @include focused;
   @include laptop {
     margin-right: auto;

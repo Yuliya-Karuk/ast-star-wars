@@ -1,12 +1,11 @@
 import { useAuth } from '@contexts/authProvider';
-import { useClickOutside } from '@hooks/useClickOutside';
+import { useBurgerMenu } from '@hooks/useBurgerMenu';
 import { AppRoutes } from '@router/routes';
 import { selectUseIsLoggedIn } from '@store/selectors';
 import { SuccessSignOut } from '@utils/index';
 import cn from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import s from './Navigation.module.scss';
@@ -15,38 +14,18 @@ const paths: string[] = [AppRoutes.LOGIN_ROUTE, AppRoutes.REGISTRATION_ROUTE];
 const authPaths: string[] = [AppRoutes.FAVORITES_ROUTE, AppRoutes.HISTORY_ROUTE];
 
 export const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isDesktop = useMediaQuery({ query: '(min-width: 769px)' });
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const { isMenuOpen, handleMenuToggle } = useBurgerMenu(menuRef);
   const { logout } = useAuth();
   const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
   const handleLogout = async () => {
+    handleMenuToggle();
     const result = await logout();
     if (result) {
       toast.success(SuccessSignOut);
     }
   };
-
-  const handleMenuToggle = () => {
-    setIsMenuOpen(prev => !prev);
-    document.body.classList.toggle('lock', !isMenuOpen);
-  };
-
-  const onClickOutside = () => {
-    if (!isDesktop && isMenuOpen) {
-      handleMenuToggle();
-    }
-  };
-
-  useClickOutside(menuRef, onClickOutside);
-
-  useEffect(() => {
-    if (isDesktop && isMenuOpen) {
-      setIsMenuOpen(false);
-      document.body.classList.remove('lock');
-    }
-  }, [isDesktop, isMenuOpen]);
 
   return (
     <>

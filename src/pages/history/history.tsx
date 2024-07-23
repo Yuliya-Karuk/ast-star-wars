@@ -12,12 +12,14 @@ export const HistoryPage = () => {
   return (
     <main className={s.main}>
       <h1 className={s.historyTitle}>Search history</h1>
-      {history && history.length > 0 && (
+      {history.length > 0 ? (
         <ul className={s.historyList}>
           {history.map(item => (
             <HistoryItem key={crypto.randomUUID()} historyItem={item} />
           ))}
         </ul>
+      ) : (
+        <div className={s.emptySearch}>Your search history is empty.</div>
       )}
     </main>
   );

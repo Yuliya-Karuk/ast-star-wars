@@ -1,12 +1,9 @@
 import HeartIcon from '@assets/heart.svg?react';
-import { useAppDispatch } from '@hooks/index';
+import { useHandleFavorites } from '@hooks/useHandleFavorite';
 import { CharacterWithFavorite } from '@models/index';
 import { AppRoutes } from '@router/routes';
-import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
-import { selectUseIsLoggedIn } from '@store/selectors';
 import cn from 'classnames';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import s from './CharacterItem.module.scss';
 
@@ -16,12 +13,10 @@ interface CharacterItemProps {
 
 export const CharacterItem = ({ character }: CharacterItemProps) => {
   const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${character.id}.jpg`;
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
+
   const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
-
-  const dispatch = useAppDispatch();
 
   const handleFavoriteClick = () => {
     setShowHeart(true);
@@ -30,11 +25,7 @@ export const CharacterItem = ({ character }: CharacterItemProps) => {
     }, 400);
   };
 
-  const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    handleFavoriteClick();
-    dispatch(toggleFavoriteInFirebase({ id: character.id }));
-  };
+  const { isLoggedIn, handleToggleFavorite } = useHandleFavorites(handleFavoriteClick, character.id);
 
   const handleItemClick = () => {
     navigate(`${AppRoutes.HOME_ROUTE}people/${character.id}`);

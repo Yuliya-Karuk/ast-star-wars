@@ -67,7 +67,11 @@ export const toggleFavoriteInFirebase = createAsyncThunk(
 const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
-  reducers: {},
+  reducers: {
+    setFavorites(state) {
+      state.favorites = [];
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchFavorites.pending, state => {

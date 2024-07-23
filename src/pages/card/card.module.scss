@@ -42,14 +42,17 @@
   background-color: var(--color-input-bg);
   border-radius: 5px;
   position: absolute;
-  top: 96px;
-  right: 20%;
+  top: 30px;
+  right: 27%;
+
+  @include tablet {
+    right: 22%;
+  }
 
   @include laptop {
-    top: 90px;
+    top: 30px;
     width: 40px;
     height: 40px;
-    right: 22%;
   }
 
   @include hover {

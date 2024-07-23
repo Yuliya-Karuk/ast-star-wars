@@ -31,12 +31,18 @@ export const useCharacters = (currentQuery: string, currentPage: number) => {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    if (characters && favorites) {
+    if (characters) {
       setTotalPages(Math.ceil(characters.count / productPerPage));
-      const charactersWithFavorites = markFavorites(characters.results, favorites);
-      setPreparedCharacters(charactersWithFavorites);
+
+      if (isLoggedIn && favorites) {
+        const charactersWithFavorites = markFavorites(characters.results, favorites);
+        setPreparedCharacters(charactersWithFavorites);
+      } else if (!isLoggedIn) {
+        const charactersWithFavorites = markFavorites(characters.results, []);
+        setPreparedCharacters(charactersWithFavorites);
+      }
     }
-  }, [characters, favorites]);
+  }, [characters, favorites, isLoggedIn]);
 
   return { preparedCharacters, charactersIsFetching, totalPages };
 };

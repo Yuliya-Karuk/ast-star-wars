@@ -18,8 +18,7 @@ export const Card = () => {
     }, 400);
   };
 
-  const { preparedCharacter, filteredFilms, planet, isLoggedIn, isFavorite, handleToggleFavorite } =
-    useCard(handleFavoriteClick);
+  const { preparedCharacter, filteredFilms, planet, isLoggedIn, handleToggleFavorite } = useCard(handleFavoriteClick);
 
   if (filteredFilms.length === 0 || !planet || !preparedCharacter) {
     return <Loader />;
@@ -41,7 +40,7 @@ export const Card = () => {
           {planet && <DetailsPlanet planet={planet} />}
           {filteredFilms && <DetailsFilms filteredFilms={filteredFilms} />}
           <button type="button" className={s.addToFavoriteButton} onClick={handleToggleFavorite}>
-            <HeartIcon className={cn(s.heart, { [s.favorite]: isLoggedIn && isFavorite })} />
+            <HeartIcon className={cn(s.heart, { [s.favorite]: isLoggedIn && preparedCharacter.isFavorite })} />
             {showHeart && <HeartIcon className={s.heartAnimation} />}
           </button>
         </>
