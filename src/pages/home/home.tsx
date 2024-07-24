@@ -1,7 +1,7 @@
-import { CharacterList, Loader } from '@components/index';
-import { useAuth } from '@contexts/authProvider';
-import { useCharacters } from '@hooks/index';
-import { SuccessLoginMessage } from '@utils/index';
+import { CharacterList, Loader } from '@/components';
+import { useAuth } from '@/contexts';
+import { useCharacters } from '@/hooks';
+import { SuccessLoginMessage } from '@/utils';
 import { useCallback, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import s from './home.module.scss';

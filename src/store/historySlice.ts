@@ -1,5 +1,5 @@
-import { auth, db } from '@firebase/firebase';
-import { LoadingState } from '@models/index';
+import { auth, db } from '@/firebase/firebase';
+import { LoadingState } from '@/models';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { type RootState } from '.';

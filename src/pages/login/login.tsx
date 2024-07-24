@@ -1,9 +1,9 @@
-import eyeOff from '@assets/eye-off.svg';
-import eyeOn from '@assets/eye-show.svg';
-import { AuthFormHeader, Input } from '@components/index';
-import { useAuthentication } from '@hooks/useAuthentication';
-import { LoginData } from '@models/index';
-import { emailValidationRules, passwordValidationRules } from '@utils/validationConst';
+import eyeOff from '@/assets/eye-off.svg';
+import eyeOn from '@/assets/eye-show.svg';
+import { AuthFormHeader, Input } from '@/components';
+import { useAuthentication } from '@/hooks/useAuthentication';
+import { LoginData } from '@/models';
+import { emailValidationRules, passwordValidationRules } from '@/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';

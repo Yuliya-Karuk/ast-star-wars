@@ -1,8 +1,8 @@
-import { Pagination } from '@components/Pagination/Pagination';
+import { Pagination } from '@/components';
+import { renderWithRouter } from '@/testSetup/render-router';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as ReactRouterDom from 'react-router-dom';
-import { renderWithRouter } from 'src/testSetup/render-router';
 import { describe, expect, it, vi } from 'vitest';
 
 const mockSetSearchParams = vi.fn();

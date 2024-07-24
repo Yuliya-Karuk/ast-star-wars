@@ -1,4 +1,4 @@
-import { type RootState } from '../index';
+import { type RootState } from '..';
 
 export const selectUserUid = (state: RootState) => state.user.uid;
 export const selectUserIsLoggedIn = (state: RootState) => state.user.isLoggedIn;

@@ -1,8 +1,8 @@
-import { CharacterWithFavorite } from '@models/index';
-import { useSearchPeopleQuery } from '@store/api/swapiApi';
-import { fetchFavorites } from '@store/favoritesSlice';
-import { selectFavorites, selectUserIsLoggedIn } from '@store/selectors';
-import { markFavorites } from '@utils/utils';
+import { CharacterWithFavorite } from '@/models';
+import { useSearchPeopleQuery } from '@/store/api/swapiApi';
+import { fetchFavorites } from '@/store/favoritesSlice';
+import { selectFavorites, selectUserIsLoggedIn } from '@/store/selectors';
+import { markFavorites } from '@/utils';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from './storeHooks';

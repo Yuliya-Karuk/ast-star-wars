@@ -1,6 +1,6 @@
-import { AppRoutes } from '@router/routes';
-import { toggleFavoriteInFirebase } from '@store/favoritesSlice';
-import { selectUserIsLoggedIn } from '@store/selectors';
+import { AppRoutes } from '@/router/routes';
+import { toggleFavoriteInFirebase } from '@/store/favoritesSlice';
+import { selectUserIsLoggedIn } from '@/store/selectors';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from './storeHooks';

@@ -1,5 +1,5 @@
-import { fetchHistory } from '@store/historySlice';
-import { selectHistory, selectUserIsLoggedIn } from '@store/selectors';
+import { fetchHistory } from '@/store/historySlice';
+import { selectHistory, selectUserIsLoggedIn } from '@/store/selectors';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from './storeHooks';

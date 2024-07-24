@@ -1,4 +1,4 @@
-import { Film } from '@models/index';
+import { Film } from '@/models';
 import { createSlice } from '@reduxjs/toolkit';
 import { swapiApi } from './api/swapiApi';
 

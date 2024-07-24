@@ -1,5 +1,5 @@
-import { CharacterWithId } from '@models/index';
-import { AppRoutes } from '@router/routes';
+import { CharacterWithId } from '@/models';
+import { AppRoutes } from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import s from './SuggestionList.module.scss';
 

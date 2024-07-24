@@ -1,5 +1,5 @@
-import { useTheme } from '@contexts/themeProvider';
-import { getPaginationRange } from '@utils/index';
+import { useTheme } from '@/contexts';
+import { getPaginationRange } from '@/utils';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';

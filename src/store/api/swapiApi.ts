@@ -6,9 +6,9 @@ import {
   PaginatedCharactersWithId,
   PaginatedFilms,
   Planet,
-} from '@models/index';
+} from '@/models';
+import { extractIdFromUrl } from '@/utils';
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import { extractIdFromUrl } from '@utils/utils';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api/';
 

@@ -1,6 +1,6 @@
-import { useAuth } from '@contexts/authProvider';
-import { LoginData, UserData } from '@models/index';
-import { selectUserIsLoggedIn } from '@store/selectors';
+import { useAuth } from '@/contexts';
+import { LoginData, UserData } from '@/models';
+import { selectUserIsLoggedIn } from '@/store/selectors';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 

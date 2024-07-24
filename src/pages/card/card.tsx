@@ -1,6 +1,7 @@
-import HeartIcon from '@assets/heart.svg?react';
-import { DetailsFilms, DetailsInfo, DetailsPlanet, Loader } from '@components/index';
-import { useCard } from '@hooks/index';
+import HeartIcon from '@/assets/heart.svg?react';
+import { DetailsFilms, DetailsInfo, DetailsPlanet, Loader } from '@/components';
+import { useCard } from '@/hooks';
+import { urlImgTemplates } from '@/utils';
 import cn from 'classnames';
 import { useState } from 'react';
 import s from './card.module.scss';
@@ -26,11 +27,7 @@ export const Card = () => {
       {preparedCharacter && (
         <>
           <div className={s.characterImgContainer}>
-            <img
-              className={s.characterImg}
-              src={`https://starwars-visualguide.com/assets/img/characters/${preparedCharacter.id}.jpg`}
-              alt="Character"
-            />
+            <img className={s.characterImg} src={urlImgTemplates.character(preparedCharacter.id)} alt="Character" />
           </div>
           <h1 className={s.characterTitle}>{preparedCharacter.name}</h1>
           <DetailsInfo character={preparedCharacter} />

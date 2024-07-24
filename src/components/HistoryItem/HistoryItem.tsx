@@ -1,7 +1,7 @@
-import search from '@assets/search-history.svg';
-import { useAppDispatch } from '@hooks/index';
-import { removeHistoryItemInFirebase } from '@store/historySlice';
-import { extractQueryParameter } from '@utils/index';
+import search from '@/assets/search-history.svg';
+import { useAppDispatch } from '@/hooks';
+import { removeHistoryItemInFirebase } from '@/store/historySlice';
+import { extractQueryParameter } from '@/utils';
 import { useNavigate } from 'react-router-dom';
 import s from './HistoryItem.module.scss';
 

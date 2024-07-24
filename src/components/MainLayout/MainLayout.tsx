@@ -1,7 +1,6 @@
-import { Footer } from '@components/Footer/Footer';
-import { Header } from '@components/Header/Header';
-import { useTheme } from '@contexts/themeProvider';
-import { useGetFilmsQuery } from '@store/api/swapiApi';
+import { Footer } from '@/components/Footer/Footer';
+import { Header } from '@/components/Header/Header';
+import { useTheme } from '@/contexts';
 import cn from 'classnames';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -10,7 +9,6 @@ import s from './MainLayout.module.scss';
 
 export const MainLayout = () => {
   const { theme } = useTheme();
-  useGetFilmsQuery();
 
   return (
     <>

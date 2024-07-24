@@ -1,6 +1,6 @@
-import { FavoriteItem } from '@models/index';
+import { FavoriteItem } from '@/models';
+import { AddToFavoriteSuccess, RemoveFromFavoriteSuccess } from '@/utils';
 import { Middleware } from '@reduxjs/toolkit';
-import { AddToFavoriteSuccess, RemoveFromFavoriteSuccess } from '@utils/index';
 import { toast } from 'react-toastify';
 import { toggleFavoriteInFirebase } from '../favoritesSlice';
 

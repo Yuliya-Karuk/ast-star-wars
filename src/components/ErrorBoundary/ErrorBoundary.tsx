@@ -1,4 +1,4 @@
-import errorImg from '@assets/error.png';
+import errorImg from '@/assets/error.png';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import s from './ErrorBoundary.module.scss';
 

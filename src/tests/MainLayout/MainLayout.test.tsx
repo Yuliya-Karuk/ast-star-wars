@@ -1,18 +1,18 @@
-import { MainLayout } from '@components/MainLayout/MainLayout';
+import { MainLayout } from '@/components';
+import { renderWithRouter } from '@/testSetup/render-router';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import { renderWithRouter } from 'src/testSetup/render-router';
 
 describe('MainLayout', () => {
-  it('renders all required components', () => {
+  it('renders all required components', async () => {
     renderWithRouter(<MainLayout />, {
       route: '/',
     });
 
-    const headerLogo = screen.getByRole('img', { name: /Logo/i });
+    const headerLogo = await screen.findByRole('img', { name: /Logo/i });
     expect(headerLogo).toBeInTheDocument();
 
-    const footerText = screen.getByText('SWAPI API');
+    const footerText = await screen.findByText('SWAPI API');
     expect(footerText).toBeInTheDocument();
   });
 });

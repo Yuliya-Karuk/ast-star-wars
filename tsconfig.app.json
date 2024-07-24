@@ -25,8 +25,9 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Paths */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@assets/*": ["src/assets/*"],
       "@contexts/*": ["src/contexts/*"],
@@ -36,7 +37,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@models/*": ["src/models/*"],
       "@store/*": ["src/store/*"],
-      "@firebase/*": ["src/firebase/*"],
+      "@testSetup/*": ["src/testSetup/*"],
     }
   },
   "include": ["src"]
