@@ -1,5 +1,5 @@
-import { auth, db } from '@firebase/firebase';
-import { FavoriteItem, LoadingState } from '@models/index';
+import { auth, db } from '@/firebase/firebase';
+import { FavoriteItem, LoadingState } from '@/models';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { type RootState } from '.';
@@ -68,8 +68,8 @@ const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
   reducers: {
-    setFavorites(state) {
-      state.favorites = [];
+    clearFavorites(state) {
+      state.favorites = null;
     },
   },
   extraReducers: builder => {
@@ -101,4 +101,5 @@ const favoritesSlice = createSlice({
   },
 });
 
+export const { clearFavorites } = favoritesSlice.actions;
 export const favoritesReducer = favoritesSlice.reducer;

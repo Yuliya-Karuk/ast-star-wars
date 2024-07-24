@@ -1,8 +1,8 @@
-import { useAuth } from '@contexts/authProvider';
-import { useBurgerMenu } from '@hooks/index';
-import { AppRoutes } from '@router/routes';
-import { selectUserIsLoggedIn } from '@store/selectors';
-import { SuccessSignOut } from '@utils/index';
+import { useAuth } from '@/contexts';
+import { useBurgerMenu } from '@/hooks';
+import { AppRoutes } from '@/router/routes';
+import { selectUserIsLoggedIn } from '@/store/selectors';
+import { SuccessSignOut } from '@/utils';
 import cn from 'classnames';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';

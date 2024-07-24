@@ -1,7 +1,8 @@
-import HeartIcon from '@assets/heart.svg?react';
-import { useHandleFavorites } from '@hooks/index';
-import { CharacterWithFavorite } from '@models/index';
-import { AppRoutes } from '@router/routes';
+import HeartIcon from '@/assets/heart.svg?react';
+import { useHandleFavorites } from '@/hooks';
+import { CharacterWithFavorite } from '@/models';
+import { AppRoutes } from '@/router/routes';
+import { urlImgTemplates } from '@/utils';
 import cn from 'classnames';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ interface CharacterItemProps {
 }
 
 export const CharacterItem = ({ character }: CharacterItemProps) => {
-  const imageUrl = `https://starwars-visualguide.com/assets/img/characters/${character.id}.jpg`;
+  const imageUrl = urlImgTemplates.character(character.id);
 
   const navigate = useNavigate();
 

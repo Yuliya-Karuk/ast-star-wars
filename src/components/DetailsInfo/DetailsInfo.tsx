@@ -1,4 +1,4 @@
-import { Character } from '@models/index';
+import { Character } from '@/models';
 import cn from 'classnames';
 import s from './DetailsInfo.module.scss';
 

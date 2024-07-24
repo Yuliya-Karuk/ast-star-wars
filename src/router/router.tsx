@@ -1,4 +1,4 @@
-import { Loader, MainLayout } from '@components/index';
+import { Loader, MainLayout } from '@/components';
 import { selectUserIsLoading, selectUserIsLoggedIn } from '@store/selectors';
 import { Suspense } from 'react';
 import { lazily } from 'react-lazily';

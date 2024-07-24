@@ -1,4 +1,4 @@
-import { CharacterWithFavorite } from '@models/index';
+import { CharacterWithFavorite } from '@/models';
 
 export const mockedCharacter: CharacterWithFavorite = {
   id: '1',

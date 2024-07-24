@@ -1,5 +1,5 @@
-import { CharacterItem } from '@components/CharacterItem/CharacterItem';
-import { CharacterWithFavorite } from '@models/index';
+import { CharacterItem } from '@/components/CharacterItem/CharacterItem';
+import { CharacterWithFavorite } from '@/models';
 import s from './CharacterList.module.scss';
 
 interface CharacterListProps {

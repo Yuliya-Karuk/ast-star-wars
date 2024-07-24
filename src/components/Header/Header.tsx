@@ -1,8 +1,8 @@
-import logo from '@assets/logo.png';
-import { Navigation } from '@components/Navigation/Navigation';
-import { Search } from '@components/Search/Search';
-import { ThemeSwitcher } from '@components/ThemeSwitcher/ThemeSwitcher';
-import { AppRoutes } from '@router/routes';
+import logo from '@/assets/logo.png';
+import { Navigation } from '@/components/Navigation/Navigation';
+import { Search } from '@/components/Search/Search';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher/ThemeSwitcher';
+import { AppRoutes } from '@/router/routes';
 import { Link } from 'react-router-dom';
 import s from './Header.module.scss';
 

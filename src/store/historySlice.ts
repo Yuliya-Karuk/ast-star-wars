@@ -1,5 +1,5 @@
-import { auth, db } from '@firebase/firebase';
-import { LoadingState } from '@models/index';
+import { auth, db } from '@/firebase/firebase';
+import { LoadingState } from '@/models';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { type RootState } from '.';
@@ -85,7 +85,11 @@ export const removeHistoryItemInFirebase = createAsyncThunk(
 const historySlice = createSlice({
   name: 'history',
   initialState,
-  reducers: {},
+  reducers: {
+    clearHistory(state) {
+      state.history = null;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchHistory.pending, state => {
@@ -127,4 +131,5 @@ const historySlice = createSlice({
   },
 });
 
+export const { clearHistory } = historySlice.actions;
 export const historyReducer = historySlice.reducer;

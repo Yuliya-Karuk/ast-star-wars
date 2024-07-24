@@ -1,8 +1,8 @@
-import { CharacterWithFavorite, Film } from '@models/index';
-import { useGetCharacterByIdQuery, useGetPlanetQuery } from '@store/api/swapiApi';
+import { CharacterWithFavorite, Film } from '@/models';
+import { useGetCharacterByIdQuery, useGetFilmsQuery, useGetPlanetQuery } from '@/store/api/swapiApi';
+import { extractPlanetPath, isNotNullable, markFavorites } from '@/utils';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { selectFavorites, selectFilms } from '@store/selectors';
-import { extractPlanetPath, isNotNullable, markFavorites } from '@utils/utils';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -20,6 +20,7 @@ export const useCard = (callback: () => void) => {
 
   const { data: character } = useGetCharacterByIdQuery(+isNotNullable(id) || 0);
   const { data: planet } = useGetPlanetQuery(homeworld || '', { skip: !homeworld });
+  useGetFilmsQuery();
 
   const { isLoggedIn, handleToggleFavorite } = useHandleFavorites(callback, id);
 

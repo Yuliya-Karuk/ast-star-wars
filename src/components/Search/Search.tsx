@@ -1,5 +1,5 @@
-import { SuggestionList } from '@components/SuggestionList/SuggestionList';
-import { useSearchForm } from '@hooks/index';
+import { SuggestionList } from '@/components/SuggestionList/SuggestionList';
+import { useSearchForm } from '@/hooks';
 import { useRef, useState } from 'react';
 import s from './Search.module.scss';
 

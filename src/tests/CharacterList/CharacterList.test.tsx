@@ -1,8 +1,8 @@
-import { CharacterList } from '@components/CharacterList/CharacterList';
+import { CharacterList } from '@/components';
+import { mockedCharacters } from '@/testSetup/msw/mocks';
+import { renderWithRouter } from '@/testSetup/render-router';
 import { cleanup, screen } from '@testing-library/react';
 import * as ReactRouterDom from 'react-router-dom';
-import { mockedCharacters } from 'src/testSetup/msw/mocks';
-import { renderWithRouter } from 'src/testSetup/render-router';
 import { describe, expect, vi } from 'vitest';
 
 vi.mock('react-router-dom', async importOriginal => {
@@ -25,21 +25,21 @@ describe('CharacterList', () => {
     cleanup();
   });
 
-  it('verify that the component renders the specified number of cards', () => {
+  it('verify that the component renders the specified number of cards', async () => {
     renderWithRouter(<CharacterList characters={mockedCharacters.results} />, {
       route: '/',
     });
 
-    const characterItems = screen.getAllByRole('button');
+    const characterItems = await screen.findAllByRole('button');
     expect(characterItems.length).toBe(mockedCharacters.results.length);
   });
 
-  it('check that an appropriate message is displayed if no cards are present', () => {
+  it('check that an appropriate message is displayed if no cards are present', async () => {
     renderWithRouter(<CharacterList characters={[]} />, {
       route: '/',
     });
 
-    const emptyMessage = screen.getByText(/Sorry, we couldn`t find anything matching your search./i);
+    const emptyMessage = await screen.findByText(/Sorry, we couldn`t find anything matching your search./i);
     expect(emptyMessage).toBeInTheDocument();
   });
 });

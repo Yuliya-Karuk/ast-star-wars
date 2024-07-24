@@ -1,11 +1,10 @@
-import { ErrorBoundary } from '@components/index.ts';
-import { AuthProvider } from '@contexts/authProvider.tsx';
-import { ThemeProvider } from '@contexts/themeProvider.tsx';
+import { ErrorBoundary } from '@/components';
+import { AuthProvider, ThemeProvider } from '@/contexts';
+import { AppRouter } from '@/router/router';
+import { store } from '@/store';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { AppRouter } from './router/router.tsx';
-import { store } from './store/index.ts';
 import './styles/index.scss';
 
 const root = document.getElementById('root') as HTMLElement;

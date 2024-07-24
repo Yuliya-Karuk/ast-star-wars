@@ -1,5 +1,5 @@
-import loader from '@assets/loader.gif';
-import { useTheme } from '@contexts/themeProvider';
+import loader from '@/assets/loader.gif';
+import { useTheme } from '@/contexts';
 import cn from 'classnames';
 import s from './Loader.module.scss';
 

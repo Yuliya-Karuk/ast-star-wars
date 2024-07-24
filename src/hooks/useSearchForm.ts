@@ -1,6 +1,6 @@
-import { CharacterWithId } from '@models/index';
-import { useSearchPeopleQuery } from '@store/api/swapiApi';
-import { addHistoryItemInFirebase } from '@store/historySlice';
+import { CharacterWithId } from '@/models';
+import { useSearchPeopleQuery } from '@/store/api/swapiApi';
+import { addHistoryItemInFirebase } from '@/store/historySlice';
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';

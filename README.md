@@ -1,6 +1,5 @@
 # STAR WARS CHARACTERS SEARCH
-![example workflow](https://github.com/Yuliya-Karuk/ast-star-wars/actions/workflows/cicd.yml/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/f4a4c086-c01f-41e5-a3e1-8ce43f1f8f13/deploy-status)](https://app.netlify.com/sites/karuk-star-wars/deploys)
-
+![example workflow](https://github.com/Yuliya-Karuk/ast-star-wars/actions/workflows/cicd.yml/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/f33a67dc-4b79-47ab-ab5d-863a436788da/deploy-status)](https://app.netlify.com/sites/ast-star-wars/deploys)
 
 - Использованное API: [SWAPI](https://swapi.dev/)
 - Деплой: [https://karuk-star-wars.netlify.app/](https://karuk-star-wars.netlify.app/)
@@ -28,11 +27,11 @@
 - [x] Есть разделение на умные и глупые компоненты: Умные - [HistoryItem](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/HistoryItem/HistoryItem.tsx), [CharacterItem](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/CharacterItem/CharacterItem.tsx); Глупые - [DetailsInfo](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/DetailsInfo/DetailsInfo.tsx), [SuggestionList](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/SuggestionList/SuggestionList.tsx)
 - [x] Есть рендеринг списков: [CharacterList](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/CharacterList/CharacterList.tsx), [History](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/pages/history/history.tsx)
 - [x] Реализована хотя бы одна форма: [RegistrationForm](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/pages/registration/registration.tsx)
-- [x] Есть применение Контекст API: [ThemeProvider](), [AuthProvider]()
+- [x] Есть применение Контекст API: [ThemeProvider](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/contexts/themeProvider.tsx), [AuthProvider](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/contexts/authProvider.tsx)
 - [x] Есть применение предохранителя: [ErrorBoundary](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/ErrorBoundary/ErrorBoundary.tsx)
-- [x] Есть хотя бы один кастомный хук: [useHistory](), [useFavorites]()
+- [x] Есть хотя бы один кастомный хук: [useCharacters](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/hooks/useCharacters.ts), [useFavorites](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/hooks/useFavorites.ts)
 - [x] Хотя бы несколько компонентов используют PropTypes: [AuthFormHeader](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/AuthFormHeader/AuthFormHeader.tsx), [Pagination](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/components/Pagination/Pagination.tsx)
-- [x] Поиск не должен триггерить много запросов к серверу - использование библиотеки (useDebounce): [useDebounce]()
+- [x] Поиск не должен триггерить много запросов к серверу - использование библиотеки (useDebounce): [useDebounce](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/hooks/useSearchForm.ts)
 - [x] Есть применение lazy + Suspense: [AppRoutes](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/router/router.tsx)
 
 ### Redux
@@ -50,8 +49,26 @@
 - [x] Используется [TypeScript](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/models/index.ts)
 - [x] Настроен [CI/CD](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/.github/workflows/cicd.yml)
 - [x] Для хранения учетных записей пользователей, их Избранного и Истории поиска, используем [FireBase](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/firebase/firebase.ts)
-- [x] Добавлены тесты - unit tests: [CharacterList](), [Pagination]()
-- [x] Связь UI и бизнес-логики построена не через команды, а через события - [login](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/pages/login/login.tsx)
+- [x] Проведена оптимизация приложения   
+Избавилась от функции WaitForAuth [link on commit](https://github.com/Yuliya-Karuk/ast-star-wars/commit/f2819b7c01c1e5df02d5dea34a400df99aa05354#diff-04fd75a84c2de55c63d684a0b6c306f6eac8505f91ea389081f7b33a71904d1d)   
+Добавлен UseMemo, чтобы избежать ненужных перерисовок компонентов [link](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/contexts/themeProvider.tsx)   
+Убраны useEffect с обработкой ошибки запроса к SWAPI (такой код был в 3-4 файлах)
+```
+  const { data: characters, error: charactersError } = useGetCharactersByIdsQuery(favorites || []);
+
+  useEffect(() => {
+    if (charactersError) {
+      errorNotify(`Error fetching characters: ${charactersError}`);
+    }
+  }, [charactersError, errorNotify]);
+```
+[ссылка как было](https://github.com/Yuliya-Karuk/ast-star-wars/commit/0d7f86e8510bfd5451e6dd239cd3787809e168c4#diff-beaa3006f346b371dfdd0c3f519ddd61e0d75d7c9a5ad37002268acd672f85a7),  
+теперь ошибка обрабытывается errorNotifyMiddleware 
+[errorNotifyMiddleware](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/middlewares/errorNotifyMiddleware.ts)
+- [x] Низкая связанность клиентского кода с хранилищем.   
+Работа с Firebase происходит в контексте, и UI компоненты не знаю как это происходит
+- [x] Добавлены тесты - unit tests: [CharacterList](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/tests/CharacterList/CharacterList.test.tsx), [Pagination](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/tests/Pagination/Pagination.test.tsx), [Card](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/tests/Card/Card.test.tsx)
+- [x] Связь UI и бизнес-логики построена не через команды, а через события - [login](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/pages/login/login.tsx)   
 Логика: пользователь нажимает на Submit - и компонент не знает, что происходит по клику - он вызывает функцию из хука useAuthentication => вызывается функция login из useAuth контекста => пользователь логинится на firebase и вызывается dispatch(setUser())
 
 

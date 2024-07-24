@@ -1,9 +1,10 @@
-/* eslint-disable react-refresh/only-export-components */
-import { auth } from '@firebase/firebase';
-import { useAppDispatch } from '@hooks/index';
-import { LoginData, UserData } from '@models/index';
+import { auth } from '@/firebase/firebase';
+import { useAppDispatch } from '@/hooks';
+import { LoginData, UserData } from '@/models';
+import { clearFavorites } from '@/store/favoritesSlice';
+import { clearHistory } from '@/store/historySlice';
+import { catchAuthErrors } from '@/utils';
 import { removeUser, setIsLoading, setUser } from '@store/userSlice';
-import { catchAuthErrors } from '@utils/index';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -11,10 +12,10 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-interface AuthContextValue {
+export interface AuthContextValue {
   isLoginSuccess: boolean;
   setIsLoginSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   login: (data: LoginData) => Promise<User | null>;
@@ -22,7 +23,7 @@ interface AuthContextValue {
   logout: () => Promise<boolean | null>;
 }
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -72,6 +73,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signOut(auth)
       .then(() => {
         dispatch(removeUser());
+        dispatch(clearFavorites());
+        dispatch(clearHistory());
         setIsLoginSuccess(false);
         return true;
       })
@@ -111,13 +114,3 @@ export function AuthProvider({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   );
 }
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  if (context === undefined) {
-    throw new Error('useAuth hook must be used within a AuthProvider');
-  }
-
-  return context;
-};

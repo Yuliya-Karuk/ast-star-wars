@@ -1,5 +1,5 @@
-import notFoundImage from '@assets/404.png';
-import { AppRoutes } from '@router/routes';
+import notFoundImage from '@/assets/404.png';
+import { AppRoutes } from '@/router/routes';
 import { Link } from 'react-router-dom';
 import s from './notFound.module.scss';
 

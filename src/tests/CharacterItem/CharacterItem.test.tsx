@@ -1,7 +1,7 @@
-import { CharacterItem } from '@components/CharacterItem/CharacterItem';
+import { CharacterItem } from '@/components';
+import { mockedCharacter } from '@/testSetup/msw/mocks';
+import { renderWithRouter } from '@/testSetup/render-router';
 import { screen } from '@testing-library/react';
-import { mockedCharacter } from 'src/testSetup/msw/mocks';
-import { renderWithRouter } from 'src/testSetup/render-router';
 
 describe('CharacterItem rendering', () => {
   afterAll(() => {
@@ -12,15 +12,15 @@ describe('CharacterItem rendering', () => {
     vi.restoreAllMocks();
   });
 
-  it('Ensure that the card component renders the relevant card data', () => {
+  it('Ensure that the card component renders the relevant card data', async () => {
     renderWithRouter(<CharacterItem character={mockedCharacter} />, {
       route: '/',
     });
 
-    const characterName = screen.getByText('Luke Skywalker Mocked');
+    const characterName = await screen.findByText('Luke Skywalker Mocked');
     expect(characterName).toBeInTheDocument();
 
-    const birthYear = screen.getByText('19BBY');
+    const birthYear = await screen.findByText('19BBY');
     expect(birthYear).toBeInTheDocument();
   });
 });

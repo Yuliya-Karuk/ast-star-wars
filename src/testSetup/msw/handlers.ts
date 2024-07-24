@@ -8,5 +8,5 @@ export const handlers = [
     return HttpResponse.json(mockedDetails);
   }),
   http.get('https://swapi.dev/api/planets/1/', () => HttpResponse.json(mockedPlanet)),
-  http.get('https://swapi.dev/api/films', () => HttpResponse.json(mockedFilms)),
+  http.get('https://swapi.dev/api/films/', () => HttpResponse.json(mockedFilms)),
 ];

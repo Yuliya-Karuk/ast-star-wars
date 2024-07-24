@@ -1,6 +1,6 @@
-import defaultPlanet from '@assets/default-planet.jpg';
-import { Planet } from '@models/index';
-import { extractIdFromUrl } from '@utils/index';
+import defaultPlanet from '@/assets/default-planet.jpg';
+import { Planet } from '@/models';
+import { extractIdFromUrl, urlImgTemplates } from '@/utils';
 import s from './DetailsPlanet.module.scss';
 
 interface DetailsPlanetProps {
@@ -8,6 +8,7 @@ interface DetailsPlanetProps {
 }
 
 export const DetailsPlanet = ({ planet }: DetailsPlanetProps) => {
+  const planetImgSrc = urlImgTemplates.planet(extractIdFromUrl(planet.url));
   const handleImgSrcError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     target.src = defaultPlanet;
@@ -19,12 +20,7 @@ export const DetailsPlanet = ({ planet }: DetailsPlanetProps) => {
       <div className={s.characterFeatureBlock}>
         <h5 className={s.featureTitle}>{planet.name}</h5>
         <div className={s.planetImgContainer}>
-          <img
-            className={s.planetImg}
-            src={`https://starwars-visualguide.com/assets/img/planets/${extractIdFromUrl(planet.url)}.jpg`}
-            alt="Character"
-            onError={e => handleImgSrcError(e)}
-          />
+          <img className={s.planetImg} src={planetImgSrc} alt="Character" onError={e => handleImgSrcError(e)} />
         </div>
       </div>
     </div>
