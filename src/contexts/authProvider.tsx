@@ -1,6 +1,8 @@
 import { auth } from '@/firebase/firebase';
 import { useAppDispatch } from '@/hooks';
 import { LoginData, UserData } from '@/models';
+import { clearFavorites } from '@/store/favoritesSlice';
+import { clearHistory } from '@/store/historySlice';
 import { catchAuthErrors } from '@/utils';
 import { removeUser, setIsLoading, setUser } from '@store/userSlice';
 import {
@@ -71,6 +73,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signOut(auth)
       .then(() => {
         dispatch(removeUser());
+        dispatch(clearFavorites());
+        dispatch(clearHistory());
         setIsLoginSuccess(false);
         return true;
       })
