@@ -20,12 +20,10 @@ const addIdToCharacter = (character: Character): CharacterWithId => {
   };
 };
 
-const addIdToCharacters = (response: PaginatedCharacters): PaginatedCharactersWithId => {
-  return {
-    ...response,
-    results: response.results.map(addIdToCharacter),
-  };
-};
+const addIdToCharacters = (response: PaginatedCharacters): PaginatedCharactersWithId => ({
+  ...response,
+  results: response.results.map(addIdToCharacter),
+});
 
 export const swapiApi = createApi({
   reducerPath: 'swapiApi',
@@ -46,13 +44,20 @@ export const swapiApi = createApi({
     getCharactersByIds: builder.query<CharacterWithId[], FavoriteItem[]>({
       queryFn: async (arg, _api, _extraOptions, baseQuery) => {
         try {
+          _api.dispatch({ type: 'FETCH_START' });
+
           const promises = arg.map(id => baseQuery(`people/${id.id}`));
           const result = await Promise.all(promises);
 
           const resultData = result.map(res => res.data as Character);
           const preparedData = resultData.map(res => addIdToCharacter(res));
+
+          _api.dispatch({ type: 'FETCH_SUCCESS' });
+
           return { data: preparedData as CharacterWithId[] };
         } catch (err) {
+          _api.dispatch({ type: 'FETCH_ERROR', error: err });
+
           return { error: err as FetchBaseQueryError };
         }
       },

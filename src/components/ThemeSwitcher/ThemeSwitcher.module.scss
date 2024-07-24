@@ -1,0 +1,48 @@
+.switcher {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.switcher-label {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+}
+
+.switcher-input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.switcher-round {
+  @extend %transition;
+  position: absolute;
+  border-radius: 30px;
+  background-color: var(--color-gray-dark);
+  cursor: pointer;
+  inset: 0;
+
+  &::before {
+    @extend %transition;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: auto 0;
+    background: center no-repeat var(--color-gray-middle) url('../../assets/night.svg');
+    background-size: contain;
+    content: '';
+  }
+}
+
+.switcher-input:checked + .switcher-round::before {
+  background: center no-repeat var(--color-gray-light) url('../../assets/sun.svg');
+  background-size: contain;
+  transform: translateX(30px);
+}

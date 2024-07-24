@@ -1,6 +1,6 @@
 import defaultPlanet from '@assets/default-planet.jpg';
 import { Planet } from '@models/index';
-import { extractIdFromUrl } from '@utils/utils';
+import { extractIdFromUrl } from '@utils/index';
 import s from './DetailsPlanet.module.scss';
 
 interface DetailsPlanetProps {

@@ -1,7 +1,6 @@
 import { ErrorBoundary } from '@components/index.ts';
 import { AuthProvider } from '@contexts/authProvider.tsx';
-import { FilmsProvider } from '@contexts/dataProvider.tsx';
-import { ToastProvider } from '@contexts/toastProvider.tsx';
+import { ThemeProvider } from '@contexts/themeProvider.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -15,13 +14,11 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
-        <ToastProvider>
+        <ThemeProvider>
           <AuthProvider>
-            <FilmsProvider>
-              <AppRouter />
-            </FilmsProvider>
+            <AppRouter />
           </AuthProvider>
-        </ToastProvider>
+        </ThemeProvider>
       </Provider>
     </ErrorBoundary>
   </React.StrictMode>

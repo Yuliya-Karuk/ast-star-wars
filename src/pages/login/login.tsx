@@ -1,14 +1,12 @@
 import eyeOff from '@assets/eye-off.svg';
 import eyeOn from '@assets/eye-show.svg';
 import { AuthFormHeader, Input } from '@components/index';
-import { useAuth } from '@contexts/authProvider';
+import { useAuthentication } from '@hooks/useAuthentication';
 import { LoginData } from '@models/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
 import { emailValidationRules, passwordValidationRules } from '@utils/validationConst';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import s from './login.module.scss';
 
 export function Login() {
@@ -20,26 +18,17 @@ export function Login() {
     formState: { errors, isValid },
   } = useForm<LoginData>({ mode: 'onChange' });
 
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
-
-  const onSubmit = async (userData: LoginData) => {
-    const result = await login(userData);
-    if (result) {
-      navigate('/');
-    }
-  };
+  const { isLoggedIn, onLoginSubmit } = useAuthentication();
 
   if (isLoggedIn) {
     return <Navigate to="/" replace />;
   }
 
   return (
-    <div className={s.page}>
+    isLoggedIn === false && (
       <div className={s.wrapper}>
         <AuthFormHeader titleText="Sign in" linkDescription="New to this site?" linkText="Sign Up" linkTo="/signup" />
-        <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+        <form onSubmit={handleSubmit(onLoginSubmit)} className={s.form}>
           <section className={s.userDataSection}>
             <Input
               name="email"
@@ -76,6 +65,6 @@ export function Login() {
           </section>
         </form>
       </div>
-    </div>
+    )
   );
 }

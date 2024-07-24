@@ -1,7 +1,9 @@
 import { Loader, MainLayout } from '@components/index';
+import { selectUserIsLoading, selectUserIsLoggedIn } from '@store/selectors';
 import { Suspense } from 'react';
 import { lazily } from 'react-lazily';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './routes';
 
 const { Home } = lazily(() => import('../pages/index'));
@@ -13,21 +15,63 @@ const { SearchPage } = lazily(() => import('../pages/index'));
 const { NotFound } = lazily(() => import('../pages/index'));
 const { Card } = lazily(() => import('../pages/index'));
 
-export const AppRouter = () => (
-  <BrowserRouter>
-    <Suspense fallback={<Loader />}>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path={AppRoutes.HOME_ROUTE} element={<Home />} />
-          <Route path={AppRoutes.REGISTRATION_ROUTE} element={<Registration />} />
-          <Route path={AppRoutes.LOGIN_ROUTE} element={<Login />} />
-          <Route path={AppRoutes.SEARCH_ROUTE} element={<SearchPage />} />
-          <Route path={AppRoutes.FAVORITES_ROUTE} element={<Favorites />} />
-          <Route path={AppRoutes.HISTORY_ROUTE} element={<HistoryPage />} />
-          <Route path={`${AppRoutes.CARD_ROUTE}/:id`} element={<Card />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
-  </BrowserRouter>
-);
+interface RouteDescription {
+  path: string;
+  component: React.ComponentType;
+}
+
+const publicRoutes: RouteDescription[] = [
+  { path: AppRoutes.HOME_ROUTE, component: Home },
+  { path: AppRoutes.REGISTRATION_ROUTE, component: Registration },
+  { path: AppRoutes.LOGIN_ROUTE, component: Login },
+  { path: AppRoutes.SEARCH_ROUTE, component: SearchPage },
+  { path: `${AppRoutes.CARD_ROUTE}/:id`, component: Card },
+];
+
+const authRoutes: RouteDescription[] = [
+  { path: AppRoutes.FAVORITES_ROUTE, component: Favorites },
+  { path: AppRoutes.HISTORY_ROUTE, component: HistoryPage },
+];
+
+interface Props {
+  children: React.ReactNode;
+}
+
+function ProtectedRoute({ children }: Props) {
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
+  return isLoggedIn ? children : <Navigate to={AppRoutes.LOGIN_ROUTE} replace />;
+}
+
+export function AppRouter() {
+  const isLoading = useSelector(selectUserIsLoading);
+
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<Loader />}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Routes>
+            <Route element={<MainLayout />}>
+              {publicRoutes.map(({ path, component: Component }) => (
+                <Route key={path} path={path} element={<Component />} />
+              ))}
+              {authRoutes.map(({ path, component: Component }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  element={
+                    <ProtectedRoute>
+                      <Component />
+                    </ProtectedRoute>
+                  }
+                />
+              ))}
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        )}
+      </Suspense>
+    </BrowserRouter>
+  );
+}

@@ -1,11 +1,8 @@
 import eyeOff from '@assets/eye-off.svg';
 import eyeOn from '@assets/eye-show.svg';
 import { AuthFormHeader, Input } from '@components/index';
-import { useAuth } from '@contexts/authProvider';
-import { useToast } from '@contexts/toastProvider';
+import { useAuthentication } from '@hooks/useAuthentication';
 import { UserData } from '@models/index';
-import { selectUseIsLoggedIn } from '@store/selectors';
-import { catchAuthErrors } from '@utils/index';
 import {
   dateValidationRules,
   emailValidationRules,
@@ -14,39 +11,26 @@ import {
 } from '@utils/validationConst';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import s from './registration.module.scss';
 
 export function Registration() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<UserData>({ mode: 'all' });
-  const { signup } = useAuth();
-  const { errorNotify } = useToast();
-  const navigate = useNavigate();
-  const isLoggedIn = useSelector(selectUseIsLoggedIn);
 
-  const onSubmit = async (userData: UserData) => {
-    signup(userData)
-      .then(() => {
-        navigate('/');
-      })
-      .catch(error => {
-        const message = catchAuthErrors(error);
-        errorNotify(message);
-      });
-  };
+  const { isLoggedIn, onSignupSubmit } = useAuthentication();
 
   if (isLoggedIn) {
     return <Navigate to="/" replace />;
   }
 
   return (
-    <div className={s.page}>
+    isLoggedIn === false && (
       <div className={s.wrapper}>
         <AuthFormHeader
           titleText="Sign up"
@@ -54,7 +38,7 @@ export function Registration() {
           linkText="Sign in"
           linkTo="/signin"
         />
-        <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+        <form onSubmit={handleSubmit(onSignupSubmit)} className={s.form}>
           <section className={s.userDataSection}>
             <Input
               name="email"
@@ -118,6 +102,6 @@ export function Registration() {
           </button>
         </form>
       </div>
-    </div>
+    )
   );
 }

@@ -1,27 +1,10 @@
-.page {
-  @include flex(flex-start, center, column);
-  background: $color-bg-dark;
-  flex: 1;
-  z-index: 0;
-
-  &::after {
-    position: absolute;
-    content: '';
-    background: center no-repeat url('../../assets/bg.png');
-    background-size: cover;
-    inset: 0;
-    max-height: 100vh;
-    z-index: -1;
-  }
-}
-
 .wrapper {
   position: relative;
   width: clamp(300px, 80vw, 700px);
   padding: 10px;
   font-size: 1.6rem;
   text-align: center;
-  background-color: $color-bg-dark-transparent;
+  background-color: var(--color-bg-dark-transparent);
   backdrop-filter: blur(10px);
   border-radius: 20px;
 }
@@ -29,7 +12,7 @@
 .form {
   @include flex(flex-start, null, column, 5px);
   position: relative;
-  color: $color-white-default;
+  color: var(--color-white-default);
 }
 
 .user-data-section {
@@ -43,12 +26,12 @@
   .date-of-birth-error {
     align-self: flex-start;
     height: 2rem;
-    color: $color-error;
+    color: var(--color-error);
   }
 
   .password-error {
     height: 4rem;
-    color: $color-error;
+    color: var(--color-error);
     text-align: left;
   }
 
@@ -68,17 +51,17 @@
   align-self: flex-end;
   width: 240px;
   padding: 10px 5px;
-  background-color: $color-white-default;
+  background-color: var(--color-white-default);
   border-radius: 5px;
-  color: $color-bg-dark;
+  color: var(--color-bg-dark);
 
   &:enabled:hover {
-    background-color: $color-gray-middle;
+    background-color: var(--color-gray-middle);
   }
 
   &:disabled {
     cursor: default;
-    color: $color-gray-dark;
-    background-color: $color-gray-middle;
+    color: var(--color-gray-dark);
+    background-color: var(--color-gray-middle);
   }
 }

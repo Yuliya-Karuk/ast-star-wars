@@ -1,17 +1,24 @@
 .character-item {
-  @include flex(center, flex-start, column, 10px);
-  @include font(2rem, 700, 1, 0.05rem);
+  @extend %transition;
   width: 100%;
   padding: 15px;
   backdrop-filter: blur(12.5px);
   border-radius: 5px;
-  border: 1px solid $color-gray-dark;
-  color: $color-white-default;
-  max-height: 700px;
+  border: 1px solid var(--color-gray-dark);
+  color: var(--color-white-default);
+  max-height: 500px;
+  cursor: pointer;
+  @include flex(center, flex-start, column, 10px);
+  @include font(2rem, 700, 1, 0.05rem);
+
+  @include hover {
+    box-shadow: 1px 1px 7px var(--color-primary-bright);
+  }
 }
 
 .character-img-container {
-  width: 100%;
+  width: 50%;
+  align-self: center;
 
   .character-img {
     width: 100%;
@@ -24,7 +31,7 @@
   @include flex(space-between, center);
   width: 100%;
   font-size: 1.6rem;
-  color: $color-gray-middle;
+  color: var(--color-gray-middle);
 }
 
 .character-name {
@@ -34,8 +41,8 @@
 .gender-icon {
   padding: 5px;
   border-radius: 20px;
-  border: 1px solid $color-gray-dark;
-  background-color: $color-input-bg;
+  border: 1px solid var(--color-gray-dark);
+  background-color: var(--color-input-bg);
 }
 
 .male,
@@ -60,15 +67,15 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  border: 1px solid $color-gray-dark;
-  background-color: $color-input-bg;
+  border: 1px solid var(--color-gray-dark);
+  background-color: var(--color-input-bg);
   border-radius: 5px;
   position: absolute;
   top: 25px;
   right: 25px;
 
   @include hover {
-    background-color: $color-primary-bright;
+    background-color: var(--color-primary-bright);
   }
   @include flex(center, center);
 }
@@ -95,18 +102,18 @@
 
 .heart {
   path {
-    fill: $color-white-default;
+    fill: var(--color-white-default);
   }
 
   .favorite {
     path {
-      fill: $color-invalid-input;
+      fill: var(--color-invalid-input);
     }
   }
 }
 
 .favorite {
   path {
-    fill: $color-invalid-input;
+    fill: var(--color-invalid-input);
   }
 }

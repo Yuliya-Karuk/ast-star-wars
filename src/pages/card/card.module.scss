@@ -1,26 +1,11 @@
-.page {
-  @include flex(flex-start, center, column);
-  background: $color-bg-dark;
-  flex: 1;
-  z-index: 0;
-
-  &::after {
-    position: absolute;
-    content: '';
-    background: center no-repeat url('../../assets/bg.png');
-    background-size: cover;
-    inset: 0;
-    max-height: 100vh;
-    z-index: -1;
-  }
-}
-
 .details {
   @extend %container;
+  position: relative;
+  width: 100%;
+  padding: 30px;
+  color: var(--color-white-default);
   @include flex(flex-start, flex-start, column, 20px);
   @include font(3rem, 700, 1, 0.05rem);
-  padding: 30px;
-  color: $color-white-default;
 
   @include big-mobile {
     font-size: 2rem;
@@ -30,12 +15,13 @@
 .character-img-container {
   width: 40%;
   align-self: center;
+  max-width: 300px;
 
   .character-img {
     width: 100%;
     aspect-ratio: 8 / 11;
     border-radius: 5px;
-    border: 1px solid $color-gray-dark;
+    border: 1px solid var(--color-gray-dark);
   }
 }
 
@@ -52,22 +38,25 @@
   width: 60px;
   height: 60px;
   padding: 0;
-  border: 1px solid $color-gray-dark;
-  background-color: $color-input-bg;
+  border: 1px solid var(--color-gray-dark);
+  background-color: var(--color-input-bg);
   border-radius: 5px;
   position: absolute;
-  top: 96px;
-  right: 20%;
+  top: 30px;
+  right: 27%;
 
-  @include laptop {
-    top: 90px;
-    width: 40px;
-    height: 40px;
+  @include tablet {
     right: 22%;
   }
 
+  @include laptop {
+    top: 30px;
+    width: 40px;
+    height: 40px;
+  }
+
   @include hover {
-    background-color: $color-primary-bright;
+    background-color: var(--color-primary-bright);
   }
 
   @include flex(center, center);
@@ -103,18 +92,18 @@
   }
 
   path {
-    fill: $color-white-default;
+    fill: var(--color-white-default);
   }
 
   .favorite {
     path {
-      fill: $color-invalid-input;
+      fill: var(--color-invalid-input);
     }
   }
 }
 
 .favorite {
   path {
-    fill: $color-invalid-input;
+    fill: var(--color-invalid-input);
   }
 }

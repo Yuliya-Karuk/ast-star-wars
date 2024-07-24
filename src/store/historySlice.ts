@@ -45,7 +45,11 @@ export const addHistoryItemInFirebase = createAsyncThunk('history/addHistoryItem
 
   if (docSnap.exists()) {
     const currentHistory = docSnap.data().items as string[];
-    newHistory = [...currentHistory, item];
+    if (!currentHistory.includes(item)) {
+      newHistory = [...currentHistory, item];
+    } else {
+      newHistory = currentHistory;
+    }
   } else {
     newHistory = [item];
   }

@@ -10,16 +10,16 @@
   width: 100%;
   margin-top: 5px;
   padding: 10px;
-  color: $color-white-default;
-  background-color: $color-input-bg;
-  border: 2px solid $color-white-default;
+  color: var(--color-white-default);
+  background-color: var(--color-input-bg);
+  border: 2px solid var(--color-white-default);
   border-radius: 5px;
 
   &:-webkit-autofill,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:hover {
-    box-shadow: 0 0 0 50px $color-input-bg inset;
-    -webkit-text-fill-color: $color-white-default;
+    box-shadow: 0 0 0 50px var(--color-input-bg) inset;
+    -webkit-text-fill-color: var(--color-white-default);
   }
 }
 
@@ -28,11 +28,11 @@
 }
 
 .invalid {
-  border-color: $color-invalid-input;
+  border-color: var(--color-invalid-input);
 }
 
 .orange {
-  color: $color-error;
+  color: var(--color-error);
 }
 
 .show-password-wrapper {

@@ -9,7 +9,7 @@
   @include flex(flex-start, center, null, 5px);
   @include font(1.6rem, 400, 1, 0.05rem);
   font-family: Forum, serif;
-  color: $color-white-default;
+  color: var(--color-white-default);
   padding: 20px;
 }
 
@@ -25,15 +25,15 @@
 
   @include hover {
     &:not(:disabled) {
-      border: 1px solid $color-primary-bright;
-      background-color: $color-primary-bright;
+      border: 1px solid var(--color-primary-bright);
+      background-color: var(--color-primary-bright);
     }
   }
   width: 30px;
   height: 30px;
   padding: 8px;
   color: inherit;
-  border: 1px solid $color-white-default;
+  border: 1px solid var(--color-white-default);
   border-radius: 5px;
 
   &:not(.empty):disabled {
@@ -69,9 +69,14 @@
     background-size: contain;
   }
 
+  &.light {
+    background-color: var(--color-input-bg);
+    color: var(--color-bg-dark);
+  }
+
   &.active {
-    background-color: $color-primary-bright;
-    border: 1px solid $color-primary-bright;
+    background-color: var(--color-primary-bright);
+    border: 1px solid var(--color-primary-bright);
     cursor: default;
     pointer-events: none;
   }

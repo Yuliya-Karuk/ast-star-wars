@@ -2,7 +2,7 @@
 import { auth } from '@firebase/firebase';
 import { useAppDispatch } from '@hooks/index';
 import { LoginData, UserData } from '@models/index';
-import { removeUser, setUser } from '@store/userSlice';
+import { removeUser, setIsLoading, setUser } from '@store/userSlice';
 import { catchAuthErrors } from '@utils/index';
 import {
   createUserWithEmailAndPassword,
@@ -12,7 +12,7 @@ import {
   User,
 } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { useToast } from './toastProvider';
+import { toast } from 'react-toastify';
 
 interface AuthContextValue {
   isLoginSuccess: boolean;
@@ -22,7 +22,7 @@ interface AuthContextValue {
   logout: () => Promise<boolean | null>;
 }
 
-const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -31,10 +31,9 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const dispatch = useAppDispatch();
-  const { errorNotify } = useToast();
 
-  const signup = async (userData: UserData) => {
-    return createUserWithEmailAndPassword(auth, userData.email, userData.password)
+  const signup = async (userData: UserData) =>
+    createUserWithEmailAndPassword(auth, userData.email, userData.password)
       .then(({ user }) => {
         dispatch(
           setUser({
@@ -47,13 +46,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .catch(error => {
         const message = catchAuthErrors(error);
-        errorNotify(message);
+        toast.error(message);
         return null;
       });
-  };
 
-  const login = async (userData: LoginData) => {
-    return signInWithEmailAndPassword(auth, userData.email, userData.password)
+  const login = async (userData: LoginData) =>
+    signInWithEmailAndPassword(auth, userData.email, userData.password)
       .then(({ user }) => {
         dispatch(
           setUser({
@@ -66,13 +64,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .catch(error => {
         const message = catchAuthErrors(error);
-        errorNotify(message);
+        toast.error(message);
         return null;
       });
-  };
 
-  const logout = () => {
-    return signOut(auth)
+  const logout = () =>
+    signOut(auth)
       .then(() => {
         dispatch(removeUser());
         setIsLoginSuccess(false);
@@ -80,10 +77,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .catch(error => {
         const message = catchAuthErrors(error);
-        errorNotify(message);
+        toast.error(message);
         return null;
       });
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -102,8 +98,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
           })
         );
       }
+      dispatch(setIsLoading(false));
     });
 
+    dispatch(setIsLoading(true));
     return () => unsubscribe();
   }, [dispatch]);
 

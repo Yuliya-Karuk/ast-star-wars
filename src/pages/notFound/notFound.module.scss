@@ -3,8 +3,8 @@
   @include font(1.6vw, 700, 1, 0.05rem);
   width: 100vw;
   height: 100vh;
-  color: $color-white-default;
-  background-color: $color-gray-middle;
+  color: var(--color-white-default);
+  background-color: var(--color-gray-middle);
 }
 
 .container {
@@ -21,14 +21,14 @@
   text-decoration: none;
   margin-top: 20px;
   padding: 10px 20px;
-  background: $color-bg-dark;
+  background: var(--color-bg-dark);
   border-radius: 5px;
-  border: 2px solid $color-bg-dark;
+  border: 2px solid var(--color-bg-dark);
   text-align: center;
 
   &:not([disabled]):hover {
-    background: $color-white-default;
-    color: $color-bg-dark;
-    border: 2px solid $color-bg-dark;
+    background: var(--color-white-default);
+    color: var(--color-bg-dark);
+    border: 2px solid var(--color-bg-dark);
   }
 }

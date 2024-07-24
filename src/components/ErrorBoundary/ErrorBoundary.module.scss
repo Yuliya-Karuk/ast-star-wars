@@ -1,5 +1,5 @@
 .error-page {
-  background-color: $color-bg-dark;
+  background-color: var(--color-bg-dark);
   height: 100vh;
 }
 
@@ -17,7 +17,7 @@
   }
   height: 100vh;
   padding: 10px 30px;
-  color: $color-white-default;
+  color: var(--color-white-default);
 }
 
 .error-img-container {
@@ -29,7 +29,7 @@
 
   .error-img {
     width: 100%;
-    filter: drop-shadow(2px 3px 2px $color-white-default);
+    filter: drop-shadow(2px 3px 2px var(--color-white-default));
   }
 }
 
@@ -46,12 +46,12 @@
   @include font(1.6rem, 400, 1, 0.05rem);
 
   @include hover {
-    background-color: $color-gray-middle;
-    color: $color-black-default;
+    background-color: var(--color-gray-middle);
+    color: var(--color-black-default);
   }
   padding: 15px 30px;
   border-radius: 10px;
-  color: $color-white-default;
-  background-color: $color-primary-bright;
+  color: var(--color-white-default);
+  background-color: var(--color-primary-bright);
   margin-top: 20px;
 }

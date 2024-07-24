@@ -1,6 +1,9 @@
 export * from './AuthFormHeader/AuthFormHeader';
 export * from './CharacterItem/CharacterItem';
 export * from './CharacterList/CharacterList';
+export * from './DetailsFilms/DetailsFilms';
+export * from './DetailsInfo/DetailsInfo';
+export * from './DetailsPlanet/DetailsPlanet';
 export * from './ErrorBoundary/ErrorBoundary';
 export * from './Footer/Footer';
 export * from './Header/Header';
@@ -12,3 +15,4 @@ export * from './Navigation/Navigation';
 export * from './Pagination/Pagination';
 export * from './Search/Search';
 export * from './SuggestionList/SuggestionList';
+export * from './ThemeSwitcher/ThemeSwitcher';

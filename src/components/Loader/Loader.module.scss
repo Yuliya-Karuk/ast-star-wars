@@ -13,7 +13,7 @@
 
 .page {
   @include flex(flex-start, center, column);
-  background: $color-bg-dark;
+  background: var(--color-bg-dark);
   flex: 1;
   z-index: 0;
 
@@ -34,7 +34,32 @@
     height: 100px;
     left: 0;
     top: calc(100vh - 100px);
-    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), $color-bg-dark);
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), var(--color-bg-dark));
+    z-index: 0;
+  }
+}
+
+.light {
+  background: var(--color-bg-dark);
+
+  &::after {
+    position: absolute;
+    content: '';
+    background: center no-repeat url('../../assets/light-bg.jpg');
+    background-size: cover;
+    inset: 0;
+    max-height: 100vh;
+    z-index: -1;
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100px;
+    left: 0;
+    top: calc(100vh - 100px);
+    background: linear-gradient(to bottom, rgb(255 255 255 / 0%), var(--color-bg-dark));
     z-index: 0;
   }
 }
