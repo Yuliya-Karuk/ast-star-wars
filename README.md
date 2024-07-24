@@ -2,7 +2,7 @@
 ![example workflow](https://github.com/Yuliya-Karuk/ast-star-wars/actions/workflows/cicd.yml/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/f33a67dc-4b79-47ab-ab5d-863a436788da/deploy-status)](https://app.netlify.com/sites/ast-star-wars/deploys)
 
 - Использованное API: [SWAPI](https://swapi.dev/)
-- Деплой: [https://karuk-star-wars.netlify.app/](https://karuk-star-wars.netlify.app/)
+- Деплой: [Deploy](https://ast-star-wars.netlify.app/)
 
 ---
 
@@ -38,7 +38,7 @@
 
 - [x] Используем Modern Redux with Redux Toolkit: [store](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/index.ts)
 - [x] Используем слайсы: [favoritesSlice](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/favoritesSlice.ts), [historySlice](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/historySlice.ts)
-- [x] Есть хотя бы одна кастомная мидлвара или createListenerMiddleware: [errorNotifyMiddleware](), [favoritesMiddleware]()
+- [x] Есть хотя бы одна кастомная мидлвара или createListenerMiddleware: [errorNotifyMiddleware](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/middlewares/errorNotifyMiddleware.ts), [favoritesMiddleware](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/middlewares/favoritesMiddleware.ts)
 - [x] Используется RTK Query: [swapiApi](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/api/swapiApi.ts)
 - [x] Используется Transforming Responses: [swapiApi](https://github.com/Yuliya-Karuk/ast-star-wars/blob/main/src/store/api/swapiApi.ts)
 
