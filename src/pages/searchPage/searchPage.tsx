@@ -3,7 +3,7 @@ import { usePaginatedCharacters } from '@/hooks';
 import s from './searchPage.module.scss';
 
 export const SearchPage = () => {
-  const { charactersIsFetching, preparedCharacters, totalPages, currentPage } = usePaginatedCharacters();
+  const { charactersIsFetching, preparedCharacters } = usePaginatedCharacters();
 
   if (charactersIsFetching || preparedCharacters === null) {
     return <Loader />;
@@ -14,7 +14,7 @@ export const SearchPage = () => {
       {preparedCharacters && (
         <>
           <CharacterList characters={preparedCharacters} />
-          {currentPage && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+          <Pagination />
         </>
       )}
     </main>

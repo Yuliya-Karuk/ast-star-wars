@@ -1,18 +1,14 @@
 import { useTheme } from '@/contexts';
+import { usePaginatedCharacters } from '@/hooks';
 import { getPaginationRange } from '@/utils';
 import cn from 'classnames';
-import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import s from './Pagination.module.scss';
 
 const maxShownPages = 5;
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-}
-
-export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+export const Pagination = () => {
+  const { currentPage, totalPages } = usePaginatedCharacters();
   const paginationRange = getPaginationRange(currentPage, totalPages);
   const [searchParams, setSearchParams] = useSearchParams();
   const { theme } = useTheme();
@@ -97,9 +93,4 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       )}
     </nav>
   );
-};
-
-Pagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
 };

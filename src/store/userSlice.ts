@@ -26,11 +26,12 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.isLoading = false;
     },
+    authUser() {},
     setIsLoading(state, actions) {
       state.isLoading = actions.payload;
     },
   },
 });
 
-export const { setUser, removeUser, setIsLoading } = userSlice.actions;
+export const { setUser, removeUser, setIsLoading, authUser } = userSlice.actions;
 export const userReducer = userSlice.reducer;

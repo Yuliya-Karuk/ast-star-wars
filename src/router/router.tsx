@@ -44,11 +44,12 @@ function ProtectedRoute({ children }: Props) {
 
 export function AppRouter() {
   const isLoading = useSelector(selectUserIsLoading);
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
 
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
-        {isLoading ? (
+        {isLoading || isLoggedIn === null ? (
           <Loader />
         ) : (
           <Routes>

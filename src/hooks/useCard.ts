@@ -1,9 +1,8 @@
-import { CharacterWithFavorite, Film } from '@/models';
 import { useGetCharacterByIdQuery, useGetFilmsQuery, useGetPlanetQuery } from '@/store/api/swapiApi';
 import { extractPlanetPath, isNotNullable, markFavorites } from '@/utils';
 import { fetchFavorites } from '@store/favoritesSlice';
 import { selectFavorites, selectFilms } from '@store/selectors';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from './storeHooks';
@@ -12,14 +11,13 @@ import { useHandleFavorites } from './useHandleFavorite';
 export const useCard = (callback: () => void) => {
   const dispatch = useAppDispatch();
   const favorites = useSelector(selectFavorites);
-  const [preparedCharacter, setPreparedCharacter] = useState<CharacterWithFavorite | null>(null);
   const films = useSelector(selectFilms);
-  const [filteredFilms, setFilteredFilms] = useState<Film[]>([]);
-  const [homeworld, setHomeworld] = useState<string | null>(null);
   const { id } = useParams();
 
   const { data: character } = useGetCharacterByIdQuery(+isNotNullable(id) || 0);
-  const { data: planet } = useGetPlanetQuery(homeworld || '', { skip: !homeworld });
+
+  const planetPath = useMemo(() => (character ? extractPlanetPath(character.homeworld) : ''), [character]);
+  const { data: planet } = useGetPlanetQuery(planetPath, { skip: !character });
   useGetFilmsQuery();
 
   const { isLoggedIn, handleToggleFavorite } = useHandleFavorites(callback, id);
@@ -34,24 +32,14 @@ export const useCard = (callback: () => void) => {
     }
   }, [dispatch, isLoggedIn]);
 
-  useEffect(() => {
-    const getData = async () => {
-      if (character && id && films) {
-        setHomeworld(extractPlanetPath(character.homeworld));
-        setFilteredFilms(films.filter(film => character.films.includes(film.url)));
-
-        if (isLoggedIn && favorites) {
-          const preparedItem = markFavorites([character], favorites);
-          setPreparedCharacter(preparedItem[0]);
-        } else if (!isLoggedIn) {
-          const preparedItem = markFavorites([character], []);
-          setPreparedCharacter(preparedItem[0]);
-        }
-      }
-    };
-
-    getData();
-  }, [character, favorites, films, id, isLoggedIn]);
+  const { preparedCharacter, filteredFilms } = useMemo(() => {
+    if (character && films) {
+      const preparedItem = markFavorites([character], isLoggedIn && favorites ? favorites : [])[0];
+      const preparedFilms = films.filter(film => character.films.includes(film.url));
+      return { preparedCharacter: preparedItem, filteredFilms: preparedFilms };
+    }
+    return { preparedCharacter: null, filteredFilms: [] };
+  }, [character, favorites, films, isLoggedIn]);
 
   return { preparedCharacter, filteredFilms, planet, isLoggedIn, handleToggleFavorite };
 };

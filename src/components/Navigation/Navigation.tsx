@@ -1,13 +1,9 @@
-import { useAuth } from '@/contexts';
 import { useBurgerMenu } from '@/hooks';
+import { useAuthentication } from '@/hooks/useAuthentication';
 import { AppRoutes } from '@/router/routes';
-import { selectUserIsLoggedIn } from '@/store/selectors';
-import { SuccessSignOut } from '@/utils';
 import cn from 'classnames';
 import { useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import s from './Navigation.module.scss';
 
 const paths: string[] = [AppRoutes.LOGIN_ROUTE, AppRoutes.REGISTRATION_ROUTE];
@@ -16,15 +12,11 @@ const authPaths: string[] = [AppRoutes.FAVORITES_ROUTE, AppRoutes.HISTORY_ROUTE]
 export const Navigation = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { isMenuOpen, handleMenuToggle } = useBurgerMenu(menuRef);
-  const { logout } = useAuth();
-  const isLoggedIn = useSelector(selectUserIsLoggedIn);
+  const { isLoggedIn, onLogout } = useAuthentication();
 
   const handleLogout = async () => {
     handleMenuToggle();
-    const result = await logout();
-    if (result) {
-      toast.success(SuccessSignOut);
-    }
+    await onLogout();
   };
 
   return (

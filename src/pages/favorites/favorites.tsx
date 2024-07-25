@@ -5,7 +5,7 @@ import s from './favorites.module.scss';
 export const Favorites = () => {
   const { isLoading, preparedCharacters } = useFavorites();
 
-  if (isLoading || preparedCharacters === null) {
+  if (isLoading) {
     return <Loader />;
   }
 

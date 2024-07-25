@@ -3,6 +3,7 @@ import { swapiApi } from './api/swapiApi';
 import { favoritesReducer } from './favoritesSlice';
 import { filmsReducer } from './filmsSlice';
 import { historyReducer } from './historySlice';
+import { authNotificationMiddleware } from './middlewares/authNotificationMiddleware';
 import { errorsNotifyMiddleware } from './middlewares/errorNotifyMiddleware';
 import { favoritesNotifyMiddleware } from './middlewares/favoritesMiddleware';
 import { userReducer } from './userSlice';
@@ -16,7 +17,12 @@ export const store = configureStore({
     films: filmsReducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(swapiApi.middleware, favoritesNotifyMiddleware, errorsNotifyMiddleware),
+    getDefaultMiddleware().concat(
+      swapiApi.middleware,
+      favoritesNotifyMiddleware,
+      errorsNotifyMiddleware,
+      authNotificationMiddleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

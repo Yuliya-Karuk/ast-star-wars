@@ -1,3 +1,4 @@
+import { favoriteItemConverter } from '@/firebase/converter';
 import { auth, db } from '@/firebase/firebase';
 import { FavoriteItem, LoadingState } from '@/models';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -23,11 +24,11 @@ export const fetchFavorites = createAsyncThunk('favorites/fetchFavorites', async
     throw new Error('User is not authenticated');
   }
 
-  const docRef = doc(db, 'favorites', uid);
+  const docRef = doc(db, 'favorites', uid).withConverter(favoriteItemConverter);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    return docSnap.data().items as FavoriteItem[];
+    return docSnap.data();
   }
   return [];
 });
@@ -36,19 +37,20 @@ export const toggleFavoriteInFirebase = createAsyncThunk(
   'favorites/toggleFavoriteInFirebase',
   async (item: FavoriteItem) => {
     const user = auth.currentUser;
+
     if (!user) {
       throw new Error('User is not authenticated');
     }
 
-    const docRef = doc(db, 'favorites', user.uid);
+    const docRef = doc(db, 'favorites', user.uid).withConverter(favoriteItemConverter);
     const docSnap = await getDoc(docRef);
 
     let newFavorites: FavoriteItem[] = [];
 
     if (docSnap.exists()) {
-      const currentFavorites = docSnap.data().items as FavoriteItem[];
-      const exists = currentFavorites.find(fav => fav.id === item.id);
+      const currentFavorites = docSnap.data();
 
+      const exists = currentFavorites.find(fav => fav.id === item.id);
       if (exists) {
         newFavorites = currentFavorites.filter(fav => fav.id !== item.id);
       } else {
@@ -58,7 +60,7 @@ export const toggleFavoriteInFirebase = createAsyncThunk(
       newFavorites = [item];
     }
 
-    await setDoc(docRef, { items: newFavorites });
+    await setDoc(docRef, newFavorites);
 
     return newFavorites;
   }

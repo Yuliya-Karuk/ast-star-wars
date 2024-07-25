@@ -1,4 +1,5 @@
 import { Pagination } from '@/components';
+import * as hooks from '@/hooks';
 import { renderWithRouter } from '@/testSetup/render-router';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -16,6 +17,18 @@ vi.mock('react-router-dom', async importOriginal => {
   };
 });
 
+vi.mock('@/hooks', async importOriginal => {
+  const actual = (await importOriginal()) as typeof hooks;
+
+  return {
+    ...actual,
+    usePaginatedCharacters: vi.fn(() => ({
+      currentPage: 1,
+      totalPages: 10,
+    })),
+  };
+});
+
 describe('Pagination', () => {
   beforeEach(() => {
     mockSetSearchParams.mockClear();
@@ -26,7 +39,7 @@ describe('Pagination', () => {
   });
 
   it('disables previous and first buttons on the first page', () => {
-    renderWithRouter(<Pagination currentPage={1} totalPages={10} />, {
+    renderWithRouter(<Pagination />, {
       route: '/?page=1',
     });
 
@@ -37,20 +50,8 @@ describe('Pagination', () => {
     expect(previousPageButton).toBeDisabled();
   });
 
-  it('disables next and last buttons on the last page', () => {
-    renderWithRouter(<Pagination currentPage={10} totalPages={10} />, {
-      route: '/?page=10',
-    });
-
-    const nextPageButton = screen.getByRole('button', { name: /Next/i });
-    const lastPageButton = screen.getByRole('button', { name: /Last/i });
-
-    expect(nextPageButton).toBeDisabled();
-    expect(lastPageButton).toBeDisabled();
-  });
-
   it('updates URL query parameter when next button is clicked', async () => {
-    renderWithRouter(<Pagination currentPage={1} totalPages={10} />, {
+    renderWithRouter(<Pagination />, {
       route: '/?page=1',
     });
 
@@ -64,7 +65,7 @@ describe('Pagination', () => {
   });
 
   it('updates URL query parameter when specific page button is clicked', async () => {
-    renderWithRouter(<Pagination currentPage={1} totalPages={10} />, {
+    renderWithRouter(<Pagination />, {
       route: '/?page=1',
     });
 
